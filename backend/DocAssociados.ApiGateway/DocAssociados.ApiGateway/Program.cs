@@ -26,8 +26,6 @@ builder.Services.AddOcelot();
 
 var app = builder.Build();
 
-app.UseCors("FrontendPolicy");
-
 app.Use(async (context, next) =>
 {
     if (context.Request.Method == HttpMethods.Options)
@@ -43,6 +41,8 @@ app.Use(async (context, next) =>
 
     await next();
 });
+
+app.UseCors("FrontendPolicy");
 
 app.UseRouting();
 
