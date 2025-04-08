@@ -41,6 +41,9 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Debug - Verificar alteração no Program.cs
+        run: cat backend/DocAssociados.ApiGateway/DocAssociados.ApiGateway/Program.cs
+
       - name: Enviar arquivos para a VM
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" ./ azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app
