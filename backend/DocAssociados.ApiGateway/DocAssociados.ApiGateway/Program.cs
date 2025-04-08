@@ -14,8 +14,8 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://20.197.248.228:8080")
-                  .WithHeaders("x-api-key", "content-type", "authorization")
                   .AllowAnyMethod();
+                  .AllowAnyHeader();
         });
 });
 
@@ -33,6 +33,11 @@ app.Use(async (context, next) =>
     if (context.Request.Method == HttpMethods.Options)
     {
         context.Response.StatusCode = StatusCodes.Status204NoContent;
+
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "http://20.197.248.228:8080");
+        context.Response.Headers.Add("Access-Control-Allow-Headers", "x-api-key, content-type");
+        context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        
         return;
     }
 
