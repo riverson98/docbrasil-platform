@@ -12,6 +12,24 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Instalar Node e Angular CLI
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install -g @angular/cli
+
+      - name: Instalar dependências e buildar o frontend
+        working-directory: ./frontend/doc-brasil
+        run: |
+          npm install
+          ng build --configuration=production
+
+      - name: Mover pasta dist para project-root/frontend
+        run: |
+          rm -rf frontend
+          mkdir -p frontend
+          cp -r ./frontend/doc-brasil/dist/* ./frontend/
+
       - name: Configurar SSH
         run: |
           mkdir -p ~/.ssh
