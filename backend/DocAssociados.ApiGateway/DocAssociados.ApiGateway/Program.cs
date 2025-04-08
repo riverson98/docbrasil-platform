@@ -28,6 +28,7 @@ builder.Services.AddOcelot();
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 
