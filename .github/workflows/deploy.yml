@@ -28,7 +28,7 @@ jobs:
         run: |
           rm -rf frontend
           mkdir -p frontend
-          cp -r ./frontend/doc-brasil/dist/* ./frontend/
+          cp -r ./frontend/doc-brasil/browser/dist/* ./frontend/
 
       - name: Configurar SSH
         run: |
