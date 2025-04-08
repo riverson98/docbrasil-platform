@@ -30,7 +30,7 @@ app.UseCors("FrontendPolicy");
 
 // Configure the HTTP request pipeline.
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
