@@ -21,17 +21,18 @@ jobs:
       - name: Instalar dependências e buildar o frontend
         working-directory: ./frontend/doc-brasil
         run: |
-          npm install
+          npm ci
           ng build --configuration=production
-
-      - name: Listar arquivos gerados no dist
-        run: ls -la frontend/doc-brasil/dist
 
       - name: Mover pasta dist para project-root/frontend
         run: |
-          rm -rf frontend/*
           mkdir -p frontend
-          cp -r ./frontend/doc-brasil/dist/doc-brasil/* ./frontend
+          if [ -d "frontend/doc-brasil/dist/doc-brasil" ]; then
+            cp -r frontend/doc-brasil/dist/doc-brasil/* frontend/
+          else
+            echo "❌ Pasta 'dist/doc-brasil' não encontrada."
+            exit 1
+          fi
 
       - name: Configurar SSH
         run: |
