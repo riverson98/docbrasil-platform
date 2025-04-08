@@ -1,0 +1,15 @@
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\bin\Debug\net9.0\DocAssociados.Infra.CrossCutting.deps.json
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\bin\Debug\net9.0\DocAssociados.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\bin\Debug\net9.0\DocAssociados.Infra.CrossCutting.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\bin\Debug\net9.0\DocAssociados.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\bin\Debug\net9.0\DocAssociados.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.csproj.AssemblyReference.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.AssemblyInfoInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.AssemblyInfo.cs
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.csproj.CoreCompileInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssoc.7260EF23.Up2Date
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\refint\DocAssociados.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\DocAssociados.Infra.CrossCutting.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Infra.CrossCutting\obj\Debug\net9.0\ref\DocAssociados.Infra.CrossCutting.dll

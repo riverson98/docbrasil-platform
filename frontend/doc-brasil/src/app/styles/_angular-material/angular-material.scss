@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+
+$minha-cor-personalizada: mat.define-palette((
+  50:  #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  300: var(--color-secondary-m2),
+  400: #42a5f5,
+  500: var(--color-secondary),
+  600: var(--color-secondary-m),
+  700: #0d2d52,
+  800: #0a2340,
+  900: #051427,
+  contrast: (
+    50:  black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+));
+
+$meu-tema: mat.define-light-theme((
+  color: (
+    primary: $minha-cor-personalizada,
+    accent: mat.define-palette(mat.$pink-palette),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($meu-tema);

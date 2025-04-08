@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocAssociados.Identity.Application\DocAssociados.Identity.Application.csproj" />
+    <ProjectReference Include="..\DocAssociados.Identity.CrossCutting\DocAssociados.Identity.Infra.CrossCutting.csproj" />
+    <ProjectReference Include="..\DocAssociados.Identity.Domain\DocAssociados.Identity.Domain.csproj" />
+    <ProjectReference Include="..\DocAssociados.Identity.Infra.Data\DocAssociados.Identity.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+@DocAssociados.ApiGateway_HostAddress = http://localhost:5142
+
+GET {{DocAssociados.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

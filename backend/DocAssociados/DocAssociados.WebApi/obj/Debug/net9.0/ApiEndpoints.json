@@ -1,0 +1,271 @@
+[
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "Post",
+    "RelativePath": "api/Associado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nome",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DataDeNascimento",
+        "Type": "System.DateOnly",
+        "IsRequired": false
+      },
+      {
+        "Name": "Genero",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FotoDoDocumento",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "CpfUploadUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TermoDeAdessaoUploadUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CodigoRepresentante",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CodigoRepresentanteSuperior",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Id",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Cep",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Rua",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Numero",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Bairro",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Cidade",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.Estado",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.ComprovanteDeResidenciaUpload",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.FotoDoComprovante",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "EnderecoDto.DataDeCadastro",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "FichaAssociadoDto.FichaAssociacao",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "FichaAssociadoDto.FichaAssociacaoUploadUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TermoAdesaoDto.TermoAdesao",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "TermoAdesaoDto.TermoAdesaoUploadUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DataDeCadastro",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DocAssociados.Application.DTOs.AssociadoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "Obtem",
+    "RelativePath": "api/Associado/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DocAssociados.Application.DTOs.AssociadoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "Put",
+    "RelativePath": "api/Associado/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "Delete",
+    "RelativePath": "api/Associado/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "ObtemPorCodigoRepresentante",
+    "RelativePath": "api/Associado/busca-por-codigo-representante/{codigoRepresentante}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigoRepresentante",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocAssociados.WebApi.Controllers.AssociadoController",
+    "Method": "ObtemAssociadoComDetalhes",
+    "RelativePath": "api/Associado/com-detalhes/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DocAssociados.Application.DTOs.AssociadoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "ObtemAssociadoComDetalhes"
+  }
+]

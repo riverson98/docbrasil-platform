@@ -1,0 +1,16 @@
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\bin\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.deps.json
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\bin\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\bin\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\bin\Debug\net9.0\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\bin\Debug\net9.0\DocAssociados.Identity.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.csproj.AssemblyReference.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.AssemblyInfoInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.AssemblyInfo.cs
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.csproj.CoreCompileInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssoc.74928736.Up2Date
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\refint\DocAssociados.Identity.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\ref\DocAssociados.Identity.Infra.CrossCutting.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.CrossCutting\obj\Debug\net9.0\DocAssociados.Identity.Infra.CrossCutting.sourcelink.json

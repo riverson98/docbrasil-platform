@@ -1,0 +1,12 @@
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\bin\Debug\net9.0\DocAssociados.Identity.Domain.deps.json
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\bin\Debug\net9.0\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\bin\Debug\net9.0\DocAssociados.Identity.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.AssemblyInfoInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.AssemblyInfo.cs
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.csproj.CoreCompileInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\refint\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\ref\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Domain\obj\Debug\net9.0\DocAssociados.Identity.Domain.sourcelink.json

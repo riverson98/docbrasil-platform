@@ -1,0 +1,11 @@
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.AssemblyInfoInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.AssemblyInfo.cs
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.csproj.CoreCompileInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\bin\Debug\net9.0\DocAssociados.Domain.deps.json
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\bin\Debug\net9.0\DocAssociados.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\bin\Debug\net9.0\DocAssociados.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\refint\DocAssociados.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\DocAssociados.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados\DocAssociados.Domain\obj\Debug\net9.0\ref\DocAssociados.Domain.dll

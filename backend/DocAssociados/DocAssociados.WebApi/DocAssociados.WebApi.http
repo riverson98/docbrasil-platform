@@ -1,0 +1,6 @@
+@DocAssociados.WebApi_HostAddress = http://localhost:5086
+
+GET {{DocAssociados.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

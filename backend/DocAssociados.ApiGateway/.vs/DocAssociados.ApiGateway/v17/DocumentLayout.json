@@ -1,0 +1,118 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|c:\\users\\river\\onedrive\\documentos\\workspace\\project-root\\backend\\docassociados.apigateway\\docassociados.apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|solutionrelative:docassociados.apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|c:\\users\\river\\onedrive\\documentos\\workspace\\project-root\\backend\\docassociados.apigateway\\docassociados.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|solutionrelative:docassociados.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|c:\\users\\river\\onedrive\\documentos\\workspace\\project-root\\backend\\docassociados.apigateway\\docassociados.apigateway\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|solutionrelative:docassociados.apigateway\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|c:\\users\\river\\onedrive\\documentos\\workspace\\project-root\\backend\\docassociados.apigateway\\docassociados.apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|solutionrelative:docassociados.apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|c:\\users\\river\\onedrive\\documentos\\workspace\\project-root\\backend\\docassociados.apigateway\\docassociados.apigateway\\docassociados.apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{AF17D875-B28F-4F75-8DCA-53D97E0BDB79}|DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj|solutionrelative:docassociados.apigateway\\docassociados.apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:18:0:{dcc4ea97-1c0c-482b-b205-e541c0df9728}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\Dockerfile",
+              "RelativeDocumentMoniker": "DocAssociados.ApiGateway\\Dockerfile",
+              "ToolTip": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\Dockerfile",
+              "RelativeToolTip": "DocAssociados.ApiGateway\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-28T10:52:11.997Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\appsettings.json",
+              "RelativeDocumentMoniker": "DocAssociados.ApiGateway\\appsettings.json",
+              "ToolTip": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\appsettings.json",
+              "RelativeToolTip": "DocAssociados.ApiGateway\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-27T15:52:16.159Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\Program.cs",
+              "RelativeDocumentMoniker": "DocAssociados.ApiGateway\\Program.cs",
+              "ToolTip": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\Program.cs",
+              "RelativeToolTip": "DocAssociados.ApiGateway\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T15:43:38.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ocelot.json",
+              "DocumentMoniker": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\ocelot.json",
+              "RelativeDocumentMoniker": "DocAssociados.ApiGateway\\ocelot.json",
+              "ToolTip": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\ocelot.json",
+              "RelativeToolTip": "DocAssociados.ApiGateway\\ocelot.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-27T15:32:47.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DocAssociados.ApiGateway.csproj",
+              "DocumentMoniker": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj",
+              "RelativeDocumentMoniker": "DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj",
+              "ToolTip": "C:\\Users\\river\\OneDrive\\Documentos\\workspace\\project-root\\backend\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj",
+              "RelativeToolTip": "DocAssociados.ApiGateway\\DocAssociados.ApiGateway.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-27T15:32:04.678Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

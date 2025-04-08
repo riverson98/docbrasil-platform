@@ -1,0 +1,219 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-stroke);
+
+    h1 {
+        padding: 2rem 20rem;
+        font-size: var(--font-size-st-m);
+    }
+}
+
+.home {
+    width: 100vw;
+    height: 92vh;
+    display: flex;
+    padding: 2rem 20rem;
+    gap: 5rem;
+
+    &__content-profile {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        &--content-personal {
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-stroke);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            
+            &__title {
+                padding: 1rem 2rem;
+                font-size: var(--font-size-st-sc);
+                font-weight: 600;
+                position: relative;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 1px;
+                    background-color: var(--color-stroke);
+                    top: 100%;
+                    left:0;
+                }
+            }
+
+            &__items {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                padding: 2rem;
+
+                &--item {
+                    display: flex;
+                    gap: 1rem;
+
+                    align-items: center;
+                    font-size: var(--font-size-st-sc);
+                    font-weight: 400;
+                    position: relative;
+                    transition: all ease-in-out .3s;
+                    padding: .5rem;
+
+                    i {
+                        color: var(--color-secondary);
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: var(--color-secondary-m);
+                    }
+                }
+            }
+
+        }
+    }
+
+    &__content {
+        width: 100%;
+        
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        &--description {
+            width: 100%;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+    
+            padding: 2rem;
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-stroke);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    
+            &__title {
+                font-size: var(--font-size-st-sc);
+                font-weight: 700;
+            }
+    
+            &__para {
+                color: #8f8f8f;
+            }
+    
+        }
+
+        &--workspace {
+            width: 100%;
+
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-stroke);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+            &__table {
+                width: 100%;
+
+                &--head {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 2rem; 
+
+                    font-size: var(--font-size-st-sc);
+                    position: relative;
+
+                    &__add {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        transition: all ease-in-out .3s;
+                        padding: .5rem;
+
+                        i {
+                            font-size: var(--font-size-st-m);
+                            color: var(--color-secondary);
+                        }
+
+                        &:hover {
+                            cursor: pointer;
+                            background-color: var(--color-secondary-m);
+                        }
+                    }
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 1px;
+                        background-color: var(--color-stroke);
+                        top: 100%;
+                        left:0;
+                    }
+                }
+
+                &--body {
+                    width: 100%;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem 2rem;
+                    font-size: var(--font-size-st-sc);
+                    transition: all ease-in-out .3s;
+
+                    &__user-info {
+                        flex-basis: 10;
+                        display: flex;
+                        flex-direction: column;
+
+
+
+                        p {
+                            color: #8f8f8f;
+                        }
+                    }
+
+                    &__role {
+                        display: flex;
+                        gap: 1rem;
+                        border: none;
+                        background-color: transparent;
+                        font-size: var(--font-size-st-sc);
+                        padding: 2rem;
+                        
+                        align-items: center;
+                        color: #3AA3D7;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        &:focus {
+                            border: none;
+                            border-color: var(--color-stroke);
+                            background-color: var(--color-primary);
+                        }
+                    }
+
+                    &__trash {
+                        color: red;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: var(--color-stroke);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

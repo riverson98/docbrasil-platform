@@ -1,0 +1,16 @@
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\bin\Debug\net9.0\DocAssociados.Identity.Application.deps.json
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\bin\Debug\net9.0\DocAssociados.Identity.Application.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\bin\Debug\net9.0\DocAssociados.Identity.Application.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\bin\Debug\net9.0\DocAssociados.Identity.Domain.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\bin\Debug\net9.0\DocAssociados.Identity.Domain.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.csproj.AssemblyReference.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.AssemblyInfoInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.AssemblyInfo.cs
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.csproj.CoreCompileInputs.cache
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssoc.812C1744.Up2Date
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\refint\DocAssociados.Identity.Application.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.pdb
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\ref\DocAssociados.Identity.Application.dll
+C:\Users\river\OneDrive\Documentos\workspace\Doc-do-Brasil\DocAssociados.Identity\DocAssociados.Identity.Application\obj\Debug\net9.0\DocAssociados.Identity.Application.sourcelink.json

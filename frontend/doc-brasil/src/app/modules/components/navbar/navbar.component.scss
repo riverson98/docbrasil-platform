@@ -1,0 +1,27 @@
+.header {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    border-bottom: 1px solid #f3f3f3;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+    &__logo {
+        width: 6rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__profile {
+        font-size: var(--font-size-st-sc);
+    }
+}
+

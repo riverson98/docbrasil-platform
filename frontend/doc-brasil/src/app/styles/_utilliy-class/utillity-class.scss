@@ -1,0 +1,113 @@
+/*--------------------------------------- Section Padding */
+.section__padding {
+    padding: var(--padding-d-mc-v) var(--padding-d-mc-h);
+}
+
+/*--------------------------------------- Section Title */
+.section__title {
+    font-size: var(--font-size-d-sc);
+    font-weight: 900;
+    color: var(--color-primary);
+    span {
+        color: var(--color-sextenary);
+    }
+}
+
+/*--------------------------------------- Section Paragraph */
+.section__para {
+    font-size: var(--font-size-st-sc);
+    color: var(--color-primary);
+
+    span{
+        font-weight: 600;
+    }
+}
+
+/*--------------------------------------- Overall Layout */
+.container {
+    display: grid;
+    grid-template-columns: [container-start] repeat(
+        12, 
+        minmax(min-content, 16rem)
+        ) [container-end];
+        grid-template-rows: repeat(9, min-content);
+        justify-content: center;
+}
+
+.overall-layout {
+    grid-column: container-start/container-end;
+}
+
+
+/*--------------------------------------- error popup */
+.popup {
+    position: fixed;
+    top: 5rem;
+    background-color: #ff4d4d;
+    color: white !important;
+    padding: 1.5rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.6rem;
+    animation: fadeOut 1s ease-in-out 8s forwards;
+  }
+  
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+}
+
+
+/*--------------------------------------- button */
+.next,
+.previous{
+    margin-top: 2rem;
+    padding: 2.5rem 3.5rem;
+    font-size: var(--font-size-st-sc);
+    border: 1px solid transparent;
+    transition: all ease-in-out .4s;
+    border-radius: 3rem;
+
+    &:hover {
+        cursor: pointer;
+        
+    }
+
+}
+
+.next {
+    background-color: var(--color-secondary);
+
+    &:hover {
+        background-color: var(--color-secondary-m);
+    }
+}
+
+.file-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 3rem;
+    border: 1px solid var(--color-secondary);
+    background-color: var(--color-primary);
+    border-radius: 3rem;
+    display: flex;
+    font-size: var(--font-size-st-sc);
+
+    &:hover {
+        cursor: pointer;
+    }
+    
+}
+
+.file-button.invalid {
+    border: 2px solid red;
+    background-color: #f8d7da;  /* Cor de fundo vermelha */
+  }
+
+/*--------------------------------------- margin */
+.margin {
+    margin-top: 2rem;
+}

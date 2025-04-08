@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "rYV6ag7VvlZgA2aBV592v5r0JdXANUiYPfMNeOoHMj0=",
+  "Source": "DocAssociados.Services.WebApi",
+  "BasePath": "_content/DocAssociados.Services.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

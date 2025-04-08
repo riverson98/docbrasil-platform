@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "JvUumO2jxT4LqtYAb/qPkxT0TfyFvip4B0iqJ0UhHTU=",
+  "Source": "DocAssociados.ApiGateway",
+  "BasePath": "_content/DocAssociados.ApiGateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
