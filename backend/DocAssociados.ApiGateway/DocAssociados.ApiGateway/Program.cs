@@ -15,8 +15,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://20.197.248.228:8080")
                   .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
+                  .AllowAnyHeader();
         });
 });
 
