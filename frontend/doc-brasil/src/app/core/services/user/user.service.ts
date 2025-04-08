@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'http://20.197.248.228:8090/associado';
+    apiUrl:string = 'http://associados_api-gateway:8080/associado';
     headers:HttpHeaders = new HttpHeaders({
         'X-Api-Key': environmentDev.xApiKeyAssociados
     })

@@ -13,7 +13,7 @@ import { environmentDev } from '../../environment/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl:string = 'http://20.197.248.228:8090/auth';
+  apiUrl:string = 'http://associados_api-gateway:8080/auth';
   headers:HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     'X-Api-Key': environmentDev.xApiKeyAuth
