@@ -56,6 +56,7 @@ services:
   associados-db:
     image: mysql:8
     container_name: associados-db
+    command: --default-time-zone='-03:00'
     environment:
       MYSQL_ROOT_PASSWORD: <4P.7A9oeM
       MYSQL_DATABASE: associados
@@ -74,6 +75,7 @@ services:
   associadosAuth-db:
     image: mysql:8
     container_name: associadosAuth-db
+    command: --default-time-zone='-03:00'
     environment:
       MYSQL_ROOT_PASSWORD: P-QwF2jht&
       MYSQL_DATABASE: associadosAuthdb
