@@ -85,9 +85,6 @@ jobs:
 
           echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" > .env.prod
           echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
-          echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=\${MYSQL_ASSOCIADOS_PASSWORD}" >> .env.prod
-          echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=\${MYSQL_ASSOCIADOS_AUTH_PASSWORD}" >> .env.prod
-          echo "ASPNETCORE_ENVIRONMENT=Production" >> .env.prod
 
           docker compose down --remove-orphans
           docker compose build --no-cache
