@@ -44,7 +44,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            MYSQL_ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbPassword --query value -o tsv)
+            ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbPassword --query value -o tsv)
             AUTH_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbAuthPassword --query value -o tsv)
             
             # Debug seguro: mostra se está vazio ou não
