@@ -51,13 +51,6 @@ jobs:
           set -e
           cd /home/azureuser/associados-app
 
-          echo "🔐 Buscando segredo no Key Vault..."
-          MYSQL_ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name AssociadosDbPassword --name MYSQL_ASSOCIADOS_PASSWORD --query value -o tsv)
-          MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(az keyvault secret show --vault-name AssociadosDbAuthPassword --name MYSQL_ASSOCIADOS_AUTH_PASSWORD --query value -o tsv)
-
-          echo "MYSQL_ASSOCIADOS_PASSWORD=\$MYSQL_ASSOCIADOS_PASSWORD" > .env.prod
-          echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=\$MYSQL_ASSOCIADOS_AUTH_PASSWORD" >> .env.prod
-
           docker compose down --remove-orphans
           docker compose build --no-cache
           docker compose -f docker-compose.yml -f docker-compose-prod.yml up -d
