@@ -29,10 +29,10 @@ builder.Services.AddCors(options =>
 //CrossCuttingConfig
 builder.Services.Configure<AzureBlobStorageOpcoes>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<AzureVaultConfig>(builder.Configuration.GetSection("AzureKeyVault"));
-builder.Services.AddInfrastructure(builder.Configuration);
 
 if (builder.Environment.IsProduction())
 {
+
     var url = new AzureVaultConfig() { KeyVaultUrl = "chavesapisecretas" };
     KeyVaultStatic.Init(url);
     var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociados");
@@ -41,7 +41,14 @@ if (builder.Environment.IsProduction())
     {
         options.ApiKey = apiKey;
     });
+
+    var dbPassword = await KeyVaultStatic.GetSecretAsync("AssociadosDbPassword");
+
+    var associadosConn = $"Server=associados-db;Database=associadosdb;Uid=root;Pwd={dbPassword}";
+    builder.Configuration["ConnectionStrings:MySqlConnection"] = associadosConn;
 }
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 
 var app = builder.Build();

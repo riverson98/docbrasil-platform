@@ -45,12 +45,17 @@ if (builder.Environment.IsProduction())
 {
     var url = new AzureVaultConfig() { KeyVaultUrl = "chavesapisecretas" };
     KeyVaultStatic.Init(url);
-    var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociados");
+    var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociadosAuth");
 
     builder.Services.Configure<ApiSettings>(options =>
     {
         options.ApiKey = apiKey;
     });
+
+    var dbPassword = await KeyVaultStatic.GetSecretAsync("AssociadosDbAuthPassword");
+
+    var authConn = $"Server=associados-db;Database=associadosdb;Uid=root;Pwd={dbPassword}";
+    builder.Configuration["ConnectionStrings:MySqlAuthConnection"] = authConn;
 }
 
 var app = builder.Build();
