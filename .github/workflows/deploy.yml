@@ -51,13 +51,13 @@ jobs:
             if [ -z "$ASSOCIADOS_PASSWORD" ]; then
               echo "ASSOCIADOS_PASSWORD está vazio!"
             else
-              echo "ASSOCIADOS_PASSWORD recuperado com sucesso (oculto)"
+              echo "ASSOCIADOS_PASSWORD recuperado com sucesso $ASSOCIADOS_PASSWORD"
             fi
 
             if [ -z "$AUTH_PASSWORD" ]; then
               echo "AUTH_PASSWORD está vazio!"
             else
-              echo "AUTH_PASSWORD recuperado com sucesso (oculto)"
+              echo "AUTH_PASSWORD recuperado com sucesso $AUTH_PASSWORD"
             fi
 
             echo "associados_password=$ASSOCIADOS_PASSWORD" >> $GITHUB_OUTPUT
