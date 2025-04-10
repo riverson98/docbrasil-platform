@@ -72,7 +72,7 @@ jobs:
 
       - name: Enviar arquivos para a VM
         run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" ./ azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app
+          rsync -avz --delete --progress -e "ssh -i ~/.ssh/id_rsa" ./ azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app --exclude=".git/"
 
       - name: Reconstruir containers com Docker Compose
         env:
@@ -88,9 +88,6 @@ jobs:
           echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
           echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
           echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
-
-          echo "Conteúdo do .env.prod:"
-          cat .env.prod
 
           docker compose down --remove-orphans
           docker compose build --no-cache
