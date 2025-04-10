@@ -51,13 +51,13 @@ jobs:
             if [ -z "$ASSOCIADOS_PASSWORD" ]; then
               echo "ASSOCIADOS_PASSWORD está vazio!"
             else
-              echo "ASSOCIADOS_PASSWORD recuperado com sucesso $ASSOCIADOS_PASSWORD"
+              echo "ASSOCIADOS_PASSWORD recuperado com sucesso"
             fi
 
             if [ -z "$AUTH_PASSWORD" ]; then
               echo "AUTH_PASSWORD está vazio!"
             else
-              echo "AUTH_PASSWORD recuperado com sucesso $AUTH_PASSWORD"
+              echo "AUTH_PASSWORD recuperado com sucesso"
             fi
 
             echo "associados_password=$ASSOCIADOS_PASSWORD" >> $GITHUB_OUTPUT
@@ -86,7 +86,10 @@ jobs:
           echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" > .env.prod
           echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
 
+          echo "Conteúdo do .env.prod:"
+          cat .env.prod
+
           docker compose down --remove-orphans
           docker compose build --no-cache
-          docker compose -f docker-compose.yml -f docker-compose-prod.yml up -d --force-recreate
+          docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --force-recreat
           EOF
