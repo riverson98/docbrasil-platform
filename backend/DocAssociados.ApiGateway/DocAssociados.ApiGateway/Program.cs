@@ -11,20 +11,32 @@ builder.Services.AddControllers();
 //Configure Cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("FrontendPolicy",
-        policy =>
+    if (builder.Environment.IsDevelopment())
+    {
+        options.AddPolicy("FrontendPolicy",policy =>
         {
-            policy.WithOrigins("http://20.197.248.228:8080")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
+           policy.WithOrigins("http://localhost:8080")
+                 .AllowAnyMethod()
+                 .AllowAnyHeader();
         });
+    }
+    else
+    {
+        options.AddPolicy("FrontendPolicy", policy =>
+            {
+                policy.WithOrigins("http://20.197.248.228:8080")
+                      .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+    }
 });
 
 // Configure ocelot
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile($"ocelot.{builder.Environment.EnvironmentName.ToLower()}.json", optional: false, reloadOnChange: true);
 builder.Services.AddOcelot();
 
+Debug.WriteLine($"ocelot.{builder.Environment.EnvironmentName.ToLower()}.json");
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
@@ -38,4 +50,4 @@ app.UseRouting();
 
 await app.UseOcelot();
 
-app.Run();
+await app.RunAsync();

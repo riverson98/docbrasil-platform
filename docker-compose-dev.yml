@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  associadosDbDev:
+    image: mysql:8
+    container_name: associadosDbDev
+    environment:
+      MYSQL_DATABASE: associadosDev
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3311:3306"
+    volumes:
+      - associadosDev_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  associadosAuthDbDev:
+    image: mysql:8
+    container_name: associadosAuthDbDev
+    environment:
+      MYSQL_DATABASE: associadosAuthDev
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3312:3306"
+    volumes:
+      - identityDev_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  associados_api-gateway-dev:
+    build:
+      context: ./backend/DocAssociados.ApiGateway
+      dockerfile: DocAssociados.ApiGateway/Dockerfile
+    container_name: associados_api-gateway-dev
+    ports:
+      - "8090:8080"
+    env_file:
+      - .env.dev
+    networks:
+      - app-network
+    depends_on:
+      - associados-auth_service-dev
+      - associados_service-dev
+
+  associados-auth_service-dev:
+    build:
+      context: ./backend/DocAssociados.Identity
+      dockerfile: DocAssociados.Identity.WebApi/Dockerfile
+    container_name: associados-auth_service
+    ports:
+      - "8091:8080"
+    env_file:
+      - .env.dev
+    networks:
+      - app-network
+    depends_on:
+      - associadosAuthDbDev
+
+  associados_service-dev:
+    build:
+      context: ./backend/DocAssociados
+      dockerfile: DocAssociados.WebApi/Dockerfile
+    container_name: associados_service-dev
+    ports:
+      - "8092:8080"
+    env_file:
+      - .env.dev
+    networks:
+      - app-network
+    depends_on:
+      - associadosDbDev
+
+  associados_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: associados_frontend
+    ports:
+      - "8080:80"
+    networks:
+      - app-network

@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using DocAssociados.Service.Infra.CrossCutting.Logs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace DocAssociados.Service.Infra.CrossCutting.Middles;
@@ -7,19 +8,18 @@ namespace DocAssociados.Service.Infra.CrossCutting.Middles;
 public class PerformanceMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<PerformanceMiddleware> _logger;
 
-    public PerformanceMiddleware(RequestDelegate next, ILogger<PerformanceMiddleware> logger)
+    public PerformanceMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
+        var logger = httpContext.RequestServices.GetRequiredService<ILoggerService>();
         var stopwatch = Stopwatch.StartNew();
         await _next(httpContext);
         stopwatch.Stop();
-        _logger.LogInformation("Tempo de resposta para {Path}: {ElapsedMilliseconds}ms", httpContext.Request.Path, stopwatch.ElapsedMilliseconds);
+        logger.Info($"Tempo de resposta para {httpContext.Request.Path}: {stopwatch.ElapsedMilliseconds}ms");
     }
 }

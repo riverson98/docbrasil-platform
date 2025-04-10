@@ -1,3 +1,5 @@
+using DocAssociados.Identity.Infra.CrossCutting.Config;
+using DocAssociados.Identity.Infra.CrossCutting.KeyVault;
 using DocAssociados.Identity.Infra.CrossCutting.Logs;
 using DocAssociados.Identity.Infra.CrossCutting.Middles;
 using DocAssociados.Identity.Infra.IoC;
@@ -38,6 +40,18 @@ builder.Services.AddAuthentication(options =>
                                                     .GetBytes(secretKey))
     };
 });
+
+if (builder.Environment.IsProduction())
+{
+    var url = new AzureVaultConfig() { KeyVaultUrl = "chavesapisecretas" };
+    KeyVaultStatic.Init(url);
+    var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociados");
+
+    builder.Services.Configure<ApiSettings>(options =>
+    {
+        options.ApiKey = apiKey;
+    });
+}
 
 var app = builder.Build();
 

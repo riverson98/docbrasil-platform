@@ -6,6 +6,7 @@ using DocAssociados.Infra.Data.Context;
 using DocAssociados.Infra.Data.Repository;
 using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using DocAssociados.Service.Infra.CrossCutting.Config;
+using DocAssociados.Service.Infra.CrossCutting.Logs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,7 @@ public static class DependencyInjection
 
         //camada do cross cutting
         services.AddScoped<IKeyVaultService, KeyVaultService>();
+        services.AddScoped<ILoggerService, LoggerService>();
 
         //automapper
         services.AddAutoMapper(typeof(DominioParaDtoMappingProfile));

@@ -1,24 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DocAssociados.Service.Infra.CrossCutting.Logs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DocAssociados.Service.Infra.CrossCutting.Middles;
 
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public ExceptionMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
@@ -29,7 +24,8 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro não tratado ocorrido.");
+            var logger = context.RequestServices.GetRequiredService<ILoggerService>();
+            logger.Error(ex, "Erro não tratado ocorrido.");
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

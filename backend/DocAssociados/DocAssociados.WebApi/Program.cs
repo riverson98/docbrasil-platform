@@ -1,4 +1,5 @@
 using DocAssociados.Infra.IoC;
+using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using DocAssociados.Service.Infra.CrossCutting.Config;
 using DocAssociados.Service.Infra.CrossCutting.Middles;
 using DocAssociados.Service.Infra.IoC;
@@ -28,8 +29,20 @@ builder.Services.AddCors(options =>
 //CrossCuttingConfig
 builder.Services.Configure<AzureBlobStorageOpcoes>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<AzureVaultConfig>(builder.Configuration.GetSection("AzureKeyVault"));
-
 builder.Services.AddInfrastructure(builder.Configuration);
+
+if (builder.Environment.IsProduction())
+{
+    var url = new AzureVaultConfig() { KeyVaultUrl = "chavesapisecretas" };
+    KeyVaultStatic.Init(url);
+    var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociados");
+
+    builder.Services.Configure<ApiSettings>(options =>
+    {
+        options.ApiKey = apiKey;
+    });
+}
+
 
 var app = builder.Build();
 

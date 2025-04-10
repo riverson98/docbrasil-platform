@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using DocAssociados.Service.Infra.CrossCutting.Logs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DocAssociados.Service.Infra.CrossCutting.Middles;
 
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public ErrorHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext httpContext)
@@ -22,7 +21,8 @@ public class ErrorHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro inesperado.");
+            var logger = httpContext.RequestServices.GetRequiredService<ILoggerService>();
+            logger.Error(ex, "Ocorreu um erro inesperado.");
             throw;
         }
     }

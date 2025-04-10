@@ -1,4 +1,4 @@
-﻿{
+{
   "Routes": [
     {
       "UpstreamPathTemplate": "/auth/{everything}",
@@ -6,18 +6,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "associados-auth_service",
+          "Host": "associados-auth_service-dev",
           "Port": 8080
         }
       ],
       "DownstreamHeaderTransform": {
         "X-Api-Key": "{X-Api-Key}"
-      },
-      "RateLimitOptions": {
-        "EnableRateLimiting": true,
-        "ClientWhitelist": [ "admin" ],
-        "Period": "10s",
-        "Limit": 5
       }
     },
     {
@@ -26,26 +20,13 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "associados_service",
+          "Host": "associados_service-dev",
           "Port": 8080
         }
       ],
       "DownstreamHeaderTransform": {
         "X-Api-Key": "{X-Api-Key}"
-      },
-      "RateLimitOptions": {
-        "EnableRateLimiting": true,
-        "ClientWhitelist": [ "admin" ],
-        "Period": "10s",
-        "Limit": 5
       }
     }
-  ],
-  "GlobalConfiguration": {
-    "RateLimitOptions": {
-      "HttpStatusCode": 429,
-      "QuotaExceededMessage": "Muitas requisições. Aguarde antes de tentar novamente.",
-      "ClientIdHeader": "X-Client-Id"
-    }
-  }
+  ]
 }

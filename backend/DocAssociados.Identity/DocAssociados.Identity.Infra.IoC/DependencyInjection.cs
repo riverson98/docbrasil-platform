@@ -18,7 +18,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         //Database config
-        var mySqlConnection = config.GetConnectionString("MySqlConnection");
+        var mySqlConnection = config.GetConnectionString("MySqlAuthConnection");
 
         services.AddDbContext<AppDbContext>(options =>
                  options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection),
