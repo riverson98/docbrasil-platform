@@ -9,6 +9,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var authPassword = Environment.GetEnvironmentVariable("AUTH_PASSWORD");
+Console.WriteLine($"AUTH_PASSWORD: {authPassword?.Substring(0, 4)}****");
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
