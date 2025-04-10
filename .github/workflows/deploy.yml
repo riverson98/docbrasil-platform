@@ -47,6 +47,19 @@ jobs:
             MYSQL_ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbPassword --query value -o tsv)
             AUTH_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbAuthPassword --query value -o tsv)
             
+            # Debug seguro: mostra se está vazio ou não
+            if [ -z "$ASSOCIADOS_PASSWORD" ]; then
+              echo "ASSOCIADOS_PASSWORD está vazio!"
+            else
+              echo "ASSOCIADOS_PASSWORD recuperado com sucesso (oculto)"
+            fi
+
+            if [ -z "$AUTH_PASSWORD" ]; then
+              echo "AUTH_PASSWORD está vazio!"
+            else
+              echo "AUTH_PASSWORD recuperado com sucesso (oculto)"
+            fi
+
             echo "associados_password=$ASSOCIADOS_PASSWORD" >> $GITHUB_OUTPUT
             echo "auth_password=$AUTH_PASSWORD" >> $GITHUB_OUTPUT
 
