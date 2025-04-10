@@ -83,8 +83,11 @@ jobs:
           set -e
           cd /home/azureuser/associados-app
 
-          echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" > .env.prod
+          echo "" > .env.prod
+          echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
           echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
+          echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
+          echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
 
           echo "Conteúdo do .env.prod:"
           cat .env.prod
