@@ -34,6 +34,22 @@ jobs:
             exit 1
           fi
 
+      - name: Logar no Azure com Service Principal
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Obter segredos do Key Vault
+        id: keyvault
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            MYSQL_ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbPassword --query value -o tsv)
+            AUTH_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbAuthPassword --query value -o tsv)
+            
+            echo "associados_password=$ASSOCIADOS_PASSWORD" >> $GITHUB_OUTPUT
+            echo "auth_password=$AUTH_PASSWORD" >> $GITHUB_OUTPUT
+
       - name: Configurar SSH
         run: |
           mkdir -p ~/.ssh
@@ -50,6 +66,9 @@ jobs:
           ssh -i ~/.ssh/id_rsa azureuser@${{ secrets.VM_HOST }} << 'EOF'
           set -e
           cd /home/azureuser/associados-app
+
+          echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
+          echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
 
           docker compose down --remove-orphans
           docker compose build --no-cache

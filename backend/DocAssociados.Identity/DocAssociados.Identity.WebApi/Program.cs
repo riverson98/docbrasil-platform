@@ -51,11 +51,6 @@ if (builder.Environment.IsProduction())
     {
         options.ApiKey = apiKey;
     });
-
-    var dbPassword = await KeyVaultStatic.GetSecretAsync("AssociadosDbAuthPassword");
-
-    var authConn = $"Server=associados-db;Database=associadosdb;Uid=root;Pwd={dbPassword}";
-    builder.Configuration["ConnectionStrings:MySqlAuthConnection"] = authConn;
 }
 
 var app = builder.Build();
