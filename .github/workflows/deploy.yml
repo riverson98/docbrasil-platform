@@ -91,5 +91,5 @@ jobs:
 
           docker compose down --remove-orphans
           docker compose build --no-cache
-          docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d
+          docker compose -f docker-compose.yml -f docker-compose-prod.yml up -d
           EOF
