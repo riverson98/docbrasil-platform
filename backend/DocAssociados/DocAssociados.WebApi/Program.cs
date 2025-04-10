@@ -6,6 +6,9 @@ using DocAssociados.Service.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var associadosPassword = Environment.GetEnvironmentVariable("ASSOCIADOS_PASSWORD");
+Console.WriteLine($"ASSOCIADOS_PASSWORD: {associadosPassword?.Substring(0, 4)}****");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
