@@ -67,10 +67,13 @@ if(builder.Environment.IsDevelopment())
 else
     builder.Configuration.AddJsonFile($"ocelot.production.json", optional: false, reloadOnChange: true);
 
-builder.Services.AddOcelot();
+builder.Services.AddOcelot()
+    .AddDelegatingHandler<AssociadoApiKeyHandler>()
+    .AddDelegatingHandler<AuthApiKeyHandler>();
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
+
 app.UseRouting();
 
 // Configure the HTTP request pipeline.

@@ -14,8 +14,6 @@ public class AssociadoApiKeyHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"Handler está sendo chamado! valor do handler:{_keys.AssociadoKey}");
-        Debug.WriteLine($"Handler está sendo chamado! valor do handler:{_keys.AssociadoKey}");
         request.Headers.Add("X-Api-Key", _keys.AssociadoKey);
         return await base.SendAsync(request, cancellationToken);
     }
