@@ -207,6 +207,9 @@ export class RegisterFormComponent implements OnInit{
               this.showErrorMessage("Nenhum representante encontrado com este codigo, se não possui um entre em contato conosco", true);
               event.preventDefault();
             }
+            else
+            this.showErrorMessage("Algo deu errado", true);
+            console.log(error);
           }
         })
       }
