@@ -9,9 +9,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var authPassword = Environment.GetEnvironmentVariable("AUTH_PASSWORD");
-Console.WriteLine($"AUTH_PASSWORD: {authPassword?.Substring(0, 4)}****");
-
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -50,10 +47,10 @@ if (builder.Environment.IsProduction())
     KeyVaultStatic.Init(url);
     var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociadosAuth");
 
-    builder.Services.Configure<ApiSettings>(options =>
-    {
-        options.ApiKey = apiKey;
-    });
+    builder.Configuration["ApiSecurity:Key"] = apiKey;
+
+    builder.Logging.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
+        "", LogLevel.Information);
 }
 
 var app = builder.Build();
@@ -75,4 +72,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
