@@ -1,6 +1,38 @@
 version: '3.8'
 
 services:
+  associados-db:
+    image: mysql:8
+    container_name: associados-db
+    environment:
+      MYSQL_DATABASE: associadosdb
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_PASSWORD}
+    ports:
+      - "3311:3306"
+    env_file:
+      - .env.prod
+    volumes:
+      - associados_data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: always
+
+  associadosAuth-db:
+    image: mysql:8
+    container_name: associadosAuth-db
+    environment:
+      MYSQL_DATABASE: associadosAuthdb
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_AUTH_PASSWORD}
+    ports:
+      - "3312:3306"
+    env_file:
+      - .env.prod
+    volumes:
+      - identity_data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: always
+
   associados_api-gateway:
     build:
       context: ./backend/DocAssociados.ApiGateway
@@ -52,38 +84,6 @@ services:
       - associados-db
     restart: always
 
-  associados-db:
-    image: mysql:8
-    container_name: associados-db
-    environment:
-      MYSQL_DATABASE: associadosdb
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_PASSWORD}
-    ports:
-      - "3311:3306"
-    env_file:
-      - .env.prod
-    volumes:
-      - associados_data:/var/lib/mysql
-    networks:
-      - app-network
-    restart: always
-
-  associadosAuth-db:
-    image: mysql:8
-    container_name: associadosAuth-db
-    environment:
-      MYSQL_DATABASE: associadosAuthdb
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_AUTH_PASSWORD}
-    ports:
-      - "3312:3306"
-    env_file:
-      - .env.prod
-    volumes:
-      - identity_data:/var/lib/mysql
-    networks:
-      - app-network
-    restart: always
-
   associados_frontend:
     build:
       context: ./frontend
@@ -94,3 +94,35 @@ services:
     networks:
       - app-network
     restart: always
+
+  nginx_proxy:
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/html
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - associados_frontend
+      - associados_api-gateway
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email riversonvicente@gmail.com --agree-tos --no-eff-email -d appdocdobrasil.com.br
+
+  certbot-renew:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/html
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
