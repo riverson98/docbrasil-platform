@@ -56,7 +56,7 @@ services:
     image: mysql:8
     container_name: associados-db
     environment:
-      MYSQL_DATABASE: associados
+      MYSQL_DATABASE: associadosdb
       MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_PASSWORD}
     ports:
       - "3311:3306"
