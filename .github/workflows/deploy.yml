@@ -46,19 +46,6 @@ jobs:
           inlineScript: |
             ASSOCIADOS_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbPassword --query value -o tsv)
             AUTH_PASSWORD=$(az keyvault secret show --vault-name chavesapisecretas --name AssociadosDbAuthPassword --query value -o tsv)
-            
-            # Debug seguro: mostra se está vazio ou não
-            if [ -z "$ASSOCIADOS_PASSWORD" ]; then
-              echo "ASSOCIADOS_PASSWORD está vazio!"
-            else
-              echo "ASSOCIADOS_PASSWORD recuperado com sucesso"
-            fi
-
-            if [ -z "$AUTH_PASSWORD" ]; then
-              echo "AUTH_PASSWORD está vazio!"
-            else
-              echo "AUTH_PASSWORD recuperado com sucesso"
-            fi
 
             echo "associados_password=$ASSOCIADOS_PASSWORD" >> $GITHUB_OUTPUT
             echo "auth_password=$AUTH_PASSWORD" >> $GITHUB_OUTPUT
@@ -70,24 +57,30 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Enviar arquivos para a VM
+      - name: Enviar arquivos para a VM (sem sobrescrever certificados)
         run: |
-          rsync -avz --delete --progress -e "ssh -i ~/.ssh/id_rsa" ./ azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app --exclude=".git/"
+          rsync -avz --delete --progress -e "ssh -i ~/.ssh/id_rsa" ./ \
+            azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app \
+            --exclude=".git/" \
+            --exclude="nginx/ssl/" \
+            --exclude="nginx/certbot/" \
+            --exclude="node_modules/" \
+            --exclude="**/dist/"
 
       - name: Reconstruir containers com Docker Compose
         env:
           ASSOCIADOS_PASSWORD: ${{ steps.keyvault.outputs.associados_password }}
           AUTH_PASSWORD: ${{ steps.keyvault.outputs.auth_password }}
         run: |
-          ssh -i ~/.ssh/id_rsa azureuser@${{ secrets.VM_HOST }} << EOF
+          ssh -i ~/.ssh/id_rsa azureuser@${{ secrets.VM_HOST }} << 'EOF'
           set -e
           cd /home/azureuser/associados-app
 
           echo "" > .env.prod
-          echo "MYSQL_ASSOCIADOS_PASSWORD=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
-          echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
-          echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${{ steps.keyvault.outputs.associados_password }}" >> .env.prod
-          echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
+          echo "MYSQL_ASSOCIADOS_PASSWORD=${ASSOCIADOS_PASSWORD}" >> .env.prod
+          echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=${AUTH_PASSWORD}" >> .env.prod
+          echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${ASSOCIADOS_PASSWORD}" >> .env.prod
+          echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${AUTH_PASSWORD}" >> .env.prod
 
           docker compose down --remove-orphans
           docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
