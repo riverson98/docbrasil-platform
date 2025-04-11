@@ -3,7 +3,6 @@ using DocAssociados.ApiGateway.Config;
 using DocAssociados.ApiGateway.Handlers;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,7 +61,12 @@ builder.Services.AddCors(options =>
 
 // Configure ocelot
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-builder.Configuration.AddJsonFile($"ocelot.{builder.Environment.EnvironmentName.ToLower()}.json", optional: false, reloadOnChange: true);
+
+if(builder.Environment.IsDevelopment())
+    builder.Configuration.AddJsonFile($"ocelot.production.development.json", optional: false, reloadOnChange: true);
+else
+    builder.Configuration.AddJsonFile($"ocelot.production.json", optional: false, reloadOnChange: true);
+
 builder.Services.AddOcelot();
 var app = builder.Build();
 
