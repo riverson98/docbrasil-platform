@@ -119,10 +119,14 @@ services:
       - ./nginx/ssl:/etc/letsencrypt
       - ./nginx/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email riversonvicente@gmail.com --agree-tos --no-eff-email -d appdocdobrasil.com.br
+    networks:
+      - app-network
 
   certbot-renew:
     image: certbot/certbot
     volumes:
       - ./nginx/ssl:/etc/letsencrypt
       - ./nginx/www:/var/www/html
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --deploy-hook \"nginx -s reload\"; sleep 12h & wait $${!}; done'"
+    networks:
+      - app-network
