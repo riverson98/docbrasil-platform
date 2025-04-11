@@ -90,6 +90,5 @@ jobs:
           echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${{ steps.keyvault.outputs.auth_password }}" >> .env.prod
 
           docker compose down --remove-orphans
-          docker compose build --no-cache
-          docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --force-recreate
+          docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
           EOF
