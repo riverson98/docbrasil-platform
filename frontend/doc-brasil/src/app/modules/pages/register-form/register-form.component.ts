@@ -129,8 +129,6 @@ export class RegisterFormComponent implements OnInit{
   
       form.get(nameOfProperty)?.updateValueAndValidity();
     }
-  
-    console.log("Nome da propriedade recebida:", nameOfProperty);
   }
 
   onMultipleFilesSelected(event: Event) {
@@ -146,9 +144,6 @@ export class RegisterFormComponent implements OnInit{
       const contract = files.find(file =>
         /termo.*ades[aã]o/i.test(file.name.toLowerCase())
       );
-
-      console.log("Valor do associative:", associative);
-      console.log("Valor do contract:", contract);
 
       if(!associative || !contract){
         alert("Você deve anexar os dois documentos: Ficha Associativa e Termo de Adesão.");
@@ -199,14 +194,12 @@ export class RegisterFormComponent implements OnInit{
             this.stepper.next();
           },
           error: (error) => {
-            console.log("valor do status do erro:", error.status)
             if(error.status === 404){
               this.showErrorMessage("Nenhum representante encontrado com este codigo, se não possui um entre em contato conosco", true);
               event.preventDefault();
             }
             else
             this.showErrorMessage("Algo deu errado", true);
-            event.preventDefault();
           }
         })
       }
@@ -223,8 +216,6 @@ export class RegisterFormComponent implements OnInit{
     if (date.length > 4) date = date.replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3');
   
     (event.target as HTMLInputElement).value = date;
-    
-    console.log("valor do length: ", date.length);
    
     if (date.length === 10) {
       this.personalData.get('birthdate')!.setErrors(null);
@@ -238,7 +229,6 @@ export class RegisterFormComponent implements OnInit{
       if (m < 0 || (m === 0 && today.getDate() < enteredDate.getDate())) {
         age--;
       }
-      console.log("Valor do age", age);
   
       if (age < 18 || age > 100) {
         this.personalData.get('birthdate')!.setErrors({ ageInvalid: true });
@@ -294,7 +284,6 @@ export class RegisterFormComponent implements OnInit{
         }
       },
       error: (error) => {
-        console.log("O error foi:", error)
         this.showErrorMessage("Algo deu errado", true);
       }
     })
@@ -376,11 +365,9 @@ export class RegisterFormComponent implements OnInit{
   verifyCodeRepresentationFormToSubmit(personalData:FormGroup): Observable<void>{
     return new Observable<void>(observer => {
         const seniorCodeRepresentation = personalData.get('seniorCodeRepresentation')?.value;
-        console.log("Valor do codigo do representante:", seniorCodeRepresentation)
 
         this.userService.getUserCodeRepresentation(seniorCodeRepresentation!).subscribe({
           next: response => {
-            console.log(response);
             observer.next();
             observer.complete();
           },
