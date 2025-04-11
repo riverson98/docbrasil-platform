@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'http://localhost:8080/associado';
+    apiUrl:string = 'http://20.197.248.228:8080/associado';
 
     constructor(private http:HttpClient) {
         
