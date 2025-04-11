@@ -12,7 +12,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl:string = 'http://20.197.248.228:8090/auth';
+  apiUrl:string = 'https://appdocdobrasil.com.br/auth';
 
   constructor(private http:HttpClient, private router: Router) {}
   

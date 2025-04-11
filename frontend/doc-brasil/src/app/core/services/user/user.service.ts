@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'http://20.197.248.228:8090/associado';
+    apiUrl:string = 'https://appdocdobrasil.com.br/associado';
 
     constructor(private http:HttpClient) {
         
