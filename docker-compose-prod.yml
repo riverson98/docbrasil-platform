@@ -60,6 +60,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_PASSWORD}
     ports:
       - "3311:3306"
+    env_file:
+      - .env.prod
     volumes:
       - associados_data:/var/lib/mysql
     networks:
@@ -74,6 +76,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_AUTH_PASSWORD}
     ports:
       - "3312:3306"
+    env_file:
+      - .env.prod
     volumes:
       - identity_data:/var/lib/mysql
     networks:
