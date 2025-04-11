@@ -59,7 +59,7 @@ jobs:
 
       - name: Enviar arquivos para a VM (sem sobrescrever certificados)
         run: |
-          rsync -avz --delete --progress -e "ssh -i ~/.ssh/id_rsa" ./ \
+          rsync -avz --delete --progress --itemize-changes -e "ssh -i ~/.ssh/id_rsa" ./ \
             azureuser@${{ secrets.VM_HOST }}:/home/azureuser/associados-app \
             --exclude=".git/" \
             --exclude="nginx/ssl/" \
