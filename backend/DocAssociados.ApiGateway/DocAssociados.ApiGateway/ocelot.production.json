@@ -10,7 +10,7 @@
           "Port": 8080
         }
       ],
-      "DelegatingHandlers": [ "AuthHandler" ],
+      "DelegatingHandlers": [ "AuthApiKeyHandler" ],
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "ClientWhitelist": [ "admin" ],
@@ -28,7 +28,7 @@
           "Port": 8080
         }
       ],
-      "DelegatingHandlers": [ "AssociadoHandler" ],
+      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ],
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "ClientWhitelist": [ "admin" ],

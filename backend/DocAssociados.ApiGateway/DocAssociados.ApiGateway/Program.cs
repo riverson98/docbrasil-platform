@@ -64,8 +64,6 @@ builder.Services.AddCors(options =>
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
 builder.Configuration.AddJsonFile($"ocelot.{builder.Environment.EnvironmentName.ToLower()}.json", optional: false, reloadOnChange: true);
 builder.Services.AddOcelot();
-
-Debug.WriteLine($"ocelot.{builder.Environment.EnvironmentName.ToLower()}.json");
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
