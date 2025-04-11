@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nginx-certbot:
+    image: nginx:latest
+    container_name: nginx-certbot
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/www:/usr/share/nginx/html
+      - ./nginx/conf.d/certbot.conf:/etc/nginx/conf.d/default.conf
