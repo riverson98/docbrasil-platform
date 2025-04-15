@@ -26,3 +26,16 @@ export function validateCpf(control: AbstractControl) : Observable<ValidationErr
         })
       );
 }
+
+export function getStatusClass(status: number): string {
+  switch (status) {
+    case 0:
+      return 'user-pending';
+    case 1:
+      return 'user-active';
+    case 2:
+      return 'user-inactive';
+    default:
+      return 'status-desconhecido';
+  }
+}

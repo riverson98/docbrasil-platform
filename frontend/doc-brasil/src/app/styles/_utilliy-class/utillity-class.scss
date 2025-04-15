@@ -105,7 +105,29 @@
 .file-button.invalid {
     border: 2px solid red;
     background-color: #f8d7da;  /* Cor de fundo vermelha */
-  }
+}
+
+/*--------------------------------------- user status */
+.user-inactive {
+    background-color: #f8d7da;
+    color: #ff4d4d;
+    padding: 1rem 2rem;
+    border-radius: 3rem;
+}
+
+.user-pending {
+    background-color: #fff9c4;
+    color: #ffb700;
+    padding: 1rem 2rem;
+    border-radius: 3rem;
+}
+
+.user-active {
+    background-color: #e6f4ea;
+    color: #2e7d32;
+    padding: 1rem 2rem;
+    border-radius: 3rem;
+}
 
 /*--------------------------------------- margin */
 .margin {
