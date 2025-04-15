@@ -1,6 +1,9 @@
-﻿using DocAssociados.Application.DTOs;
+﻿using DocAssociados.Application.Config;
+using DocAssociados.Application.DTOs;
 using DocAssociados.Application.Interfaces;
 using DocAssociados.Domain.Entities;
+using DocAssociados.Service.Application.DTOs;
+using DocAssociados.Service.Application.Enums;
 using DocAssociados.Service.Infra.CrossCutting.Logs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,17 +16,14 @@ namespace DocAssociados.WebApi.Controllers
     public class AssociadoController : ControllerBase
     {
         private readonly IServicoAssociado _servicoAssociado;
-        private readonly IServico<EnderecoDto, Endereco> _servico;
         private ILoggerService _logger;
 
-        public AssociadoController(IServicoAssociado servicoAssociado, IServico<EnderecoDto, Endereco> servico, ILoggerService logger)
+        public AssociadoController(IServicoAssociado servicoAssociado, ILoggerService logger)
         {
             _servicoAssociado = servicoAssociado;
-            _servico = servico;
             _logger = logger;
         }
 
-        // GET api/<AssociadoController>/5
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<AssociadoDto>> Obtem(Guid id)
         {
@@ -74,7 +74,42 @@ namespace DocAssociados.WebApi.Controllers
             return Ok(associadoEncontrado);
         }
 
-        // POST api/<AssociadoController>
+        [HttpGet("busca-associados")]
+        public async Task<ActionResult<ResultadoPaginado<AssociadoResumidoDto>>>BuscaAssociados([FromQuery] ParametrosDaPaginacao parametros)
+        {
+            _logger.Info($"Buscando associados");
+
+            var associadosDto = await _servicoAssociado.BuscaDtoComPaginacaoAsync(parametros,
+                it => it.Funcao.Equals((int)Funcoes.ASSOCIADO));
+
+            if (!associadosDto.Itens.Any())
+            {
+                _logger.Info($"Nenhum associado encontrado");
+                return NotFound("Nenhum associado encontrado");
+            }
+
+            return Ok(associadosDto);
+        }
+
+        [HttpGet("busca-membros")]
+        public async Task<ActionResult<ResultadoPaginado<AssociadoResumidoDto>>> BuscaMembros([FromQuery] ParametrosDaPaginacao parametros)
+        {
+            _logger.Info($"Buscando membros");
+
+            var membrosDto = await _servicoAssociado.BuscaDtoComPaginacaoAsync(parametros,
+                        it => it.Funcao.Equals((int)Funcoes.REPRESENTANTE)
+                           || it.Funcao.Equals((int)Funcoes.ADMINISTRADOR) 
+                           || it.Funcao.Equals((int)Funcoes.DIRETOR));
+
+            if (!membrosDto.Itens.Any())
+            {
+                _logger.Info($"Nenhum representante encontrado");
+                return NotFound("Nenhum representante encontrado");
+            }
+
+            return Ok(membrosDto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<AssociadoDto>> Post([FromForm] AssociadoDto associadoDto)
         {
@@ -97,13 +132,11 @@ namespace DocAssociados.WebApi.Controllers
             return new CreatedAtRouteResult("ObtemAssociadoComDetalhes", new { id = associadoAdicionado.Id }, associadoAdicionado);
         }
 
-        // PUT api/<AssociadoController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<AssociadoController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

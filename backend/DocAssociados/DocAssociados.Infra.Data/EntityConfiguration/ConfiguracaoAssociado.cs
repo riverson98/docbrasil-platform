@@ -13,6 +13,8 @@ public class ConfiguracaoAssociado : IEntityTypeConfiguration<Associado>
         builder.Property(it => it.Email).HasMaxLength(60).IsRequired();
         builder.Property(it => it.DataDeNascimento).IsRequired();
         builder.Property(it => it.Genero).HasMaxLength(1).IsRequired();
+        builder.Property(it => it.Funcao).HasMaxLength(1).IsRequired();
+        builder.Property(it => it.Status).HasMaxLength(1).IsRequired();
         builder.Property(it => it.CodigoRepresentante).HasMaxLength(4);
         builder.Property(it => it.CodigoRepresentanteSuperior).HasMaxLength(4).IsRequired();
         builder.Property(it => it.DataDeCadastro).IsRequired();

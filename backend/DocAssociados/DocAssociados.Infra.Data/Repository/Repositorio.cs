@@ -53,7 +53,9 @@ public class Repositorio<T> : IRepositorio<T> where T : class
             query = query.Where(predicate);
 
         var totalDeItens = await query.CountAsync();
-        var itens = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        var itens = await query.Skip((page - 1) * pageSize)
+                               .Take(pageSize)
+                               .ToListAsync();
 
         return new ResultadoPaginado<T>
         {

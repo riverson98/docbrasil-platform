@@ -4,7 +4,7 @@ using DocAssociados.Application.Extensions;
 using DocAssociados.Application.Interfaces;
 using DocAssociados.Domain.Entities;
 using DocAssociados.Domain.Interfaces;
-using Microsoft.Extensions.Logging;
+using DocAssociados.Service.Application.Enums;
 using System.Linq.Expressions;
 
 namespace DocAssociados.Application.Services;
@@ -20,7 +20,12 @@ public class ServicoAssociado : Servico<AssociadoDto, Associado>, IServicoAssoci
 
     public async Task<AssociadoDto> AdicionaAssociadoComEnderecoAsync(AssociadoDto associadoDto)
     {
+        associadoDto.Funcao = string.IsNullOrEmpty(associadoDto.CodigoRepresentante) 
+                              || associadoDto.CodigoRepresentante.Equals("null")
+                                                                    ? Funcoes.ASSOCIADO
+                                                                    : Funcoes.REPRESENTANTE;
         var EntidadeAssociado = _mapper.Map<Associado>(associadoDto);
+            
         var associadoAdicionado = _associadoRepositorio.AdicionaAssociadoComEndereco(EntidadeAssociado);
 
         await _unityOfWork.CommitAsync();
