@@ -9,7 +9,7 @@ import { PaginationParamsResponse } from "../../models/paginationParams/paginati
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'http://localhost:5142/associado';
+    apiUrl:string = 'https://appdocdobrasil.com.br/associado';
 
     constructor(private http:HttpClient) {
         
