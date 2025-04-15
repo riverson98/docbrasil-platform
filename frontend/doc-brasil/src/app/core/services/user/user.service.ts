@@ -1,13 +1,15 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { UserModel } from "../../models/user/userModel";
 import { Observable } from "rxjs";
+import { PaginationParamsRequest } from "../../models/paginationParams/paginationParamsRequest";
+import { PaginationParamsResponse } from "../../models/paginationParams/paginationParamsResponse";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'https://appdocdobrasil.com.br/associado';
+    apiUrl:string = 'http://localhost:5142/associado';
 
     constructor(private http:HttpClient) {
         
@@ -35,5 +37,29 @@ export class UserService {
         return this.http.get<UserModel>(
             `${this.apiUrl}/com-detalhes/${id}`
         );
+    }
+
+    getAssociates(params: PaginationParamsRequest): Observable<PaginationParamsResponse>{
+        const httpParams = new HttpParams({fromObject: {
+            Pagina:params.pagina,
+            QuantidadeDeItensPorPagina: params.quantidadeDeItensPorPagina,
+        }})
+
+        return this.http.get<PaginationParamsResponse>(
+            `${this.apiUrl}/busca-associados`,
+            {params: httpParams}
+        )
+    }
+
+    getMembers(params: PaginationParamsRequest): Observable<PaginationParamsResponse>{
+        const httpParams = new HttpParams({fromObject: {
+            Pagina:params.pagina,
+            QuantidadeDeItensPorPagina: params.quantidadeDeItensPorPagina,
+        }})
+
+        return this.http.get<PaginationParamsResponse>(
+            `${this.apiUrl}/busca-membros`,
+            {params: httpParams}
+        )
     }
 }

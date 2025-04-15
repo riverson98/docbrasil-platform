@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-created-modal',
@@ -10,9 +11,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class UserCreatedModalComponent {
 
-  constructor(private dialogRef: MatDialogRef<UserCreatedModalComponent>){}
+  constructor(private router: Router, private dialogRef: MatDialogRef<UserCreatedModalComponent>){}
 
   reload() {
+    this.dialogRef.close();
+  }
+
+  backToPage(){
     this.dialogRef.close();
   }
 }

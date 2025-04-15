@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { RegisterFormComponent } from './modules/pages/register-form/register-form.component';
+import { AssociatesComponent } from './modules/pages/home/associates/associates.component';
+import { RegisterModalComponent } from './modules/components/modals/register-modal/register-modal.component';
 
 export const routes: Routes = [
     {
@@ -8,13 +10,38 @@ export const routes: Routes = [
         component: RegisterFormComponent
     },
     {
-        path: "formulario-de-denuncia",
-        title: "DOC - Denuncia",
-        loadComponent: () => import("./modules/pages/report-form/report-form.component").then(m => m.ReportFormComponent)
+        path: "painel",
+        title: "DOC - Painel",
+        loadComponent: () => import("./modules/pages/home/home.component").then(m => m.HomeComponent),
+        children: [
+            { 
+                path: '', redirectTo: 'associados', pathMatch: 'full' 
+            },
+            {
+                path: "membros",
+                title: "DOC - Membros",
+                loadComponent: () => import("./modules/pages/home/members/members.component").then(m => m.MembersComponent)
+            },
+            {
+                path: "associados",
+                title: "DOC - Associados",
+                loadComponent: () => import("./modules/pages/home/associates/associates.component").then(m => m.AssociatesComponent)
+            },
+            {
+                path: "senha",
+                title: "DOC - Segurança",
+                loadComponent: () => import("./modules/pages/home/password/password.component").then(m => m.PasswordComponent)
+            },
+            {
+                path: "perfil",
+                title: "DOC - Perfil",
+                loadComponent: () => import("./modules/pages/home/profile/profile.component").then(m => m.ProfileComponent)
+            }
+        ]
     },
     {
-        path: "painel",
-        title: "DOC - Associados",
-        loadComponent: () => import("./modules/pages/home/home.component").then(m => m.HomeComponent)
+        path: "modal-de-cadastro",
+        title: "DOC - cadastro",
+        component: RegisterModalComponent
     }
 ];

@@ -9,6 +9,8 @@ public sealed class Associado
     public string Email { get; private set; }
     public DateOnly DataDeNascimento { get; private set; }
     public string Genero {  get; private set; } 
+    public int Funcao { get; private set; }
+    public int Status { get; private set; }
     public string Cpf {  get; private set; }
     public string CpfUploadUrl { get; private set; }
     public string TermoDeAdessaoUploadUrl { get; private set; }
@@ -20,17 +22,19 @@ public sealed class Associado
 
     public Associado() {}
 
-    public Associado(string nome, string email, DateOnly dataDeNascimento, string genero, string cpf,
+    public Associado(string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
                      string cpfUploadUrl ,string codigoRepresentante, string codigoRepresentanteSuperior, Endereco endereco,
                      string termoDeAdessaoUrl, string fichaAssociacaoUrl)
     {
-        ValidaDominio(nome, email, dataDeNascimento, genero, cpf, codigoRepresentante, 
+        ValidaDominio(nome, email, dataDeNascimento, genero, funcao, status, cpf, codigoRepresentante, 
             codigoRepresentanteSuperior, cpfUploadUrl, termoDeAdessaoUrl, fichaAssociacaoUrl);
 
         Nome = nome;
         Email = email;
         DataDeNascimento = dataDeNascimento;
         Genero = genero;
+        Funcao = funcao;
+        Status = status;
         Cpf = cpf;
         CodigoRepresentante = codigoRepresentante;
         CodigoRepresentanteSuperior = codigoRepresentanteSuperior;
@@ -41,17 +45,20 @@ public sealed class Associado
     }
 
 
-    public void Atualiza(Guid id, string nome, string email, DateOnly dataDeNascimento, string genero, string cpf,
+    public void Atualiza(Guid id, string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
                         string cpfUploadUrl, string codigoRepresentante, string codigoRepresentanteSuperior,
                         string termoDeAdessaoUrl, string fichaAssociacaoUrl, Endereco endereco)
     {
-        ValidaDominio(nome, email, dataDeNascimento, genero, cpf, cpfUploadUrl, codigoRepresentante, codigoRepresentanteSuperior,
+        ValidaDominio(nome, email, dataDeNascimento, genero, funcao, status, cpf, cpfUploadUrl, codigoRepresentante, codigoRepresentanteSuperior,
             termoDeAdessaoUrl, fichaAssociacaoUrl);
+
         Id = id;
         Nome = nome;
         Email = email;
         DataDeNascimento = dataDeNascimento;
         Genero = genero;
+        Funcao = funcao;
+        Status = status;
         Cpf = cpf;
         CodigoRepresentante = codigoRepresentante;
         CodigoRepresentanteSuperior = codigoRepresentanteSuperior;
@@ -61,7 +68,7 @@ public sealed class Associado
         FichaAssociacaoUploadUrl = fichaAssociacaoUrl;
     }
 
-    private void ValidaDominio(string nome, string email, DateOnly dataDeNascimento, string genero, string cpf,
+    private void ValidaDominio(string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
                                 string cpfUploadUrl, string codigoRepresentante, string codigoRepresentanteSuperior,
                                 string termoDeAdessaoUrl, string fichaAssociacaoUrl)
     {
@@ -76,6 +83,12 @@ public sealed class Associado
 
         ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(genero),
             "O genêro é obrigatório");
+
+        ValidacaoDeDominioExecption.When(funcao < 0,
+            "A função é obrigatória");
+
+        ValidacaoDeDominioExecption.When(status < 0,
+            "O status é obrigatório");
 
         ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(cpf),
             "O cpf é obrigatório");

@@ -1,5 +1,6 @@
 ﻿using DocAssociados.Application.Interfaces;
 using DocAssociados.Service.Application.DTOs;
+using DocAssociados.Service.Application.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace DocAssociados.Application.DTOs;
@@ -30,11 +31,13 @@ public class AssociadoDto : IUploadable
             genero = string.IsNullOrEmpty(value) ? string.Empty : value.Substring(0, 1).ToUpper();
         }
     }
+    public Funcoes Funcao { get; set; }
+    public Status Status { get; set; } = Status.Ativo;
     public string Cpf { get; set; }
     public IFormFile FotoDoDocumento { get; set; }
     public string? CpfUploadUrl { get; set; }
     public string? TermoDeAdessaoUploadUrl { get; set; }
-    public string CodigoRepresentante { get; set; }
+    public string? CodigoRepresentante { get; set; }
     public string? CodigoRepresentanteSuperior { get; set; }
     public EnderecoDto EnderecoDto { get; set; }
     public FichaAssociadoDto FichaAssociadoDto { get; set; }

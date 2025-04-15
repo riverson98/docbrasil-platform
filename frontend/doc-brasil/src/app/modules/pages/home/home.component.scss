@@ -12,7 +12,7 @@ body {
 
 .home {
     width: 100vw;
-    height: 92vh;
+    min-height: 92vh;
     display: flex;
     padding: 2rem 20rem;
     gap: 5rem;
@@ -116,14 +116,19 @@ body {
 
             &__table {
                 width: 100%;
+                border-collapse: collapse;
+
+                th,td {
+                    text-align: center;
+                    padding: 2rem 1rem;
+                    width: 25%;
+
+                    &:first-child{
+                        text-align: left;
+                    }
+                }
 
                 &--head {
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 1rem 2rem; 
-
                     font-size: var(--font-size-st-sc);
                     position: relative;
 
@@ -133,6 +138,7 @@ body {
                         gap: 1rem;
                         transition: all ease-in-out .3s;
                         padding: .5rem;
+                        justify-content: center;
 
                         i {
                             font-size: var(--font-size-st-m);
@@ -157,60 +163,43 @@ body {
                 }
 
                 &--body {
-                    width: 100%;
-
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 1rem 2rem;
                     font-size: var(--font-size-st-sc);
-                    transition: all ease-in-out .3s;
 
-                    &__user-info {
-                        flex-basis: 10;
-                        display: flex;
-                        flex-direction: column;
+                    &__container{
+                        transition: all ease-in-out .3s;
+                        position: relative;
 
-
-
-                        p {
-                            color: #8f8f8f;
+                        &--user-info {
+                            display: flex;
+                            flex-direction: column;
+    
+                            p {
+                                color: #8f8f8f;
+                            }
                         }
-                    }
+    
+                        &--trash {
+                            color: red;
+    
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
 
-                    &__role {
-                        display: flex;
-                        gap: 1rem;
-                        border: none;
-                        background-color: transparent;
-                        font-size: var(--font-size-st-sc);
-                        padding: 2rem;
-                        
-                        align-items: center;
-                        color: #3AA3D7;
-
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            height: 1px;
+                            width: 100%;
+                            background-color: var(--color-stroke);
+                            top: 100%;
+                            left: 0;
+                        }
+                            
                         &:hover {
+                            background-color: var(--color-stroke);
                             cursor: pointer;
                         }
-
-                        &:focus {
-                            border: none;
-                            border-color: var(--color-stroke);
-                            background-color: var(--color-primary);
-                        }
-                    }
-
-                    &__trash {
-                        color: red;
-
-                        &:hover {
-                            cursor: pointer;
-                        }
-                    }
-
-                    &:hover {
-                        background-color: var(--color-stroke);
-                        cursor: pointer;
                     }
                 }
             }
