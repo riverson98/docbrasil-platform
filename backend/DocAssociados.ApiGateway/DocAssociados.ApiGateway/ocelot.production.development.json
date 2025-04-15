@@ -10,9 +10,7 @@
           "Port": 8080
         }
       ],
-      "DownstreamHeaderTransform": {
-        "X-Api-Key": "a0OWFZ7zVSAKuR6ZCyF6pr2UXGAuTdQwdibpalLfPy8="
-      }
+      "DelegatingHandlers": [ "AuthApiKeyHandler" ]
     },
     {
       "UpstreamPathTemplate": "/associado/{everything}",
@@ -24,9 +22,7 @@
           "Port": 8080
         }
       ],
-      "DownstreamHeaderTransform": {
-        "X-Api-Key": "IRBSCgBhWZtwuF5FNzqrIiZR3yabvZTQ5B2PFf8So+c="
-      }
+      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ]
     }
   ]
 }

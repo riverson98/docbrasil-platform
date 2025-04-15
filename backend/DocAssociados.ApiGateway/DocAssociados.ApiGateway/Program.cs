@@ -31,10 +31,42 @@ if (builder.Environment.IsProduction())
     builder.Services.AddTransient<AuthApiKeyHandler>();
     builder.Services.AddTransient<AssociadoApiKeyHandler>();
 }
+else
+{
+    var apiKeyAuth = "a0OWFZ7zVSAKuR6ZCyF6pr2UXGAuTdQwdibpalLfPy8=";
+    var apiKeyAssociados = "IRBSCgBhWZtwuF5FNzqrIiZR3yabvZTQ5B2PFf8So+c=";
+
+    builder.Services.AddSingleton(new ApiKeyContainer
+    {
+        AuthKey = apiKeyAuth,
+        AssociadoKey = apiKeyAssociados
+    });
+
+    builder.Services.AddTransient<AuthApiKeyHandler>();
+    builder.Services.AddTransient<AssociadoApiKeyHandler>();
+}
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// Configure ocelot
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddJsonFile($"ocelot.production.development.json", optional: false, reloadOnChange: true);
+    builder.Services.AddOcelot()
+        .AddDelegatingHandler<AssociadoApiKeyHandler>()
+        .AddDelegatingHandler<AuthApiKeyHandler>();
+}
+else
+{
+    builder.Configuration.AddJsonFile($"ocelot.production.json", optional: false, reloadOnChange: true);
+    builder.Services.AddOcelot()
+        .AddDelegatingHandler<AssociadoApiKeyHandler>()
+        .AddDelegatingHandler<AuthApiKeyHandler>();
+}
 
 //Configure Cors
 builder.Services.AddCors(options =>
@@ -59,17 +91,6 @@ builder.Services.AddCors(options =>
     }
 });
 
-// Configure ocelot
-builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-
-if(builder.Environment.IsDevelopment())
-    builder.Configuration.AddJsonFile($"ocelot.production.development.json", optional: false, reloadOnChange: true);
-else
-    builder.Configuration.AddJsonFile($"ocelot.production.json", optional: false, reloadOnChange: true);
-
-builder.Services.AddOcelot()
-    .AddDelegatingHandler<AssociadoApiKeyHandler>()
-    .AddDelegatingHandler<AuthApiKeyHandler>();
 var app = builder.Build();
 
 app.UseCors("FrontendPolicy");
