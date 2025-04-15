@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { RegisterFormComponent } from './modules/pages/register-form/register-form.component';
-import { AssociatesComponent } from './modules/pages/home/associates/associates.component';
-import { RegisterModalComponent } from './modules/components/modals/register-modal/register-modal.component';
 
 export const routes: Routes = [
     {
@@ -39,9 +37,4 @@ export const routes: Routes = [
             }
         ]
     },
-    {
-        path: "modal-de-cadastro",
-        title: "DOC - cadastro",
-        component: RegisterModalComponent
-    }
 ];
