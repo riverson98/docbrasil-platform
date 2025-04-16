@@ -5,4 +5,5 @@ public class AzureBlobStorageOpcoes
     public string? ServicoBlobUrl { get; set; }
     public string? NomeDoContainer { get; set; }
     public string? NomeDaConta { get; set; }
+    public bool UsaSasToken { get; set; }
 }

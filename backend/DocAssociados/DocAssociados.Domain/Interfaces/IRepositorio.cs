@@ -12,5 +12,6 @@ public interface IRepositorio<T> where T : class
     T Atualiza(T entity);
     T Deleta(T entity);
     Task<IEnumerable<T>> AdicionaTodos(IEnumerable<T> entities);
-    Task<ResultadoPaginado<T>> BuscaEntidadeComPaginacaoAsync(int page, int pageSize, Expression<Func<T, bool>>? predicate = null);
+    Task<ResultadoPaginado<T>> BuscaEntidadeComPaginacaoAsync(int page, int pageSize,
+        Expression<Func<T, bool>>? filtroDinamico = null, Expression<Func<T, bool>>? predicate = null);
 }
