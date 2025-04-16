@@ -42,7 +42,9 @@ public class Repositorio<T> : IRepositorio<T> where T : class
         return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
     }
 
-    public async Task<ResultadoPaginado<T>> BuscaEntidadeComPaginacaoAsync(int page, int pageSize, Expression<Func<T, bool>>? predicate = null)
+    public async Task<ResultadoPaginado<T>> BuscaEntidadeComPaginacaoAsync(int page, int pageSize,
+        Expression<Func<T, bool>>? filtroDinamico = null, 
+        Expression<Func<T, bool>>? predicate = null)
     {
         page = page < 1 ? 1 : page;
         pageSize = pageSize < 1 ? 10 : pageSize;
@@ -51,6 +53,9 @@ public class Repositorio<T> : IRepositorio<T> where T : class
 
         if (predicate != null)
             query = query.Where(predicate);
+
+        if(filtroDinamico != null)
+            query = query.Where(filtroDinamico);
 
         var totalDeItens = await query.CountAsync();
         var itens = await query.Skip((page - 1) * pageSize)

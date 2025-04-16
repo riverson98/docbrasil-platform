@@ -37,13 +37,22 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
                 .Select(async dto =>
                 {
                     var nomeDoArquivo = $"user-{email}/{dto.SufixoBlob}";
-                    var sasToken = await CriaSasToken(nomeDoArquivo);
+                    
                     
                     using (var stream = dto.FotoDoArquivo.OpenReadStream())
                     {
+                        BlobClient blobClient;
+                        string baseUrl;
 
-                        var baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
-                        var blobClient = new BlobClient(new Uri(baseUrl));
+                        if (_opcoes.UsaSasToken)
+                        {
+                            var sasToken = await CriaSasToken(nomeDoArquivo);
+                            baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
+                        }
+                        else
+                            baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
+
+                        blobClient = new BlobClient(new Uri(baseUrl));
 
                         await blobClient.UploadAsync(stream, true);
 

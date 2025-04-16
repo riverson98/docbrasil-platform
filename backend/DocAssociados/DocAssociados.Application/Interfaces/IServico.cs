@@ -15,5 +15,5 @@ public interface IServico<TDto, TEntidade>
     Task DeletaAsync(TDto dto);
     Task UploadImagemAsync(IEnumerable<IUploadable> dtos, string? email);
     Task<ResultadoPaginado<TDto>> BuscaDtoComPaginacaoAsync(ParametrosDaPaginacao parametros,
-        Expression<Func<TDto, bool>>? predicato = null);
+        Expression<Func<TDto, bool>>? predicato = null, Expression<Func<TDto, bool>>? filtro = null);
 }

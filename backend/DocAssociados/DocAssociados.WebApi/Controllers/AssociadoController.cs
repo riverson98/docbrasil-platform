@@ -6,6 +6,7 @@ using DocAssociados.Service.Application.DTOs;
 using DocAssociados.Service.Application.Enums;
 using DocAssociados.Service.Infra.CrossCutting.Logs;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,12 +76,20 @@ namespace DocAssociados.WebApi.Controllers
         }
 
         [HttpGet("busca-associados")]
-        public async Task<ActionResult<ResultadoPaginado<AssociadoResumidoDto>>>BuscaAssociados([FromQuery] ParametrosDaPaginacao parametros)
+        public async Task<ActionResult<ResultadoPaginado<Associado>>>BuscaAssociados([FromQuery] ParametrosDaPaginacao parametros)
         {
             _logger.Info($"Buscando associados");
 
+            Expression<Func<AssociadoDto, bool>>? filtro = null;
+
+            if (!string.IsNullOrEmpty(parametros.Query))
+            {
+                filtro = it => it.Nome.Contains(parametros.Query) ||
+                                   it.Email.Contains(parametros.Query);
+            }
+
             var associadosDto = await _servicoAssociado.BuscaDtoComPaginacaoAsync(parametros,
-                it => it.Funcao.Equals((int)Funcoes.ASSOCIADO));
+                it => it.Funcao.Equals((int)Funcoes.ASSOCIADO), filtro);
 
             if (!associadosDto.Itens.Any())
             {
@@ -96,10 +105,19 @@ namespace DocAssociados.WebApi.Controllers
         {
             _logger.Info($"Buscando membros");
 
+            Expression<Func<AssociadoDto, bool>>? filtro = null;
+
+            if (!string.IsNullOrEmpty(parametros.Query))
+            {
+                filtro = it => it.Nome.Contains(parametros.Query) ||
+                                   it.Email.Contains(parametros.Query);
+            }
+
             var membrosDto = await _servicoAssociado.BuscaDtoComPaginacaoAsync(parametros,
                         it => it.Funcao.Equals((int)Funcoes.REPRESENTANTE)
                            || it.Funcao.Equals((int)Funcoes.ADMINISTRADOR) 
-                           || it.Funcao.Equals((int)Funcoes.DIRETOR));
+                           || it.Funcao.Equals((int)Funcoes.DIRETOR),
+                        filtro);
 
             if (!membrosDto.Itens.Any())
             {

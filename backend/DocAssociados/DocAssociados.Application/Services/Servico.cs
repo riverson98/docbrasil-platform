@@ -49,15 +49,20 @@ public class Servico<TDto, TEntidade> : IServico<TDto, TEntidade>
         return _mapper.Map<IEnumerable<TDto>>(entidadesEncontradas);
     }
 
-    public async Task<ResultadoPaginado<TDto>> BuscaDtoComPaginacaoAsync(ParametrosDaPaginacao parametros, Expression<Func<TDto, bool>>? predicato = null)
+    public async Task<ResultadoPaginado<TDto>> BuscaDtoComPaginacaoAsync(ParametrosDaPaginacao parametros, 
+        Expression<Func<TDto, bool>>? predicato = null, Expression<Func<TDto, bool>>? filtro = null)
     {
         Expression<Func<TEntidade, bool>>? predicatoDaEntidade = null;
+        Expression<Func<TEntidade, bool>>? filtroDaEntidade = null;
 
         if (predicato != null)
             predicatoDaEntidade = predicato.ConvertExpression<TDto, TEntidade>();
+        
+        if (filtro != null)
+            filtroDaEntidade = filtro.ConvertExpression<TDto, TEntidade>();
 
         var resultadoPaginadoDaEntidade = await _repositorio.BuscaEntidadeComPaginacaoAsync(parametros.Pagina,
-                                                        parametros.QuantidadeDeItensPorPagina, predicatoDaEntidade);
+                                                        parametros.QuantidadeDeItensPorPagina, predicatoDaEntidade, filtroDaEntidade);
 
         return _mapper.Map<ResultadoPaginado<TDto>>(resultadoPaginadoDaEntidade);
     }

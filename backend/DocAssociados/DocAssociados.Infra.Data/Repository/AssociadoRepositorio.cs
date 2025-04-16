@@ -2,7 +2,6 @@
 using DocAssociados.Domain.Interfaces;
 using DocAssociados.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace DocAssociados.Infra.Data.Repository;
