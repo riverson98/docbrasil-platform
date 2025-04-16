@@ -1,51 +1,17 @@
-<table class="associates-table">
-    <thead class="associates-table__head">
-        <tr>
-            <th>Nome</th>
-            <th>Status</th>
-            <th>Função</th>
-
-            <th>
-                <div class="associates-table__head--add" (click)="openRegisterModal()">
-                    <i class="fa-solid fa-plus"></i>
-                    <p>Adicionar associados</p>
-                </div>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody class="associates-table__body">
-        <tr class="associates-table__body--container" *ngFor="let item of associatesData">
-            <td>
-                <div class="associates-table__body--container__user-info">
-                    <h3 class="associates-table__body--container__user-info--name">
-                        {{ item.nome }}
-                    </h3>
-
-                    <p>
-                        {{ item.email }}
-                    </p>
-                </div>
-            </td>
-
-            <td>
-                <span [ngClass]="getStatus(item.status)">
-                     {{ item.status | status }}
-                </span>
-            </td>
-            
-            <td>
-                <p>{{ item.funcao | function }}</p>
-            </td>
-
-            <td>
-                <i class="fa-solid fa-trash associates-table__body--container__trash"></i>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (pageChange)="onPageChange($event)">
-</app-pagination>
+<section class="associates"> 
+    <div class="associates__table">
+        <app-painel-title
+            title="Associados"
+            description="Cadastre ou gerencie os associados"
+            (filterChanged)="onFilterChanged($event)">
+        </app-painel-title>
+        
+        <app-table 
+            (requestDataUpdate)="handleRegisterModal()"
+            [data]="associatesData"
+            [totalPages]="totalPages"
+            [currentPage]="currentPage"
+            (pageChange)="handlePageChange($event)">
+        </app-table>
+    </div>
+</section>

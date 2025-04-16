@@ -1,51 +1,17 @@
-<table class="member-table">
-    <thead class="member-table__head">
-        <tr>
-            <th>Nome</th>
-            <th>Status</th>
-            <th>Função</th>
-
-            <th>
-                <div class="member-table__head--add" (click)="openRegisterModal()">
-                    <i class="fa-solid fa-plus"></i>
-                    <p>Adicionar membros</p>
-                </div>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody class="member-table__body">
-        <tr class="member-table__body--container" *ngFor="let item of membersData">
-            <td>
-                <div class="member-table__body--container__user-info">
-                    <h3 class="member-table__body--container__user-info--name">
-                        {{ item.nome }}
-                    </h3>
-
-                    <p>
-                        {{ item.email }}
-                    </p>
-                </div>
-            </td>
-
-            <td>
-                <span [ngClass]="getStatus(item.status)">
-                     {{ item.status | status }}
-                </span>
-            </td>
-            
-            <td>
-                <p>{{ item.funcao | function }}</p>
-            </td>
-
-            <td>
-                <i class="fa-solid fa-trash member-table__body--container__trash"></i>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (pageChange)="onPageChange($event)">
-</app-pagination>
+<section class="members"> 
+    <div class="members__table">
+        <app-painel-title
+            title="Membros"
+            description="Cadastre ou gerencie os membros da equipe"
+            (filterChanged)="onFilterChanged($event)">
+        </app-painel-title>
+        
+        <app-table 
+            (requestDataUpdate)="handleRegisterModal()"
+            [data]="membersData"
+            [totalPages]="totalPages"
+            [currentPage]="currentPage"
+            (pageChange)="handlePageChange($event)">
+        </app-table>
+    </div>
+</section>

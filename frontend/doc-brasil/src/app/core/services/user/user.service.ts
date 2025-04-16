@@ -43,6 +43,7 @@ export class UserService {
         const httpParams = new HttpParams({fromObject: {
             Pagina:params.pagina,
             QuantidadeDeItensPorPagina: params.quantidadeDeItensPorPagina,
+            Query: params.query
         }})
 
         return this.http.get<PaginationParamsResponse>(
@@ -55,6 +56,7 @@ export class UserService {
         const httpParams = new HttpParams({fromObject: {
             Pagina:params.pagina,
             QuantidadeDeItensPorPagina: params.quantidadeDeItensPorPagina,
+            Query: params.query
         }})
 
         return this.http.get<PaginationParamsResponse>(

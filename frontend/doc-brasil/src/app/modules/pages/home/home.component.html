@@ -1,6 +1,6 @@
 <body class="container">
     <app-navbar></app-navbar>
-    <h1>{{ state.getTitle() | async  }}</h1>
+    <h1>DOC do Brasil</h1>
 
     <section class="home">
         <section class="home__content-profile">
@@ -42,16 +42,6 @@
         </section>
         
         <section class="home__content">
-            <div class="home__content--description">
-                <h3 class="home__content--description__title">
-                    {{ state.getTitle() | async }}
-                </h3>
-
-                <p class="home__content--description__para">
-                    {{ state.getSubscription() | async }}
-                </p>
-            </div>
-
             <div class="home__content--workspace">
                 <router-outlet></router-outlet>
             </div>

@@ -1,0 +1,46 @@
+.painel-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    
+    padding: 2rem;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-stroke);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+    &__title-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        &--title {
+            font-size: var(--font-size-st-sc);
+            font-weight: 700;
+        }
+        
+        &--para {
+            color: #8f8f8f;
+        }
+    }
+    
+    &__search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        border: 1px solid var(--color-secondary);
+        padding: 1rem 2rem;
+        border-radius: 2rem;
+        font-size: var(--font-size-st-sc);
+        width: 22%;
+
+        input {
+            width: 100%;
+            font-size: var(--font-size-st-sc);
+        }
+
+        i {
+            color: var(--color-secondary);
+        }
+    }
+}

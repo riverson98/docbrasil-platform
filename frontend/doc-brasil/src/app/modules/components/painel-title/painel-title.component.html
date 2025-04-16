@@ -1,0 +1,17 @@
+<div class="painel-title">
+    <div class="painel-title__title-container">
+        <h3 class="painel-title__title-container--title">
+            {{ title }}
+        </h3>
+
+        <p class="painel-title__title-container--para">
+            {{ description }}
+        </p>
+    </div>
+
+    <div class="painel-title__search-container">
+        <input type="text"  [formControl]="filterControl" placeholder="Digite o nome ou o email" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+</div>
+

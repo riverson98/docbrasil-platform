@@ -1,49 +1,41 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { DashboardStateService } from '../../../../core/services/behaviorService/DashboardStateService.service';
 import { UserService } from '../../../../core/services/user/user.service';
 import { LoadingService } from '../../../../core/services/loading/loading.service';
-import { finalize, Observable } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
 import { PaginationParamsResponse } from '../../../../core/models/paginationParams/paginationParamsResponse';
 import { PaginationParamsRequest } from '../../../../core/models/paginationParams/paginationParamsRequest';
-import { AssociateSummary } from '../../../../core/models/user/associateSummary';
 import { CommonModule } from '@angular/common';
 import { RegisterModalComponent } from '../../../components/modals/register-modal/register-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { getStatusClass } from '../../../../script/_global-scripts';
-import { StatusPipe } from "../../../../core/pipes/status.pipe";
-import { FunctionPipe } from "../../../../core/pipes/function.pipe";
-import { PaginationComponent } from "../../../components/pagination/pagination.component";
+import { PainelTitleComponent } from "../../../components/painel-title/painel-title.component";
+import { TableComponent } from "../../../components/table/table.component";
 
 @Component({
   selector: 'app-members',
   standalone: true,
   imports: [
     CommonModule,
-    StatusPipe,
-    FunctionPipe,
-    PaginationComponent
+    PainelTitleComponent,
+    TableComponent
 ],
   templateUrl: './members.component.html',
   styleUrl: './members.component.scss'
 })
 export class MembersComponent implements AfterViewInit{
-  associates: AssociateSummary[] = [];
-  currentPage = 1;
-  pageSize = 0;
-  itensPerPage = 10;
+  currentPage: number = 1;
+  pageSize: number = 0;
+  itensPerPage: number = 10;
   membersData: any[] = [];
-  totalPages = 1;
+  totalPages:number = 1;
+  query: string = '';
   
   constructor(public state: DashboardStateService, private service: UserService, 
     private loading: LoadingService, private dialog: MatDialog,) {}
   
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.state.setTitle("Membros");
-      this.state.setSubscription("Cadastre ou gerencie os membros da equipe")
-    })
       this.loading.show();
-      this.loadMembers(this.currentPage, this.itensPerPage).subscribe({
+      this.loadMembers(this.currentPage, this.itensPerPage, '').subscribe({
       next: (response) => {
         this.membersData = response.itens;
         this.totalPages = response.totalDePaginas;
@@ -52,42 +44,45 @@ export class MembersComponent implements AfterViewInit{
     })
   }
     
-  loadMembers(page: number, itensPerPage: number): Observable<PaginationParamsResponse> {
+  loadMembers(page: number, itensPerPage: number, query: string): Observable<PaginationParamsResponse> {
     const params: PaginationParamsRequest = {
       pagina: page,
-      quantidadeDeItensPorPagina: itensPerPage
+      quantidadeDeItensPorPagina: itensPerPage,
+      query: query
     }
     return this.service.getMembers(params).pipe(
       finalize(() => this.loading.hide())
     );
   }
   
-  reloadData(page: number, itensPerPage: number): void {
-    this.loadMembers(page, itensPerPage).subscribe({
-      next: (response) => {
-        this.membersData = response.itens;
-      },
-      error: (err) => console.log(err)
-    });
+  reloadData(page: number, itensPerPage: number, query:string): Observable<any> {
+    this.query = query;
+    return this.loadMembers(page, itensPerPage, query);
   }
 
-  openRegisterModal() {
+  handleRegisterModal() {
     const dialogRef = this.dialog.open(RegisterModalComponent, {
       width: '50%',
       height: 'auto',
     })
 
     dialogRef.afterClosed().subscribe(() => {
-      this.reloadData(this.currentPage, this.itensPerPage)
+      this.reloadData(this.currentPage, this.itensPerPage, '')
+      .subscribe((response) => this.membersData = response.itens)
     });
   }
 
-  onPageChange(newPage: number) {
+  handlePageChange(newPage: number) {
     this.currentPage = newPage;
-    this.reloadData(newPage, this.itensPerPage);
+    this.reloadData(newPage, this.itensPerPage, this.query)
+    .subscribe((response) => this.membersData = response.itens);
   };
 
-  getStatus(status: number): string { 
-    return getStatusClass(status)
+  onFilterChanged(filter: string){
+    this.reloadData(this.currentPage, this.itensPerPage, filter)
+    .subscribe((response) => {
+      this.membersData = response.itens;
+      this.totalPages = response.totalDePaginas;
+    });
   }
 }
