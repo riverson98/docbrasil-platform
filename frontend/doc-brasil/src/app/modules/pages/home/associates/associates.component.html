@@ -8,10 +8,12 @@
         
         <app-table 
             (requestDataUpdate)="handleRegisterModal()"
+            (onUserUpdated)="reloadPage()"
             [data]="associatesData"
             [totalPages]="totalPages"
             [currentPage]="currentPage"
-            (pageChange)="handlePageChange($event)">
+            (pageChange)="handlePageChange($event)"
+            addtitle="associados">
         </app-table>
     </div>
 </section>

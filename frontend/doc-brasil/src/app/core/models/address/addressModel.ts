@@ -7,5 +7,5 @@ export interface AddressModel {
     cidade: string;
     estado: string;
     fotoDoComprovante: File;
-    urlDaFotoDoComprovante: string;
+    comprovanteDeResidenciaUpload: string;
 }

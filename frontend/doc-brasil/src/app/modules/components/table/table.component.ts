@@ -3,6 +3,8 @@ import { StatusPipe } from "../../../core/pipes/status.pipe";
 import { FunctionPipe } from "../../../core/pipes/function.pipe";
 import { getStatusClass } from '../../../script/_global-scripts';
 import { CommonModule } from '@angular/common';
+import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table',
@@ -17,10 +19,14 @@ import { CommonModule } from '@angular/common';
 })
 export class TableComponent {
   @Input({alias: 'data', required: true}) data:any[] = [];
-  @Output() requestDataUpdate = new EventEmitter<void>();
   @Input({alias: 'currentPage', required: true}) currentPage!: number;
   @Input({alias: 'totalPages', required: true}) totalPages!: number;
+  @Input({alias: 'addtitle', required: true}) addtitle!: string;
+  @Output() requestDataUpdate = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<number>();
+  @Output() onUserUpdated = new EventEmitter<number>();
+
+  constructor (private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
@@ -46,5 +52,16 @@ export class TableComponent {
     if (this.currentPage < this.totalPages) {
       this.pageChange.emit(this.currentPage + 1);
     }
+  }
+
+  showUserDetails(id:string){
+    const associate = this.data.find(a => a.id === id);
+    this.dialog.open(RegisterModalComponent, {
+      data: associate,
+      width: '50%',
+      height: 'auto'
+    }).afterClosed().subscribe(() => {
+      this.onUserUpdated.emit();
+    });
   }
 }

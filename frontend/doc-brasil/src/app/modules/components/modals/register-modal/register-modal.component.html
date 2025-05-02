@@ -67,12 +67,23 @@
                            maxlength="4"
                     />
                 </mat-form-field>
+                
+                <div *ngIf="personalData.get('documentLink')?.value" class="register-form__content--register__content--stepper__step--form__termos">
+                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
+                        <i class="fa-regular fa-file"></i>
+                            <a [href]="personalData.get('documentLink')?.value"
+                               download target="_blank">
+                               Ver documento
+                            </a>
+                    </div>
+                </div>
 
                 <button class="file-button margin" 
                         (click)="documentInput.click()"
                         [class.invalid]="personalData.get('documentPhoto')?.invalid && personalData.get('documentPhoto')?.touched">
                     <mat-icon>upload</mat-icon> Selecionar documento
                 </button>
+
                 <input type="file" 
                        #documentInput 
                        (change)="onFileSelected($event, personalData, 'documentPhoto')" 
@@ -135,6 +146,16 @@
                            maxlength="2"
                            >
                 </mat-form-field>
+
+                <div *ngIf="addressData.get('proofLink')?.value" class="register-form__content--register__content--stepper__step--form__termos">
+                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
+                        <i class="fa-regular fa-file"></i>
+                            <a [href]="addressData.get('proofLink')?.value"
+                                download target="_blank">
+                               Ver comprovante
+                            </a>
+                    </div>
+                </div>
 
                 <button class="file-button" 
                         (click)="proofInput.click()"
@@ -221,6 +242,21 @@
                        multiple
                        hidden 
                        />
+
+                <div *ngIf="termData.get('associativeTerm')?.value" class="register-form__content--register__content--stepper__step--form__termos">
+                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
+                        <i class="fa-regular fa-file"></i>
+                            <a [href]="termData.get('associativeTerm')?.value"
+                                download target="_blank">
+                                    Ver ficha associativa
+                            </a>
+   
+                            <a [href]="termData.get('contractTerm')?.value"
+                                download target="_blank">
+                                    Ver termo de adesão
+                            </a>
+                        </div>
+                    </div>
                 <div>
                     <button class="next" (click)="handleClick($event, termData)">Cadastrar</button>
                 </div>

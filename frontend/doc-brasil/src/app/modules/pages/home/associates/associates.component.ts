@@ -92,4 +92,11 @@ export class AssociatesComponent implements AfterViewInit {
       this.totalPages = response.totalDePaginas;
     });
   }
+
+  reloadPage() {
+    this.reloadData(this.currentPage, this.itensPerPage, '')
+    .subscribe((response) => {
+      this.associatesData = response.itens;
+    })
+  }
 }

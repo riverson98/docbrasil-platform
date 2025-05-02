@@ -1,4 +1,6 @@
 import { AddressModel } from "../address/addressModel";
+import { FichaAssociadoDto } from "./fichaAssociadoDto";
+import { TermoAdesaoDto } from "./termoAdesaoDto";
 
 export interface UserModel {
     id: string;
@@ -8,9 +10,11 @@ export interface UserModel {
     genero: string;
     cpf: string;
     fotoDoDocumento: File;
-    urlDaFotoDoDocumento: string;
+    cpfUploadUrl: string;
     codigoRepresentante: string;
     codigoRepresentanteSuperior: string;
-    endereco: AddressModel;
+    enderecoDto: AddressModel;
     dataDeCadastro: string;
+    fichaAssociadoDto: FichaAssociadoDto; 
+    termoAdesaoDto: TermoAdesaoDto;
 }

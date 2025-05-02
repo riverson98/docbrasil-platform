@@ -21,6 +21,12 @@ export class UserService {
             );
     }
 
+    updateUser(userData: FormData, userId:string): Observable<UserModel> {
+        return this.http.put<UserModel>(
+                `${this.apiUrl}/${userId}`, userData
+            );
+    }
+
     getUserById(id: string): Observable<UserModel>{
         return this.http.get<UserModel>(
             `${this.apiUrl}/${id}`

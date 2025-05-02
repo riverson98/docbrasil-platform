@@ -1,6 +1,6 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, inject, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { validateCpf } from '../../../../script/_global-scripts';
 import { UserService } from '../../../../core/services/user/user.service';
 import { LoadingService } from '../../../../core/services/loading/loading.service';
@@ -16,6 +16,8 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MAT_DATE_LOCALE, NativeDateAdapter, provideNativeDateAdapter } from '@angular/material/core';
+import { UserModel } from '../../../../core/models/user/userModel';
+import { AddressService } from '../../../../core/services/address/address.service';
 
 @Component({
   selector: 'app-register-modal',
@@ -42,17 +44,69 @@ import { MAT_DATE_LOCALE, NativeDateAdapter, provideNativeDateAdapter } from '@a
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.scss'
 })
-export class RegisterModalComponent {
+export class RegisterModalComponent implements AfterViewInit{
   private _formBuilder = inject(FormBuilder);
   fileName: string = '';
   isRepresentation: boolean = false;
   showErrorPopup: boolean = false;
   errorMessage: string = '';
   errorDocumentRequired: boolean = false;
+  addressPhoto:string = ''; 
+  addressId:number = 0; 
 
   constructor(private dialog: MatDialog, 
-    private service: UserService, private loading: LoadingService, public dialogRef: MatDialogRef<RegisterModalComponent>
-  ) {}
+    private service: UserService, private loading: LoadingService, public dialogRef: MatDialogRef<RegisterModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public associate: UserModel, private addressService: AddressService) {}
+
+  ngAfterViewInit() {
+    if (this.associate) {
+      this.personalData.get('documentPhoto')?.clearValidators();
+      this.personalData.get('documentPhoto')?.updateValueAndValidity();
+      this.addressData.get('proofOfResidence')?.clearValidators();
+      this.addressData.get('proofOfResidence')?.updateValueAndValidity();
+
+      this.loading.show();
+
+      this.addressService.getAddressByAssociateId(this.associate.id)
+      .pipe(
+        finalize(() => this.loading.hide())
+      ).subscribe({
+        next: (response) => {
+          console.log("Valor do response 1: ", response)
+          this.personalData.patchValue({
+            name: this.associate.nome,
+            email: this.associate.email,
+            birthdate: this.associate.dataDeNascimento,
+            gender: this.associate.genero,
+            tax: this.associate.cpf,
+            seniorCodeRepresentation: this.associate.codigoRepresentanteSuperior,
+            documentLink: this.associate.cpfUploadUrl
+          });
+
+          this.addressData.patchValue({
+            zip: response.cep,
+            street: response.rua,
+            number: response.numero,
+            district: response.bairro,
+            city: response.cidade,
+            state: response.estado,
+            proofLink: response.comprovanteDeResidenciaUpload
+          })
+
+          this.termData.patchValue({
+            associativeTerm: this.associate.fichaAssociadoDto.fichaAssociacaoUploadUrl,
+            contractTerm: this.associate.termoAdesaoDto.termoAdesaoUploadUrl,
+          })
+
+          this.addressPhoto = response.comprovanteDeResidenciaUpload;
+          this.addressId = response.id;
+        },
+        error: () => {
+          this.showErrorMessage("Algo deu errado", true);
+        }
+      })
+    }
+  }
 
   personalData = this._formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -60,9 +114,10 @@ export class RegisterModalComponent {
     birthdate: ['', [Validators.required]],
     gender: ['', Validators.required],
     tax: ['', [Validators.required], [validateCpf]],
-    seniorCodeRepresentation: [null, [Validators.required]],
-    codeRepresentation: [null],
-    documentPhoto: [null, [Validators.required]],
+    seniorCodeRepresentation: ['', [Validators.required]],
+    codeRepresentation: [''],
+    documentPhoto: ['', [Validators.required]],
+    documentLink: [''] 
   });
 
   addressData = this._formBuilder.group({
@@ -72,12 +127,13 @@ export class RegisterModalComponent {
     district: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(3)]],
     city: ['', Validators.required],
     state: ['', [Validators.required, Validators.maxLength(2), Validators.minLength(2), Validators.pattern(/^[A-Za-z]{2}$/)]],
-    proofOfResidence: [null, [Validators.required]]
+    proofOfResidence: [null, [Validators.required]],
+    proofLink: [''] 
   });
 
   termData = this._formBuilder.group ({
-    associativeTerm: new FormControl<File | null>(null, Validators.required),
-    contractTerm: new FormControl<File | null>(null, Validators.required),
+    associativeTerm: new FormControl<File | string | null>(null, Validators.required),
+    contractTerm: new FormControl<File | string | null>(null, Validators.required),
   });
 
   @ViewChild(MatStepper) private stepper!: MatStepper;
@@ -232,23 +288,49 @@ export class RegisterModalComponent {
       return;
     }
     this.loading.show();
-    const userData = this.getUserFromForm();
-    this.service.createNewUser(userData).pipe(
-      finalize(() => this.loading.hide())
-    )
-    .subscribe({
-      next: () => {
-        this.dialog.open(UserCreatedModalComponent).afterClosed().subscribe(() => {
-          this.resetFormState(this.personalData);
-          this.resetFormState(this.addressData);
-          this.resetFormState(this.termData);
-          this.stepper.reset();
-        });
-      },
-      error: (error) => {
-        this.showErrorMessage("Algo deu errado", true);
-      }
-    })
+
+    if(this.associate) {
+      const userData = this.getUserFromForm();
+      userData.append("id", this.associate.id);
+      userData.append("enderecoDto.id", this.addressId.toString());
+      userData.append("cpfUploadUrl", this.associate.cpfUploadUrl);
+      userData.append("enderecoDto.comprovanteDeResidenciaUpload", this.addressPhoto);
+      userData.append("fichaAssociadoDto.fichaAssociacaoUploadUrl", this.associate.fichaAssociadoDto.fichaAssociacaoUploadUrl);
+      userData.append("termoAdesaoDto.termoAdesaoUploadUrl", this.associate.termoAdesaoDto.termoAdesaoUploadUrl);
+
+      this.service.updateUser(userData, this.associate.id).pipe(
+        finalize(() => this.loading.hide())
+      )
+      .subscribe({
+        next: () => {
+          this.dialog.open(UserCreatedModalComponent).afterClosed().subscribe(() => {
+            this.stepper.reset();
+          });
+        },
+        error: () => {
+          this.showErrorMessage("Algo deu errado", true);
+        }
+      })
+    }
+    else {
+      const userData = this.getUserFromForm();
+      this.service.createNewUser(userData).pipe(
+        finalize(() => this.loading.hide())
+      )
+      .subscribe({
+        next: () => {
+          this.dialog.open(UserCreatedModalComponent).afterClosed().subscribe(() => {
+            this.resetFormState(this.personalData);
+            this.resetFormState(this.addressData);
+            this.resetFormState(this.termData);
+            this.stepper.reset();
+          });
+        },
+        error: (error) => {
+          this.showErrorMessage("Algo deu errado", true);
+        }
+      })
+    }
   }
 
   getUserFromForm(): FormData {

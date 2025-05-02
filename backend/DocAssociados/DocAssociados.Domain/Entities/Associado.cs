@@ -15,7 +15,7 @@ public sealed class Associado
     public string CpfUploadUrl { get; private set; }
     public string TermoDeAdessaoUploadUrl { get; private set; }
     public string FichaAssociacaoUploadUrl { get; private set; }
-    public string CodigoRepresentante {  get; private set; } 
+    public string? CodigoRepresentante {  get; private set; } 
     public string CodigoRepresentanteSuperior {  get; private set; }
     public DateTime DataDeCadastro { get; private set; } = DateTime.Now;
     public Endereco Endereco { get; set; }

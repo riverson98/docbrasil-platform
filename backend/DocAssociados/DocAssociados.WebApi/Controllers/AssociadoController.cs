@@ -150,9 +150,31 @@ namespace DocAssociados.WebApi.Controllers
             return new CreatedAtRouteResult("ObtemAssociadoComDetalhes", new { id = associadoAdicionado.Id }, associadoAdicionado);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<AssociadoDto>> Put([FromForm] AssociadoDto associadoDto, Guid id)
         {
+            if (!associadoDto.Id.Equals(id))
+                return BadRequest("O identificador do usuário não pode ser diferente");
+
+            if (associadoDto.FotoDoDocumento != null || associadoDto?.EnderecoDto?.FotoDoComprovante != null
+                || associadoDto?.TermoAdesaoDto?.TermoAdesao != null || associadoDto?.FichaAssociadoDto?.FichaAssociacao != null)
+            {
+                var dtos = new List<IUploadable>
+                {   
+                    associadoDto,
+                    associadoDto.EnderecoDto,
+                    associadoDto.TermoAdesaoDto,
+                    associadoDto.FichaAssociadoDto
+                }
+                .Where(it => it != null && it.temArquivoParaUpload)
+                .ToList();
+
+                await _servicoAssociado.UploadImagemAsync(dtos, associadoDto.Email);
+            }
+
+            var associadoAtualizado = await _servicoAssociado.AtualizaAsync(associadoDto);
+
+            return new CreatedAtRouteResult("ObtemAssociadoComDetalhes", new { id = associadoAtualizado.Id }, associadoAtualizado);
         }
 
         [HttpDelete("{id}")]

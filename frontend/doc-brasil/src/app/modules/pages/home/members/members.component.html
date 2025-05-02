@@ -8,10 +8,12 @@
         
         <app-table 
             (requestDataUpdate)="handleRegisterModal()"
+            (onUserUpdated)="reloadPage()"
             [data]="membersData"
             [totalPages]="totalPages"
             [currentPage]="currentPage"
-            (pageChange)="handlePageChange($event)">
+            (pageChange)="handlePageChange($event)"
+            addtitle="membros">
         </app-table>
     </div>
 </section>

@@ -28,7 +28,7 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
     {
         try
         {
-            if (dtos.Any(dto => dto is null || dto.FotoDoArquivo.Length == 0))
+            if (dtos.Any(dto => dto == null || dto.FotoDoArquivo?.Length == 0))
             {
                 throw new ArgumentException("Os arquivos são obrigatórios");
             }

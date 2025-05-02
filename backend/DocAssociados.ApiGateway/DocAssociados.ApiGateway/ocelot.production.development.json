@@ -23,6 +23,18 @@
         }
       ],
       "DelegatingHandlers": [ "AssociadoApiKeyHandler" ]
+    },
+    {
+      "UpstreamPathTemplate": "/endereco/{everything}",
+      "DownstreamPathTemplate": "/api/Endereco/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "associados_service-dev",
+          "Port": 8080
+        }
+      ],
+      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ]
     }
   ]
 }

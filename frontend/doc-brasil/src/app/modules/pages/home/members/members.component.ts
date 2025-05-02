@@ -85,4 +85,11 @@ export class MembersComponent implements AfterViewInit{
       this.totalPages = response.totalDePaginas;
     });
   }
+
+  reloadPage() {
+    this.reloadData(this.currentPage, this.itensPerPage, '')
+    .subscribe((response) => {
+      this.membersData = response.itens;
+    })
+  }
 }

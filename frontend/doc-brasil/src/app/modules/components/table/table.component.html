@@ -8,14 +8,14 @@
             <th>
                 <div class="table__head--add" (click)="onOpenModal()">
                     <i class="fa-solid fa-plus"></i>
-                    <p>Adicionar associados</p>
+                    <p>Adicionar {{ addtitle }}</p>
                 </div>
             </th>
         </tr>
     </thead>
 
     <tbody class="table__body">
-        <tr class="table__body--container" *ngFor="let item of data">
+        <tr class="table__body--container" *ngFor="let item of data" (click)="showUserDetails(item.id)">
             <td>
                 <div class="table__body--container__user-info">
                     <h3 class="table__body--container__user-info--name">

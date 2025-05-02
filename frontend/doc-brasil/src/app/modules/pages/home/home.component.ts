@@ -38,10 +38,10 @@ export class HomeComponent implements AfterViewInit{
 
     if (currentRoute.includes('/associados') && this.associates) {
       this.onControlChange(this.associates, this.filterControl)
-      .subscribe((response) => console.log(response));
+      .subscribe();
     } else if (currentRoute.includes('/membros') && this.members) {
       this.onControlChange(this.members, this.filterControl)
-      .subscribe((response) => console.log(response));
+      .subscribe();
     }
   }
 
