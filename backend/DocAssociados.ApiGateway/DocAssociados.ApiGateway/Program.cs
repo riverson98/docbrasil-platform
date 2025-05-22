@@ -16,8 +16,8 @@ if (builder.Environment.IsProduction())
     new DefaultAzureCredential()
     );
 
-    var apiKeyAuth = builder.Configuration["ChaveApiAssociadosAuth"];
-    var apiKeyAssociados = builder.Configuration["ChaveApiAssociados"];
+    var apiKeyAuth = builder.Configuration["AssociateAuthKey"];
+    var apiKeyAssociados = builder.Configuration["AssociateKey"];
 
     if (string.IsNullOrEmpty(apiKeyAuth) || string.IsNullOrEmpty(apiKeyAssociados))
         throw new InvalidOperationException("The api keys can't be null or empty");
