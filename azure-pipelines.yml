@@ -43,15 +43,10 @@ stages:
       displayName: 'DEBUG: Verificar variáveis do Key Vault'
 
     - script: |
-        echo "Exportando variáveis..."
-        export MYSQL_ASSOCIADOS_PASSWORD="$(AssociateDbPassword)"
-        export MYSQL_ASSOCIADOS_AUTH_PASSWORD="$(AuthDbPassword)"
-    
-        echo "Gerando .env.prod..."
         echo "ASPNETCORE_ENVIRONMENT=Production" > .env.prod
-        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=$MYSQL_ASSOCIADOS_PASSWORD" >> .env.prod
-        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=$MYSQL_ASSOCIADOS_AUTH_PASSWORD" >> .env.prod
-      displayName: 'Gerar .env.prod com export manual'
+        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=$(AssociateDbPassword)" >> .env.prod
+        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=$(AuthDbPassword)" >> .env.prod
+      displayName: 'Gerar .env.prod com valores reais'
 
     - script: |
         export PATH=$PATH:/usr/bin
