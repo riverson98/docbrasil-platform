@@ -37,12 +37,14 @@ stages:
 
     - script: |
         echo "Remapeando variáveis..."
-        export MYSQL_ASSOCIADOS_PASSWORD=$(AuthDbPassword)
-        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AssociateDbPassword)
         echo "MYSQL_ASSOCIADOS_PASSWORD = $MYSQL_ASSOCIADOS_PASSWORD"
         echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD = $MYSQL_ASSOCIADOS_AUTH_PASSWORD"
+
         export PATH=$PATH:/usr/bin
         /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
-        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up
-      workingDirectory: $(Build.SourcesDirectory)
+        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
       displayName: Build containers with docker-compose
+      workingDirectory: $(Build.SourcesDirectory)
+      env:
+        MYSQL_ASSOCIADOS_PASSWORD: $(AuthDbPassword)
+        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AssociateDbPassword)
