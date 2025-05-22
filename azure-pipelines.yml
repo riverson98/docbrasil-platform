@@ -38,16 +38,12 @@ stages:
       displayName: 'Build frontend Angular'
 
     - script: |
-        echo "Remapeando variáveis..."
-        echo "MYSQL_ASSOCIADOS_PASSWORD está setada? ${MYSQL_ASSOCIADOS_PASSWORD:+SIM}"
-        echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD está setada? ${MYSQL_ASSOCIADOS_AUTH_PASSWORD:+SIM}"
-
-        export PATH=$PATH:/usr/bin
-
-        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
-        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
-      displayName: Build containers with docker-compose
+        echo "ASPNETCORE_ENVIRONMENT=Production" > .env.prod
+        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${MYSQL_ASSOCIADOS_PASSWORD}" >> .env.prod
+        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${MYSQL_ASSOCIADOS_AUTH_PASSWORD}" >> .env.prod
+      displayName: 'Gerar .env.prod'
       env:
         MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
         MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AuthDbPassword)
+      displayName: Build containers with docker-compose
       workingDirectory: $(Build.SourcesDirectory)
