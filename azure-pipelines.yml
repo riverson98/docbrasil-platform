@@ -22,18 +22,17 @@ stages:
     steps:
     - checkout: self
 
-    # Puxar secrets do Azure Key Vault
     - task: AzureKeyVault@2
       inputs:
-        azureSubscription: 'associados-service-conn'
+        azureSubscription: 'DevOps Service Connection'
         KeyVaultName: 'DocBrasilKeyVault'
         SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
         RunAsPreJob: true
 
     - script: |
         echo "Remapeando variáveis..."
-        export MYSQL_ASSOCIADOS_PASSWORD=$AuthDbPassword
-        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$AssociateDbPassword
+        export MYSQL_ASSOCIADOS_PASSWORD=$(AuthDbPassword)
+        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AssociateDbPassword)
         echo "MYSQL_ASSOCIADOS_PASSWORD = $MYSQL_ASSOCIADOS_PASSWORD"
         echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD = $MYSQL_ASSOCIADOS_AUTH_PASSWORD"
         export PATH=$PATH:/usr/bin
