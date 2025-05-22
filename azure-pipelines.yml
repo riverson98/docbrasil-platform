@@ -25,7 +25,7 @@ stages:
     # Puxar secrets do Azure Key Vault
     - task: AzureKeyVault@2
       inputs:
-        azureSubscription: 'Azure subscription 1'
+        azureSubscription: 'associados-service-conn'
         KeyVaultName: 'DocBrasilKeyVault'
         SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
         RunAsPreJob: true
