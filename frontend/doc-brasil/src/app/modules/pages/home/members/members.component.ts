@@ -10,6 +10,7 @@ import { RegisterModalComponent } from '../../../components/modals/register-moda
 import { MatDialog } from '@angular/material/dialog';
 import { PainelTitleComponent } from "../../../components/painel-title/painel-title.component";
 import { TableComponent } from "../../../components/table/table.component";
+import { UserNotFoundComponent } from "../../../components/user-not-found/user-not-found.component";
 
 @Component({
   selector: 'app-members',
@@ -17,7 +18,8 @@ import { TableComponent } from "../../../components/table/table.component";
   imports: [
     CommonModule,
     PainelTitleComponent,
-    TableComponent
+    TableComponent,
+    UserNotFoundComponent
 ],
   templateUrl: './members.component.html',
   styleUrl: './members.component.scss'
@@ -29,6 +31,7 @@ export class MembersComponent implements AfterViewInit{
   membersData: any[] = [];
   totalPages:number = 1;
   query: string = '';
+  hasNotFoundError: boolean = false;
   
   constructor(public state: DashboardStateService, private service: UserService, 
     private loading: LoadingService, private dialog: MatDialog,) {}
@@ -62,13 +65,31 @@ export class MembersComponent implements AfterViewInit{
 
   handleRegisterModal() {
     const dialogRef = this.dialog.open(RegisterModalComponent, {
-      width: '50%',
+      width: '80%',
       height: 'auto',
     })
 
     dialogRef.afterClosed().subscribe(() => {
       this.reloadData(this.currentPage, this.itensPerPage, '')
       .subscribe((response) => this.membersData = response.itens)
+    });
+  }
+
+  handleDeleteUser() {
+    console.log("usuario deletado atualizado:")
+    this.reloadData(this.currentPage, this.itensPerPage,'')
+      .subscribe({
+        next: (response) => {
+        console.log("usuario deletado atualizado:", response)
+        this.membersData = response.itens || [];
+        this.hasNotFoundError = this.membersData.length === 0;
+      }, 
+      error: (error) => {
+        if(error.status === 404){
+          this.membersData = [];
+          this.hasNotFoundError = true;
+        }
+      } 
     });
   }
 

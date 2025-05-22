@@ -5,15 +5,27 @@
             description="Cadastre ou gerencie os associados"
             (filterChanged)="onFilterChanged($event)">
         </app-painel-title>
-        
-        <app-table 
-            (requestDataUpdate)="handleRegisterModal()"
-            (onUserUpdated)="reloadPage()"
-            [data]="associatesData"
-            [totalPages]="totalPages"
-            [currentPage]="currentPage"
-            (pageChange)="handlePageChange($event)"
-            addtitle="associados">
-        </app-table>
+
+        <ng-container *ngIf="!hasNotFoundError; else noUsers">
+            <app-table    
+                (requestDataUpdate)="handleRegisterModal()"
+                (onUserDeleted)="handleDeleteUser()"
+                (onUserUpdated)="reloadPage()"
+                [data]="associatesData"
+                [totalPages]="totalPages"
+                [currentPage]="currentPage"
+                (pageChange)="handlePageChange($event)"
+                addtitle="associados">
+            </app-table>
+        </ng-container>
+
+        <ng-template #noUsers>
+            <div class="associates__no-users">
+                <app-user-not-found 
+                    entity="associado"
+                    (requestDataUpdate)="handleRegisterModal()">
+                </app-user-not-found>
+            </div>
+        </ng-template>
     </div>
 </section>

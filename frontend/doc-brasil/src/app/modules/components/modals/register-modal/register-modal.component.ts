@@ -5,7 +5,7 @@ import { validateCpf } from '../../../../script/_global-scripts';
 import { UserService } from '../../../../core/services/user/user.service';
 import { LoadingService } from '../../../../core/services/loading/loading.service';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { finalize, Observable } from 'rxjs';
+import { finalize, Observable, timeout } from 'rxjs';
 import { UserCreatedModalComponent } from '../user-created/user-created-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -62,49 +62,66 @@ export class RegisterModalComponent implements AfterViewInit{
     if (this.associate) {
       this.personalData.get('documentPhoto')?.clearValidators();
       this.personalData.get('documentPhoto')?.updateValueAndValidity();
+      this.personalData.get('associativeTerm')?.clearValidators();
+      this.personalData.get('associativeTerm')?.updateValueAndValidity();
+      this.personalData.get('contractTerm')?.clearValidators();
+      this.personalData.get('contractTerm')?.updateValueAndValidity();
+      this.personalData.get('courtOrder')?.clearValidators();
+      this.personalData.get('courtOrder')?.updateValueAndValidity();
       this.addressData.get('proofOfResidence')?.clearValidators();
       this.addressData.get('proofOfResidence')?.updateValueAndValidity();
 
-      this.loading.show();
+      setTimeout(() => {
+        this.loading.show();
+      });
 
       this.addressService.getAddressByAssociateId(this.associate.id)
       .pipe(
         finalize(() => this.loading.hide())
       ).subscribe({
         next: (response) => {
-          console.log("Valor do response 1: ", response)
           this.personalData.patchValue({
-            name: this.associate.nome,
-            email: this.associate.email,
-            birthdate: this.associate.dataDeNascimento,
-            gender: this.associate.genero,
-            tax: this.associate.cpf,
-            seniorCodeRepresentation: this.associate.codigoRepresentanteSuperior,
-            documentLink: this.associate.cpfUploadUrl
+            name: this.associate?.nome,
+            email: this.associate?.email,
+            birthdate: this.associate?.dataDeNascimento,
+            gender: this.associate?.genero,
+            tax: this.associate?.cpf,
+            seniorCodeRepresentation: this.associate?.codigoRepresentanteSuperior,
+            documentLink: this.associate?.cpfUploadUrl,
+            codeAssociate: this.associate?.codigoAssociado,
+            function: this.associate?.funcao,
+            status: this.associate?.status,
+            associativeTerm: this.associate?.fichaAssociadoDto?.fichaAssociacaoUploadUrl,
+            contractTerm: this.associate?.termoAdesaoDto?.termoAdesaoUploadUrl,
+            courtOrder: this.associate?.requerimentoJudicialDto?.urlDoRequerimento
           });
 
           this.addressData.patchValue({
-            zip: response.cep,
-            street: response.rua,
-            number: response.numero,
-            district: response.bairro,
-            city: response.cidade,
-            state: response.estado,
-            proofLink: response.comprovanteDeResidenciaUpload
-          })
-
-          this.termData.patchValue({
-            associativeTerm: this.associate.fichaAssociadoDto.fichaAssociacaoUploadUrl,
-            contractTerm: this.associate.termoAdesaoDto.termoAdesaoUploadUrl,
+            zip: response?.cep,
+            street: response?.rua,
+            number: response?.numero,
+            district: response?.bairro,
+            city: response?.cidade,
+            state: response?.estado,
+            proofLink: response?.comprovanteDeResidenciaUpload
           })
 
           this.addressPhoto = response.comprovanteDeResidenciaUpload;
           this.addressId = response.id;
+          
+          this.personalData.get('tax')?.disable();
+          this.personalData.get('codeAssociate')?.disable();
+
+          const SELECTED_USER_IS_ADMIN = this.personalData.get('function')?.value == '2';
+
+          if(SELECTED_USER_IS_ADMIN){
+            this.personalData.get('email')?.disable();
+          }
         },
         error: () => {
           this.showErrorMessage("Algo deu errado", true);
         }
-      })
+      });
     }
   }
 
@@ -117,7 +134,13 @@ export class RegisterModalComponent implements AfterViewInit{
     seniorCodeRepresentation: ['', [Validators.required]],
     codeRepresentation: [''],
     documentPhoto: ['', [Validators.required]],
-    documentLink: [''] 
+    documentLink: [''] ,
+    function: ['', [Validators.required]],
+    codeAssociate: [''],
+    status: [null as number | null],
+    courtOrder: new FormControl<File | string | null>(null, Validators.required),
+    associativeTerm: new FormControl<File | string | null>(null, Validators.required),
+    contractTerm: new FormControl<File | string | null>(null, Validators.required),
   });
 
   addressData = this._formBuilder.group({
@@ -129,11 +152,6 @@ export class RegisterModalComponent implements AfterViewInit{
     state: ['', [Validators.required, Validators.maxLength(2), Validators.minLength(2), Validators.pattern(/^[A-Za-z]{2}$/)]],
     proofOfResidence: [null, [Validators.required]],
     proofLink: [''] 
-  });
-
-  termData = this._formBuilder.group ({
-    associativeTerm: new FormControl<File | string | null>(null, Validators.required),
-    contractTerm: new FormControl<File | string | null>(null, Validators.required),
   });
 
   @ViewChild(MatStepper) private stepper!: MatStepper;
@@ -167,7 +185,7 @@ export class RegisterModalComponent implements AfterViewInit{
   onMultipleFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
-    if (input.files && input.files.length >= 2) {
+    if (input.files && input.files.length >= 3) {
       const files = Array.from(input.files);
 
       const associative = files.find(file =>
@@ -178,15 +196,23 @@ export class RegisterModalComponent implements AfterViewInit{
         /termo.*ades[aã]o/i.test(file.name.toLowerCase())
       );
 
-      if(!associative || !contract){
-        alert("Você deve anexar os dois documentos: Ficha Associativa e Termo de Adesão.");
+      const order = files.find(file =>
+        /requerimento.*/i.test(file.name.toLowerCase())
+      );
+      console.log("valor do requerimento", order)
+
+      if(!associative || !contract || !order){
+        alert("Você deve anexar os três documentos: Ficha Associativa, Termo de Adesão e Requerimento judicial.");
       }
       else {
-        this.termData.patchValue({ associativeTerm: associative });
-        this.termData.get('associativeTerm')?.updateValueAndValidity();
+        this.personalData.patchValue({ associativeTerm: associative });
+        this.personalData.get('associativeTerm')?.updateValueAndValidity();
         
-        this.termData.patchValue({ contractTerm: contract });
-        this.termData.get('contractTerm')?.updateValueAndValidity();
+        this.personalData.patchValue({ contractTerm: contract });
+        this.personalData.get('contractTerm')?.updateValueAndValidity();
+        
+        this.personalData.patchValue({ courtOrder:  order});
+        this.personalData.get('courtOrder')?.updateValueAndValidity();
       }
     }
   }
@@ -216,6 +242,7 @@ export class RegisterModalComponent implements AfterViewInit{
     if (form.invalid) {
       event.preventDefault();
       form.markAllAsTouched();
+      this.showErrorMessage("Algo deu errado", true);
     } else {
       if(this.stepper.selectedIndex === 0){
         this.loading.show();
@@ -283,7 +310,7 @@ export class RegisterModalComponent implements AfterViewInit{
   }
 
   register() {
-    if(this.addressData.invalid || this.personalData.invalid || this.termData.invalid){
+    if(this.addressData.invalid || this.personalData.invalid){
       this.showErrorMessage("Todos os campos do formulário precisam ser preenchidos para concluir o cadastro.", true);
       return;
     }
@@ -297,6 +324,9 @@ export class RegisterModalComponent implements AfterViewInit{
       userData.append("enderecoDto.comprovanteDeResidenciaUpload", this.addressPhoto);
       userData.append("fichaAssociadoDto.fichaAssociacaoUploadUrl", this.associate.fichaAssociadoDto.fichaAssociacaoUploadUrl);
       userData.append("termoAdesaoDto.termoAdesaoUploadUrl", this.associate.termoAdesaoDto.termoAdesaoUploadUrl);
+      userData.append('requerimentoJudicialDto.urlDoRequerimento', this.associate.requerimentoJudicialDto.urlDoRequerimento);
+
+      console.log("Valor do requerimento:", this.associate.requerimentoJudicialDto.urlDoRequerimento);
 
       this.service.updateUser(userData, this.associate.id).pipe(
         finalize(() => this.loading.hide())
@@ -305,6 +335,7 @@ export class RegisterModalComponent implements AfterViewInit{
         next: () => {
           this.dialog.open(UserCreatedModalComponent).afterClosed().subscribe(() => {
             this.stepper.reset();
+            this.dialogRef.close('refresh');
           });
         },
         error: () => {
@@ -320,10 +351,7 @@ export class RegisterModalComponent implements AfterViewInit{
       .subscribe({
         next: () => {
           this.dialog.open(UserCreatedModalComponent).afterClosed().subscribe(() => {
-            this.resetFormState(this.personalData);
-            this.resetFormState(this.addressData);
-            this.resetFormState(this.termData);
-            this.stepper.reset();
+            this.dialogRef.close('refresh');
           });
         },
         error: (error) => {
@@ -343,9 +371,13 @@ export class RegisterModalComponent implements AfterViewInit{
     const tax = this.personalData.get('tax')?.value;
     const seniorCodeRepresentation = this.personalData.get('seniorCodeRepresentation')?.value;
     const codeRepresentation = this.personalData.get('codeRepresentation')?.value;
+    const codeAssociate = this.personalData.get('codeAssociate')?.value;
     const documentPhoto = this.personalData.get('documentPhoto')?.value;
-    const associativeTerm = this.termData.get('associativeTerm')?.value;
-    const contractTerm = this.termData.get('contractTerm')?.value;
+    const userStatus = this.personalData.get('status')?.value ?? 1;
+    const courtOrder = this.personalData.get('courtOrder')?.value;
+    const userFunction = this.personalData.get('function')?.value;
+    const associativeTerm = this.personalData.get('associativeTerm')?.value;
+    const contractTerm = this.personalData.get('contractTerm')?.value;
     const zip = this.addressData.get('zip')?.value;
     const street = this.addressData.get('street')?.value;
     const number = this.addressData.get('number')?.value;
@@ -362,8 +394,12 @@ export class RegisterModalComponent implements AfterViewInit{
     userDataForm.append('cpf', tax!);
     userDataForm.append('CodigoRepresentanteSuperior', seniorCodeRepresentation!);
     userDataForm.append('codigoRepresentante', codeRepresentation!);
+    userDataForm.append('codigoAssociado', codeAssociate!);
     userDataForm.append('fotoDoDocumento', documentPhoto!);
+    userDataForm.append('funcao', userFunction!);
+    userDataForm.append('status', userStatus!.toString());
     userDataForm.append('fichaAssociadoDto.fichaAssociacao', associativeTerm!);
+    userDataForm.append('requerimentoJudicialDto.arquivoDoRequerimento', courtOrder!);
     userDataForm.append('termoAdesaoDto.termoAdesao', contractTerm!);
     userDataForm.append('enderecoDto.cep', zip!);
     userDataForm.append('enderecoDto.rua', street!);
@@ -399,7 +435,6 @@ export class RegisterModalComponent implements AfterViewInit{
   showErrorMessage(erroMessage: string, showError:boolean) {
     this.errorMessage = erroMessage;
     this.showErrorPopup = showError;
-    this.showErrorPopup = true;
 
     setTimeout(() => {
       this.showErrorPopup = false;
@@ -422,7 +457,7 @@ export class RegisterModalComponent implements AfterViewInit{
       })
   }
 
-  close(){
+  close() {
     this.dialogRef.close('refresh');
   }
 }

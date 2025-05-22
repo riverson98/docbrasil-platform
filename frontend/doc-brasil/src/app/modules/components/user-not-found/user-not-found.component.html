@@ -1,0 +1,11 @@
+<section class="user-not-found">
+    <h3 class="user-not-found__title">Nenhum {{ entity.toLowerCase() }} encontrado</h3>
+
+    <figure class="user-not-found__img">
+        <img src="../../../../assets/no-users-found.jpg" alt="Nenhum usuário encontrado">
+    </figure>
+
+    <a class="user-not-found__add-user" (click)="openRegisterModal()">
+        Adicionar {{ entity.toLowerCase() }}
+    </a>
+</section>

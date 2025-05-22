@@ -1,0 +1,48 @@
+<body class="container">
+    <main>
+        <section class="auth-login section__padding overall-layout">
+            <div class="auth-login__container">
+                <div class="popup" *ngIf="showErrorPopup">
+                    <p>{{ errorMessage }}</p>
+                </div>
+
+                <h2 class="auth-login__container--title"><span>DOC</span> Brasil</h2>
+
+                <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-login__container--form">
+                    <fieldset class="auth-login__container--form__fields">
+                        <label for="email">Email</label>
+                        
+                        <input class="auth-login__container--form__fields--input" 
+                               type="email" 
+                               placeholder="Digite seu email" 
+                               formControlName="email" 
+                               required>
+                    </fieldset>
+
+                    <fieldset class="auth-login__container--form__fields">
+                        <label for="password">Senha</label>
+                        
+                        <input id="password-input-login" 
+                               class="auth-login__container--form__fields--input" 
+                               type="password" 
+                               placeholder="Digite sua senha"
+                               formControlName="password"
+                               required>
+
+                        <i class="fa-solid fa-eye-slash" 
+                           id="toggle-password-login" 
+                           (click)="togglePasswordVisibility('password-input-login', 'toggle-password-login')">
+                        </i>
+                    </fieldset>
+                    
+                    <h5 class="auth-login__container--forgot" routerLink="/auth-password-recovery">Eu esqueci a minha senha</h5>
+
+                    <fieldset class="auth-login__container--submit">
+                        <input type="submit" 
+                               value="Entrar">
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>

@@ -6,6 +6,8 @@ using DocAssociados.Infra.Data.Context;
 using DocAssociados.Infra.Data.Repository;
 using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using DocAssociados.Service.Infra.CrossCutting.Config;
+using DocAssociados.Service.Infra.CrossCutting.HttpClients.Impl;
+using DocAssociados.Service.Infra.CrossCutting.HttpClients.Interfaces;
 using DocAssociados.Service.Infra.CrossCutting.Logs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +42,7 @@ public static class DependencyInjection
         //camada do cross cutting
         services.AddScoped<IKeyVaultService, KeyVaultService>();
         services.AddScoped<ILoggerService, LoggerService>();
+        services.AddScoped(typeof(IHttpClientDefault<>), typeof(HttpClientDefault<>));
 
         //automapper
         services.AddAutoMapper(typeof(DominioParaDtoMappingProfile));
@@ -49,6 +52,8 @@ public static class DependencyInjection
                 sp.GetRequiredService<IOptions<AzureBlobStorageOpcoes>>().Value);
         services.AddSingleton(sp =>
                 sp.GetRequiredService<IOptions<AzureVaultConfig>>().Value);
+        services.AddSingleton(sp =>
+                sp.GetRequiredService<IOptions<ApiGatewayConfig>>().Value);
 
         //insights
         services.AddApplicationInsightsTelemetry();

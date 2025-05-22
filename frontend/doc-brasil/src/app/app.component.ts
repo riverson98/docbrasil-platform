@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { LoadingComponent } from "./modules/components/loading/loading.component";
+import { UrlService } from './core/services/urlService/url.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +12,21 @@ import { LoadingComponent } from "./modules/components/loading/loading.component
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'DOC - Brasil';
 
-  loading = true;
+  loading = false;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
+  ngOnInit(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      if (this.urlService.hasRouteChanged()) {
         this.loading = true;
-      } else if (event instanceof NavigationEnd || event instanceof NavigationError) {
-        this.loading = false;
       }
     });
+  }
+
+  constructor(private urlService: UrlService, private router: Router) {
   }
 }

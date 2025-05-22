@@ -23,18 +23,18 @@ public static class ExpressionConverter
             _oldValue = oldValue;
             _newValue = newValue;
         }
+
         protected override Expression VisitMember(MemberExpression node)
         {
             if (node.Expression == _oldValue)
             {
                 var newMember = _newValue.Type.GetMember(node.Member.Name).FirstOrDefault();
+                  
                 if (newMember == null)
-                {
                     throw new ArgumentException($"Property '{node.Member.Name}' is not defined for type '{_newValue.Type}'");
-                }
+                   
                 return Expression.MakeMemberAccess(_newValue, newMember);
             }
-
             return base.VisitMember(node);
         }
 

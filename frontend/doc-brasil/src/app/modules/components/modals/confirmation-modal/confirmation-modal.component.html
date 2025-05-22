@@ -1,0 +1,21 @@
+<section class="confirmation">
+    <div class="popup" *ngIf="showErrorPopup">
+        <span>{{ errorMessage }}</span>
+    </div>
+
+    <div class="popup-sucess" *ngIf="showSucessfulyPopup">
+        <i class="fa-solid fa-circle-check"></i>
+        <p>{{ successfulyMessage }}</p>
+    </div>
+    
+    <h3 class="confirmation__title">Você realmente deseja excluir este associado?</h3>
+
+    <figure class="confirmation__img">
+        <img src="../../../../../assets/u-really-wanna-delete.jpg" alt="Deseja realmente deletar?">
+    </figure>
+
+    <div class="confirmation__btns">
+        <a class="confirmation__btns--no" (click)="closeModal()">Não</a>
+        <a class="confirmation__btns--yes" (click)="deleteUser()">Sim</a>
+    </div>
+</section>

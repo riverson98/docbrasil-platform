@@ -40,7 +40,8 @@ public class UserIdentityRepository : IUserIdentityRepository
                     roles: new List<string>(),
                     token: "invalid token",
                     refreshToken: "invalid refreshToken",
-                    refreshTokenExpiration: DateTime.Now.AddSeconds(1)
+                    refreshTokenExpiration: DateTime.Now.AddSeconds(1),
+                    name: "empty value"
                 );
         }
 
@@ -58,7 +59,7 @@ public class UserIdentityRepository : IUserIdentityRepository
 
                 var auth = GenerateAuthenticationResponse("Token generated successfully", true,
                                 user.Email!, roles, new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                                refreshToken.Token!, refreshToken.Expires);
+                                refreshToken.Token!, refreshToken.Expires, user.Name);
 
                 user.RefreshTokens.Add(refreshToken);
                 _context.Update(user);
@@ -71,11 +72,11 @@ public class UserIdentityRepository : IUserIdentityRepository
 
             return GenerateAuthenticationResponse("Refresh token is actived successfully", true,
                      user.Email!, roles, new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                    validRefresh!.Token!, validRefresh.Expires);
+                    validRefresh!.Token!, validRefresh.Expires, user.Name);
         }
         return GenerateAuthenticationResponse($"Incorrect Credentials for user {user.Email}.", false,
                 tokenRequest.Email!, new List<string>(), "empty value",
-                "empty value", DateTime.Now.AddSeconds(5));
+                "empty value", DateTime.Now.AddSeconds(5), "empty value");
     }
 
     public async Task<string> AddRoleAsync(UserToRole userToRole)
@@ -111,8 +112,10 @@ public class UserIdentityRepository : IUserIdentityRepository
     {
         var identityUser = new AppUser
         {
+            Id = user.Id,
             UserName = user.Email,
-            Email = user.Email
+            Email = user.Email,
+            Name = user.Name
         };
 
         var userWithSameEmail = await _userManager.FindByEmailAsync(user.Email!);
@@ -126,7 +129,7 @@ public class UserIdentityRepository : IUserIdentityRepository
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(identityUser, Authorization.DEFAULT_ROLE.ToString());
-                return new Response(result.Succeeded, identityUser.Id, identityUser.Email);
+                return new Response(result.Succeeded, identityUser.Id, identityUser.Email, identityUser.Name);
             }
 
             var errors = new List<string>();
@@ -205,13 +208,13 @@ public class UserIdentityRepository : IUserIdentityRepository
                                                       .Any(refresh => refresh.Token!.Equals(token)));
         if (user is null)
             return GenerateAuthenticationResponse("Token did not match any users.", false,
-                "empty value", new List<string>(), "empty value", "empty value", DateTime.Now.AddSeconds(5));
+                "empty value", new List<string>(), "empty value", "empty value", DateTime.Now.AddSeconds(5), "empty value");
 
         var refreshToken = user.RefreshTokens.Single(userToken => userToken.Token!.Equals(token));
 
         if (!refreshToken.IsActive)
             return GenerateAuthenticationResponse("Token Not Active", false,
-               "empty value", new List<string>(), "empty value", "empty value", DateTime.Now.AddSeconds(5));
+               "empty value", new List<string>(), "empty value", "empty value", DateTime.Now.AddSeconds(5), "empty value");
 
         refreshToken.Update(refreshToken.Token, refreshToken.Expires, refreshToken.Created, DateTime.Now);
 
@@ -225,13 +228,13 @@ public class UserIdentityRepository : IUserIdentityRepository
 
         return GenerateAuthenticationResponse("Token generated successfully", true,
                user.Email!, roles, new JwtSecurityTokenHandler().WriteToken(jwtToken),
-               newRefreshToken.Token!, refreshToken.Expires);
+               newRefreshToken.Token!, refreshToken.Expires, user.Name);
 
     }
 
     private Authentication GenerateAuthenticationResponse(string message, bool isAuthenticated, string email,
                                                           IEnumerable<string> roles, string token,
-                                                          string refreshtoken, DateTime refreshTokenExpiration)
+                                                          string refreshtoken, DateTime refreshTokenExpiration, string name)
     {
         return new Authentication
                (
@@ -241,7 +244,30 @@ public class UserIdentityRepository : IUserIdentityRepository
                    roles: roles,
                    token: token,
                    refreshToken: refreshtoken,
-                   refreshTokenExpiration: refreshTokenExpiration
+                   refreshTokenExpiration: refreshTokenExpiration,
+                   name: name
                );
+    }
+
+    public async Task<bool> UpdatePasswordAsync(UpdatePassword updatePassword)
+    {
+        var user = await _userManager.FindByIdAsync(updatePassword.UserId);
+
+        if (user == null)
+            return false;
+
+        var result = await _userManager.ChangePasswordAsync(user, updatePassword.CurrentPassword, updatePassword.NewPassword);
+
+        return result.Succeeded;
+    }
+
+    public async Task DeleteUserByIdAsync(Guid id)
+    {
+        var userIdentityFound = await _userManager.FindByIdAsync(id.ToString());
+
+        if (userIdentityFound == null)
+            throw new ArgumentNullException("Sorry we can't found this user in our database");
+
+        await _userManager.DeleteAsync(userIdentityFound);
     }
 }

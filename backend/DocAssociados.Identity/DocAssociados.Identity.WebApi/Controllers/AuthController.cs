@@ -1,6 +1,7 @@
 ﻿using DocAssociados.Identity.Application.DTOs;
 using DocAssociados.Identity.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace DocAssociados.Identity.WebApi;
 
@@ -61,5 +62,17 @@ public class AuthController : Controller
 
 
         return Ok(response);
+    }
+
+    [HttpPost("update-password")]
+    public async Task<ActionResult<bool>> UpdatePassword(UpdatePasswordDto updatePasswordDto)
+    {
+        return await _service.UpdatePasswordAsync(updatePasswordDto);
+    }
+
+    [HttpDelete("delete-user-auth/{id:Guid}")]
+    public async Task DeleteUserIdentity(Guid id)
+    {
+        await _service.DeleteUserIdentityAsync(id);
     }
 }

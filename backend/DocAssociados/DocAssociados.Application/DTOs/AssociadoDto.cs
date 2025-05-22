@@ -11,8 +11,8 @@ public class AssociadoDto : IUploadable
     IFormFile? IUploadable.FotoDoArquivo { get => FotoDoDocumento; set => FotoDoDocumento = value; }
     string? IUploadable.SufixoBlob { get => _blobSufixo; }
     string? IUploadable.UrlDaFoto { get => CpfUploadUrl; set => CpfUploadUrl = value; }
-    public bool temArquivoParaUpload { get => FotoDoDocumento != null; }
-    private readonly string _blobSufixo = "Documento";
+    public bool TemArquivoParaUpload { get => FotoDoDocumento != null; }
+    private readonly string _blobSufixo = "Documento.png";
     #endregion
 
     private string genero { get; set; } = string.Empty;
@@ -36,12 +36,14 @@ public class AssociadoDto : IUploadable
     public Status Status { get; set; } = Status.Ativo;
     public string Cpf { get; set; }
     public IFormFile? FotoDoDocumento { get; set; }
-    public string? CpfUploadUrl { get; set; }
-    public string? TermoDeAdessaoUploadUrl { get; set; }
+    public string CpfUploadUrl { get; set; } = string.Empty;
     public string? CodigoRepresentante { get; set; }
-    public string? CodigoRepresentanteSuperior { get; set; }
+    public string CodigoRepresentanteSuperior { get; set; } = string.Empty;
+    public int? CodigoAssociado { get; set; }
     public EnderecoDto? EnderecoDto { get; set; }
     public FichaAssociadoDto? FichaAssociadoDto { get; set; }
     public TermoAdesaoDto? TermoAdesaoDto { get; set; }
+    public RequerimentoJudicialDto? RequerimentoJudicialDto { get; set; }
     public DateTime? DataDeCadastro { get; set; } = DateTime.Now;
+    public FotoDePerfilRequestDto? FotoDePerfil { get; set; }
 }

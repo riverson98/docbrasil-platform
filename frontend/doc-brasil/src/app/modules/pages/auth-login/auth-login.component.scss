@@ -1,0 +1,124 @@
+main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    color: var(--color-primary);
+}
+
+.auth-login {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url("../../../../assets/brazil_10.jpg");
+    background-size: cover;
+    background-position: end;
+    
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        
+        width: 50%;
+        height: 100%;
+        padding: var(--padding-st-l-v);
+
+        &--title {
+            font-size: var(--font-size-d-m);
+
+            span {
+                color: var(--color-tertiary);
+            }
+        }
+
+        &--form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+
+            &__fields {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                font-size: var(--font-size-st-sc);
+                position: relative;
+
+                &--input {
+                    width: 100%;
+                    padding: 2rem 3rem;
+                    font-size: var(--font-size-st-sc);
+                    color: var(--color-primary);
+                    background-color: var(--color-quartenary-m);
+                    border: solid 1px transparent;
+                    border-radius: 1rem;
+                    cursor: text;
+                }
+            }
+        }
+
+        &--forgot {
+            font-size: var(--font-size-st-sc);
+            font-weight: 300;
+            align-self: flex-end;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+                color: var(--color-tertiary-m);
+                cursor: pointer;
+            }
+        }
+
+        &--submit {
+            width: 100%;
+
+            & input {
+                width: 100%;
+                padding: 2rem 3rem;
+                font-size: var(--font-size-st-sc);
+                border-radius: 1rem;
+                color: var(--color-primary);
+                background-color: var(--color-tertiary);
+                cursor: pointer;
+                transition: all 0.5s ease-in-out;
+
+                &:hover {
+                    background-color: var(--color-tertiary-m);    
+                }
+            }
+        }
+    }
+    
+    #toggle-password-login {
+        position: absolute;
+        right: 1.5rem; 
+        top: 65%; 
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--color-quaternary);
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      #toggle-password-login:hover {
+        color: var(--color-primary);
+      }
+
+    @media screen and (max-width: 900px){
+        .auth-login__container {
+            width: 100%;
+        }
+
+        #toggle-password {
+            color: var(--color-primary);
+        }
+        
+    }
+}

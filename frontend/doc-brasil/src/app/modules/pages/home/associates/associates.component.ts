@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { DashboardStateService } from '../../../../core/services/behaviorService/DashboardStateService.service';
 import { UserService } from '../../../../core/services/user/user.service';
 import { PaginationParamsRequest } from '../../../../core/models/paginationParams/paginationParamsRequest';
@@ -11,6 +11,7 @@ import { RegisterModalComponent } from '../../../components/modals/register-moda
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PainelTitleComponent } from "../../../components/painel-title/painel-title.component";
 import { TableComponent } from "../../../components/table/table.component";
+import { UserNotFoundComponent } from "../../../components/user-not-found/user-not-found.component";
 
 @Component({
   selector: 'app-associates',
@@ -19,7 +20,8 @@ import { TableComponent } from "../../../components/table/table.component";
     CommonModule,
     ReactiveFormsModule,
     PainelTitleComponent,
-    TableComponent
+    TableComponent,
+    UserNotFoundComponent
 ],
   templateUrl: './associates.component.html',
   styleUrl: './associates.component.scss'
@@ -31,19 +33,28 @@ export class AssociatesComponent implements AfterViewInit {
   associatesData: any[] = [];
   totalPages: number = 1;
   query:string = '';
+  hasNotFoundError: boolean = false;
   filterControl = new FormControl('');
     
   constructor(public state: DashboardStateService, private service: UserService, 
-    private loading: LoadingService, private dialog: MatDialog,) {}
+    private loading: LoadingService, private dialog: MatDialog) {}
     
   ngAfterViewInit(): void {
-      this.loading.show();
-      this.loadAssociates(this.currentPage, this.itensPerPage, '').subscribe({
+    this.loading.show();
+    this.loadAssociates(this.currentPage, this.itensPerPage, '')
+    .pipe(finalize(() => this.loading.hide()))
+    .subscribe({
       next: (response) => {
         this.associatesData = response.itens;
         this.totalPages = response.totalDePaginas;
+        this.hasNotFoundError = false;
       },
-      error: (err) => console.log(err)
+      error: (err) => {
+        if(err.status === 404){
+          this.associatesData = [];
+          this.hasNotFoundError = true, 0;
+        }
+      }
     })
   }
 
@@ -53,9 +64,7 @@ export class AssociatesComponent implements AfterViewInit {
       quantidadeDeItensPorPagina: itensPerPage,
       query: query
     }
-    return this.service.getAssociates(params).pipe(
-      finalize(() => this.loading.hide())
-    );
+    return this.service.getAssociates(params);
   }
 
   reloadData(page: number, itensPerPage: number, query:string): Observable<any> {
@@ -64,32 +73,56 @@ export class AssociatesComponent implements AfterViewInit {
   }
   
   handlePageChange(newPage: number) {
+    this.loading.show();
     this.currentPage = newPage;
     this.reloadData(newPage, this.itensPerPage, this.query)
-      .subscribe((response) => {
+    .pipe(finalize(() => this.loading.hide()))
+    .subscribe((response) => {
         this.associatesData = response.itens;
     });
   };
 
   handleRegisterModal(){
     const dialogRef = this.dialog.open(RegisterModalComponent, {
-      width: '50%',
+      width: '80%',
       height: 'auto',
     })
   
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.reloadData(this.currentPage, this.itensPerPage,'')
         .subscribe((response) => {
-          this.associatesData = response.itens;
+          this.associatesData = response.itens || [];
+          this.hasNotFoundError = this.associatesData.length === 0;
         });
     });
   };
 
+  handleDeleteUser() {
+    this.reloadData(this.currentPage, this.itensPerPage,'')
+      .subscribe({
+        next: (response) => {
+        this.associatesData = response.itens || [];
+        this.hasNotFoundError = this.associatesData.length === 0;
+      }, 
+      error: (error) => {
+        if(error.status === 404){
+          this.associatesData = [];
+          this.hasNotFoundError = true;
+        }
+      } 
+    });
+  }
+
   onFilterChanged(filter: string){
     this.reloadData(this.currentPage, this.itensPerPage, filter)
-    .subscribe((response) => {
-      this.associatesData = response.itens;
-      this.totalPages = response.totalDePaginas;
+    .subscribe({
+      next: (response) => {
+        this.associatesData = response.itens;
+        this.totalPages = response.totalDePaginas;
+      },
+      error: () => { 
+
+      }
     });
   }
 
@@ -97,6 +130,7 @@ export class AssociatesComponent implements AfterViewInit {
     this.reloadData(this.currentPage, this.itensPerPage, '')
     .subscribe((response) => {
       this.associatesData = response.itens;
+      
     })
   }
 }

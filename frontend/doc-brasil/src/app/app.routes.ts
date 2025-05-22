@@ -1,16 +1,19 @@
 import { Routes } from '@angular/router';
-import { RegisterFormComponent } from './modules/pages/register-form/register-form.component';
+import { AuthLoginComponent } from './modules/pages/auth-login/auth-login.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
         path: "",
         title: "DOC - Brasil",
-        component: RegisterFormComponent
+        component: AuthLoginComponent,
+        canActivate: [authGuard]
     },
     {
         path: "painel",
         title: "DOC - Painel",
         loadComponent: () => import("./modules/pages/home/home.component").then(m => m.HomeComponent),
+        canActivate: [authGuard],
         children: [
             { 
                 path: '', redirectTo: 'associados', pathMatch: 'full' 
@@ -37,4 +40,5 @@ export const routes: Routes = [
             }
         ]
     },
+    { path: '**', redirectTo: '/' }
 ];

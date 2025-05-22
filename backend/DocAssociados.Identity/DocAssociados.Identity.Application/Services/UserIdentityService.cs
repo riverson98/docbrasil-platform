@@ -17,6 +17,11 @@ public class UserIdentityService : IUserIdentityService
         _mapper = mapper;
     }
 
+    public async Task DeleteUserIdentityAsync(Guid id)
+    {
+        await _identityRepository.DeleteUserByIdAsync(id);
+    }
+
     public async Task<AuthenticationDTO> GetTokenAsync(TokenRequestDTO requestDto)
     {
         var requestEntity = _mapper.Map<TokenRequest>(requestDto);
@@ -47,6 +52,7 @@ public class UserIdentityService : IUserIdentityService
             response.RefreshToken = authEntity.RefreshToken;
             response.Success = true;
             response.CreatedAt = result.CreatedAt;
+            response.Name = result.Name;
 
             return response;
         }
@@ -57,5 +63,11 @@ public class UserIdentityService : IUserIdentityService
         }
 
         return response;
+    }
+
+    public async Task<bool> UpdatePasswordAsync(UpdatePasswordDto updatePassword)
+    {
+        var updateEntity = _mapper.Map<UpdatePassword>(updatePassword);
+        return await _identityRepository.UpdatePasswordAsync(updateEntity);
     }
 }

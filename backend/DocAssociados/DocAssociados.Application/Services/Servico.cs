@@ -103,10 +103,24 @@ public class Servico<TDto, TEntidade> : IServico<TDto, TEntidade>
 
         _repositorio.Deleta(entidade);
         await _unityOfWork.CommitAsync();
+
     }
 
     public async Task UploadImagemAsync(IEnumerable<IUploadable> dtos, string? email)
     {
         await _servicoAzure.UploadImagem(dtos, email);
+    }
+
+    public async Task<string> AtualizaTokenSas(string urlTokenSas)
+    {
+        return await _servicoAzure.AtualizaTokenSas(urlTokenSas);
+    }
+
+    public async Task DeleteBlobItensAsync(string url)
+    {
+        if (string.IsNullOrEmpty(url))
+            return;
+
+        await _servicoAzure.DeleteBlobAsync(url);
     }
 }

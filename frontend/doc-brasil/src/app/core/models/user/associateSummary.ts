@@ -1,7 +1,10 @@
 export interface AssociateSummary {
-    id: string, 
+    id: string , 
     nome: string, 
     email: string, 
-    status: string, 
-    funcao: string 
+    dataDeNascimento: string, 
+    genero: string 
+    codigoAssociado: string,
+    funcao:number
+    urlFotoDePerfil: string
 }

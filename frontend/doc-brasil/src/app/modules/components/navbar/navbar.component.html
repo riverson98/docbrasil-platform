@@ -2,12 +2,26 @@
     <div class="header overall-layout">
         <div class="header__logo">
             <figure class="header__logo--img">
-                <img src="../../../../assets/logo.png" alt="DOC logo">
+                <img src="../../../../assets/logo1.png" alt="DOC logo">
             </figure>
         </div>
 
         <div class="header__profile">
-            <p>Usuario Teste</p>
+            <p class="header__profile--user">Olá, {{ formatUserName() }}</p>
+
+            <figure class="header__profile--img">
+                <img [src]="photoPath" alt="profile">
+            </figure>
+
+            <div class="header__profile--menu">
+                <ul class="header__profile--menu__container">
+                    <li class="header__profile--menu__container--item" routerLink="/painel/perfil">{{ formatUserName() }} <i class="fa-solid fa-user"></i></li>
+                    <li class="header__profile--menu__container--item" routerLink="/painel/senha"> Minha senha <i class="fa-solid fa-gear"></i> </li>
+                    <li class="header__profile--menu__container--item" (click)="logout()"> Sair <i class="fa-solid fa-power-off"></i> </li>
+                </ul>
+            </div>
         </div>
+
+        
     </div>
 </body>

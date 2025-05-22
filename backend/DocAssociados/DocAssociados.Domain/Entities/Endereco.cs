@@ -11,7 +11,7 @@ public sealed class Endereco
     public string Bairro { get; private set; }
     public string Cidade { get; private set; }
     public string Estado { get; private set; }
-    public string ComprovanteDeResidenciaUpload { get; private set; }
+    public string? ComprovanteDeResidenciaUpload { get; private set; }
     public DateTime DataDoUpload = DateTime.Now;
     
     public Guid AssociadoId { get; set; }
@@ -53,25 +53,25 @@ public sealed class Endereco
     private void ValidaDominio(string cep, string rua, string numero, string bairro, string cidade, 
         string estado, string comprovanteDeResidenciaUpload)
     {
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(cep),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(cep),
             "O cep é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(rua),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(rua),
             "A rua é obrigatória");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(numero),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(numero),
             "O número é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(bairro),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(bairro),
             "O bairro é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(cidade),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(cidade),
             "A cidade é obrigatória");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(estado),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(estado),
             "O estado é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(comprovanteDeResidenciaUpload),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(comprovanteDeResidenciaUpload),
             "O comprovante de residência é obrigatório");
     }
 }

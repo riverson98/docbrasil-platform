@@ -17,13 +17,17 @@ public class ConfiguracaoAssociado : IEntityTypeConfiguration<Associado>
         builder.Property(it => it.Status).HasMaxLength(1).IsRequired();
         builder.Property(it => it.CodigoRepresentante).HasMaxLength(4);
         builder.Property(it => it.CodigoRepresentanteSuperior).HasMaxLength(4).IsRequired();
+        builder.Property(it => it.CodigoAssociado).IsRequired();
         builder.Property(it => it.DataDeCadastro).IsRequired();
         builder.Property(it => it.CpfUploadUrl).IsRequired();
         builder.Property(it => it.TermoDeAdessaoUploadUrl).IsRequired();
         builder.Property(it => it.FichaAssociacaoUploadUrl).IsRequired();
+        builder.Property(it => it.RequerimentoJudicialUrl).IsRequired();
 
         //INDEX CONFIG
         builder.HasIndex(it => it.Email).IsUnique();
+        builder.HasIndex(it => it.Cpf).IsUnique();
         builder.HasIndex(it => it.CodigoRepresentante).IsUnique();
+        builder.HasIndex(it => it.CodigoAssociado).IsUnique();
     }
 }

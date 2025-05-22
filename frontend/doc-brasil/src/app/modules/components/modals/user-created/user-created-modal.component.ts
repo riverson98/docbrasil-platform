@@ -13,11 +13,7 @@ export class UserCreatedModalComponent {
 
   constructor(private router: Router, private dialogRef: MatDialogRef<UserCreatedModalComponent>){}
 
-  reload() {
-    this.dialogRef.close();
-  }
-
   backToPage(){
-    this.dialogRef.close();
+    this.dialogRef.close('refresh');
   }
 }

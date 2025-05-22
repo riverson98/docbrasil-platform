@@ -1,4 +1,4 @@
-<div class="register-form__content--register__content"> 
+<div class="register-form__content--register__content">
     <div class="popup" *ngIf="showErrorPopup">
         <span>{{ errorMessage }}</span>
     </div>
@@ -7,258 +7,181 @@
         <i class="fa-solid fa-x"></i>
     </span>
 
-    <mat-stepper class="register-form__content--register__content--stepper" linear >
-        <mat-step [stepControl]="personalData" label="Dados pessoais" class="register-form__content--register__content--stepper__step">
+    <mat-stepper class="register-form__content--register__content--stepper">
+        <mat-step [stepControl]="personalData" label="Dados pessoais"
+            class="register-form__content--register__content--stepper__step">
             <form [formGroup]="personalData" class="register-form__content--register__content--stepper__step--form">
                 <mat-form-field>
                     <mat-label>Nome</mat-label>
-                    <input matInput 
-                           placeholder="Nome" 
-                           formControlName="name" 
-                           >
+                    <input matInput placeholder="Nome" formControlName="name">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Email</mat-label>
-                    <input type="email" 
-                           matInput 
-                           formControlName="email" 
-                           placeholder="Ex. pat@example.com">
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-label>Data de nascimento</mat-label>
-                    <input 
-                        matInput
-                        formControlName="birthdate"
-                        (input)="onDataInput($event)"
-                        [matDatepicker]="picker"
-                        maxlength="10"
-                        >
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                  
-                <mat-form-field>
-                    <mat-label>Gênero</mat-label>
-                    <mat-select formControlName="gender">
-                        <mat-option value="male">Masculino</mat-option>
-                        <mat-option value="female">Feminino</mat-option>
-                        <mat-option value="other">Outro</mat-option>
-                    </mat-select>
+                    <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>CPF</mat-label>
-                    <input matInput 
-                           placeholder="Ex. 000.000.000-00" 
-                           formControlName="tax" 
-                           (input)="onCpfInput($event)"
-                           (keypress)="onlyNumbers($event)"
-                           maxlength="14"
-                           >
+                    <input matInput placeholder="Ex. 000.000.000-00" formControlName="tax" (input)="onCpfInput($event)"
+                        (keypress)="onlyNumbers($event)" maxlength="14">
                 </mat-form-field>
 
-                <mat-form-field class="register-form__content--register__content--stepper__step--form__representation--content__input">
-                    <mat-label>Código do representante</mat-label>
-                    <input matInput 
-                           placeholder="Ex. 0000"
-                           formControlName="seniorCodeRepresentation"
-                           maxlength="4"
-                    />
+                <mat-form-field>
+                    <mat-label>Data de nascimento</mat-label>
+                    <input matInput formControlName="birthdate" (input)="onDataInput($event)" [matDatepicker]="picker"
+                        maxlength="10">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-                
-                <div *ngIf="personalData.get('documentLink')?.value" class="register-form__content--register__content--stepper__step--form__termos">
-                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
-                        <i class="fa-regular fa-file"></i>
-                            <a [href]="personalData.get('documentLink')?.value"
-                               download target="_blank">
-                               Ver documento
-                            </a>
-                    </div>
-                </div>
 
-                <button class="file-button margin" 
-                        (click)="documentInput.click()"
-                        [class.invalid]="personalData.get('documentPhoto')?.invalid && personalData.get('documentPhoto')?.touched">
-                    <mat-icon>upload</mat-icon> Selecionar documento
-                </button>
+                <mat-form-field>
+                    <mat-label>Gênero</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="M">Masculino</mat-option>
+                        <mat-option value="F">Feminino</mat-option>
+                        <mat-option value="O">Outro</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-                <input type="file" 
-                       #documentInput 
-                       (change)="onFileSelected($event, personalData, 'documentPhoto')" 
-                       hidden
-                />
+                <mat-form-field *ngIf="personalData.get('status')?.value">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option [value]="1">Ativo</mat-option>
+                        <mat-option [value]="2">Inativo</mat-option>
+                        <mat-option [value]="3">Pendente</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                    class="register-form__content--register__content--stepper__step--form__representation--content__input">
+                    <mat-label>Código do representante superior</mat-label>
+                    <input matInput placeholder="Ex. 0000" formControlName="seniorCodeRepresentation" maxlength="4" />
+                </mat-form-field>
+
+                <mat-form-field
+                            class="register-form__content--register__content--stepper__step--form__representation--content__input">
+                            <mat-label>Código representante</mat-label>
+                            <input matInput placeholder="Ex. 0000" formControlName="codeRepresentation" />
+                </mat-form-field>
+
+                <mat-form-field *ngIf="personalData.get('codeAssociate')?.value"
+                    class="register-form__content--register__content--stepper__step--form__representation--content__input">
+                    <mat-label>Código associado</mat-label>
+                    <input matInput placeholder="Ex. 0000" formControlName="codeAssociate" />
+                </mat-form-field>
+
+                <mat-form-field
+                        class="register-form__content--register__content--stepper__step--form__representation--content__input">
+                        <mat-label>Função</mat-label>
+                        <mat-select formControlName="function">
+                            <mat-option [value]="0">Associado</mat-option>
+                            <mat-option [value]="1">Representante</mat-option>
+                            <mat-option [value]="2">Administrador</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
                 <div>
-                    <button class="next"
-                            (click)="verifyForm($event, personalData)"
-                            >Proximo
+                    <button class="file-button margin" (click)="documentInput.click()"
+                        [class.invalid]="personalData.get('documentPhoto')?.invalid && personalData.get('documentPhoto')?.touched">
+                        <mat-icon>upload</mat-icon> Selecionar documento
                     </button>
+    
+                    <input type="file" #documentInput (change)="onFileSelected($event, personalData, 'documentPhoto')"
+                        hidden />
+    
+                    <button class="file-button" (click)="termoInput.click()"
+                        [class.invalid]="personalData.get('associativeTerm')?.invalid && personalData.get('associativeTerm')?.touched
+                                             || personalData.get('contractTerm')?.invalid && personalData.get('contractTerm')?.touched">
+                        <mat-icon>upload</mat-icon> Termos assinados
+                    </button>
+                    <input type="file" #termoInput (change)="onMultipleFilesSelected($event)" multiple hidden />
+                </div>
+
+
+                <div>
+                    <button class="next" (click)="verifyForm($event, personalData)">Proximo</button>
                 </div>
             </form>
         </mat-step>
 
-        <mat-step [stepControl]="addressData" label="Endereço" class="register-form__content--register__content--stepper__step">
+        <mat-step [stepControl]="addressData" label="Endereço"
+            class="register-form__content--register__content--stepper__step">
             <form [formGroup]="addressData" class="register-form__content--register__content--stepper__step--form">
                 <mat-form-field>
                     <mat-label>CEP</mat-label>
-                    <input matInput 
-                           formControlName="zip" 
-                           placeholder="Ex. 00000-000" 
-                           maxlength="9"
-                           (input)="onCepInput($event)"
-                           (keypress)="onlyNumbers($event)"
-                           />
+                    <input matInput formControlName="zip" placeholder="Ex. 00000-000" maxlength="9"
+                        (input)="onCepInput($event)" (keypress)="onlyNumbers($event)" />
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Rua</mat-label>
-                    <input matInput placeholder="Ex. Rua das flores" 
-                           formControlName="street">
+                    <input matInput placeholder="Ex. Rua das flores" formControlName="street">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Número</mat-label>
-                    <input matInput placeholder="Ex. 2077" 
-                           formControlName="number">
+                    <input matInput placeholder="Ex. 2077" formControlName="number">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Bairro</mat-label>
-                    <input matInput 
-                           placeholder="Ex. Garras de tigre" 
-                           formControlName="district">
+                    <input matInput placeholder="Ex. Garras de tigre" formControlName="district">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Cidade</mat-label>
-                    <input matInput 
-                           placeholder="Ex. Night City" 
-                           formControlName="city">
+                    <input matInput placeholder="Ex. Night City" formControlName="city">
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Estado</mat-label>
-                    <input matInput 
-                           placeholder="Ex. SC" 
-                           formControlName="state" 
-                           maxlength="2"
-                           >
+                    <input matInput placeholder="Ex. SC" formControlName="state" maxlength="2">
                 </mat-form-field>
 
-                <div *ngIf="addressData.get('proofLink')?.value" class="register-form__content--register__content--stepper__step--form__termos">
-                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
-                        <i class="fa-regular fa-file"></i>
-                            <a [href]="addressData.get('proofLink')?.value"
-                                download target="_blank">
-                               Ver comprovante
-                            </a>
-                    </div>
-                </div>
-
-                <button class="file-button" 
-                        (click)="proofInput.click()"
-                        [class.invalid]="addressData.get('proofOfResidence')?.invalid && addressData.get('proofOfResidence')?.touched">
+                <button class="file-button" (click)="proofInput.click()"
+                    [class.invalid]="addressData.get('proofOfResidence')?.invalid && addressData.get('proofOfResidence')?.touched">
                     <mat-icon>upload</mat-icon> Comprovante de residencia
                 </button>
-                <input type="file" 
-                       #proofInput 
-                       (change)="onFileSelected($event, addressData, 'proofOfResidence')" 
-                       hidden
-                       />
+                <input type="file" #proofInput (change)="onFileSelected($event, addressData, 'proofOfResidence')"
+                    hidden />
 
-                <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <button  class="previous" matStepperPrevious>Voltar</button>
-                    <button class="next"
-                            (click)="verifyForm($event, addressData)">Proximo</button>
-                </div>
+                <button class="next" (click)="handleClick($event, personalData)">Cadastrar</button>
             </form>
         </mat-step>
 
-        <mat-step label="Representante">
-            <form [formGroup]="personalData" class="register-form__content--register__content--stepper__step--form" style="gap: 2rem;">
-                <div class="register-form__content--register__content--stepper__step--form__representation"
-                    [ngClass]="{'active': isRepresentation}">
-                    <div class="register-form__content--register__content--stepper__step--form__representation--title" (click)="selectIsRepresentation()">
-                        <div class="register-form__content--register__content--stepper__step--form__representation--title__content">
-                            <i class="fa-solid fa-tags"></i>
-                            <p>É um representante?</p>
-                        </div>
-                        <i class="fa-solid fa-angle-down confirmation__form--discount__toggle"></i>
-                    </div>
-                
-
-                    <div class="register-form__content--register__content--stepper__step--form__representation--content" 
-                        *ngIf="isRepresentation">
-                        <mat-form-field class="register-form__content--register__content--stepper__step--form__representation--content__input">
-                            <mat-label>Seu código de representante</mat-label>
-                            <input matInput 
-                                   placeholder="Ex. 0000"
-                                   formControlName="codeRepresentation"/>
-                        </mat-form-field>
-                    </div>
-
-
-                </div>
-                
-                <div class="register-form__content--register__content--stepper__step--form__termos">
-                    <div class="register-form__content--register__content--stepper__step--form__termos--termo">
+        <mat-step label="Documentos" *ngIf="personalData.get('documentLink')?.value || personalData.get('associativeTerm')?.value || personalData.get('contractTerm')?.value || personalData.get('courtOrder')?.value">
+            <form [formGroup]="personalData" class="register-form__content--register__content--stepper__step--form"
+                style="gap: 2rem;">
+                <div *ngIf="personalData.get('associativeTerm')?.value"
+                    class="register-form__content--register__content--stepper__step--form__termos">
+                    <div class="register-form__content--register__content--stepper__step--form__termos--termo" *ngIf="personalData.get('documentLink')?.value">
                         <i class="fa-regular fa-file"></i>
-                        <a href="https://termosassociados.blob.core.windows.net/documentos-publicos/Ficha-associativa.docx" 
-                           download target="_blank"
-                        >Ficha associativa</a>
-                        <mat-icon 
-                            matTooltip="Este é o termo associativo. Clique no link para fazer o download, assine com o Gov.br e, em seguida, 
-                            anexe o documento utilizando o botão abaixo ANEXE OS DOIS ARQUIVOS DE UMA VEZ."
-                            style="cursor: help; vertical-align: middle;">
-                            help_outline
-                        </mat-icon>
+                        <a [href]="personalData.get('documentLink')?.value" target="_blank">
+                            Ver documento
+                        </a>
                     </div>
 
-                    <div class="register-form__content--register__content--stepper__step--form__termos--termo">
+                    <div class="register-form__content--register__content--stepper__step--form__termos--termo" *ngIf="personalData.get('associativeTerm')?.value">
                         <i class="fa-regular fa-file"></i>
-                        <a href="https://termosassociados.blob.core.windows.net/documentos-publicos/Termo-de-adesão.docx" 
-                           download target="_blank"
-                        >Termo de adesão</a>
-                        <mat-icon 
-                            matTooltip="Este é o termo de adesão. Clique no link para fazer o download, assine com o Gov.br e, em seguida, 
-                            anexe o documento utilizando o botão abaixo ANEXE OS DOIS ARQUIVOS DE UMA VEZ."
-                            style="cursor: help; vertical-align: middle;">
-                            help_outline
-                        </mat-icon>
+                        <a [href]="personalData.get('associativeTerm')?.value" target="_blank">
+                            Ver ficha associativa
+                        </a>
                     </div>
-                </div>
 
-                <button class="file-button" 
-                        (click)="termoInput.click()"
-                        [class.invalid]="termData.get('associativeTerm')?.invalid && termData.get('associativeTerm')?.touched
-                                         || termData.get('contractTerm')?.invalid && termData.get('contractTerm')?.touched">
-                    <mat-icon>upload</mat-icon> Termos assinados
-                </button>
-                <input type="file" 
-                       #termoInput 
-                       (change)="onMultipleFilesSelected($event)" 
-                       multiple
-                       hidden 
-                       />
-
-                <div *ngIf="termData.get('associativeTerm')?.value" class="register-form__content--register__content--stepper__step--form__termos">
-                    <div  class="register-form__content--register__content--stepper__step--form__termos--termo">
+                    <div class="register-form__content--register__content--stepper__step--form__termos--termo" *ngIf="personalData.get('contractTerm')?.value">
                         <i class="fa-regular fa-file"></i>
-                            <a [href]="termData.get('associativeTerm')?.value"
-                                download target="_blank">
-                                    Ver ficha associativa
-                            </a>
-   
-                            <a [href]="termData.get('contractTerm')?.value"
-                                download target="_blank">
-                                    Ver termo de adesão
-                            </a>
-                        </div>
+                        <a [href]="personalData.get('contractTerm')?.value" target="_blank">
+                            Ver termo de adesão
+                        </a>
                     </div>
-                <div>
-                    <button class="next" (click)="handleClick($event, termData)">Cadastrar</button>
+
+                    <div class="register-form__content--register__content--stepper__step--form__termos--termo" *ngIf="personalData.get('courtOrder')?.value">
+                        <i class="fa-regular fa-file"></i>
+                        <a [href]="personalData.get('courtOrder')?.value" target="_blank">
+                            Ver requerimento judicial
+                        </a>
+                    </div>
                 </div>
             </form>
         </mat-step>

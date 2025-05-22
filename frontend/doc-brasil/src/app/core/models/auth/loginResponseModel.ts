@@ -6,5 +6,5 @@ export interface LoginResponseModel {
     token:string;
     refreshToken:string;
     refreshTokenExpiration:Date;
-    isRegistrationCompleted:boolean;
+    name:string;
 }

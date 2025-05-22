@@ -7,12 +7,14 @@ import { Router } from '@angular/router';
 import { RegisterModel } from '../../models/auth/registerModel';
 import { LoginResponseModel } from '../../models/auth/loginResponseModel';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { LoginModel } from '../../models/auth/loginModel';
+import { updatePassword } from '../../models/auth/updatePassword';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl:string = 'https://appdocdobrasil.com.br/auth';
+  apiUrl:string = 'http://localhost:5142/auth';
 
   constructor(private http:HttpClient, private router: Router) {}
   
@@ -22,7 +24,7 @@ export class AuthService {
     );
   }
 
-  login(userData:RegisterModel): Observable<LoginResponseModel> {
+  login(userData:LoginModel): Observable<LoginResponseModel> {
     return this.http.post<LoginResponseModel>(
         `${this.apiUrl}/login`, userData,
     );
@@ -35,10 +37,18 @@ export class AuthService {
     );
   }
 
+  updatePassword(passwordData: updatePassword): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/update-password`, passwordData
+    );
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
-    this.router.navigate(['/auth-login']); 
+    localStorage.removeItem('username');
+    localStorage.removeItem('userPhoto');
+    this.router.navigate(['/']); 
   }
 
   getUserId(): string | undefined {

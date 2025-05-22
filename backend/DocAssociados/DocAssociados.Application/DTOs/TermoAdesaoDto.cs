@@ -9,9 +9,9 @@ public class TermoAdesaoDto : IUploadable
     IFormFile? IUploadable.FotoDoArquivo { get => TermoAdesao; set => TermoAdesao = value; }
     string? IUploadable.SufixoBlob { get => _blobSufixo; }
     string? IUploadable.UrlDaFoto { get => TermoAdesaoUploadUrl; set => TermoAdesaoUploadUrl = value; }
-    public bool temArquivoParaUpload { get => TermoAdesao != null; }
+    public bool TemArquivoParaUpload { get => TermoAdesao != null; }
 
-    private readonly string _blobSufixo = $"Termo-adesao";
+    private readonly string _blobSufixo = $"Termo-adesao.docx";
     #endregion
 
     public IFormFile? TermoAdesao { get; set; }

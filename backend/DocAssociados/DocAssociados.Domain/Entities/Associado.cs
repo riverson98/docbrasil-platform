@@ -12,22 +12,25 @@ public sealed class Associado
     public int Funcao { get; private set; }
     public int Status { get; private set; }
     public string Cpf {  get; private set; }
-    public string CpfUploadUrl { get; private set; }
-    public string TermoDeAdessaoUploadUrl { get; private set; }
-    public string FichaAssociacaoUploadUrl { get; private set; }
+    public string? CpfUploadUrl { get; private set; }
+    public string? TermoDeAdessaoUploadUrl { get; private set; }
+    public string? FichaAssociacaoUploadUrl { get; private set; }
+    public string? RequerimentoJudicialUrl { get; private set; }
     public string? CodigoRepresentante {  get; private set; } 
     public string CodigoRepresentanteSuperior {  get; private set; }
+    public int? CodigoAssociado { get; private set; }
     public DateTime DataDeCadastro { get; private set; } = DateTime.Now;
+    public string? FotoDePerfilUrl { get; private set; }
     public Endereco Endereco { get; set; }
 
     public Associado() {}
 
     public Associado(string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
-                     string cpfUploadUrl ,string codigoRepresentante, string codigoRepresentanteSuperior, Endereco endereco,
-                     string termoDeAdessaoUrl, string fichaAssociacaoUrl)
+                     string? cpfUploadUrl ,string codigoRepresentante, string codigoRepresentanteSuperior, Endereco endereco,
+                     string? termoDeAdessaoUrl, string? fichaAssociacaoUrl, int codigoAssociado, string? fotoDePerfilUrl, string? requerimentoJudicialUrl)
     {
         ValidaDominio(nome, email, dataDeNascimento, genero, funcao, status, cpf, codigoRepresentante, 
-            codigoRepresentanteSuperior, cpfUploadUrl, termoDeAdessaoUrl, fichaAssociacaoUrl);
+            codigoRepresentanteSuperior, cpfUploadUrl, termoDeAdessaoUrl, fichaAssociacaoUrl, requerimentoJudicialUrl);
 
         Nome = nome;
         Email = email;
@@ -42,15 +45,18 @@ public sealed class Associado
         CpfUploadUrl = cpfUploadUrl;
         TermoDeAdessaoUploadUrl = termoDeAdessaoUrl;
         FichaAssociacaoUploadUrl = fichaAssociacaoUrl;
+        CodigoAssociado = codigoAssociado;
+        FotoDePerfilUrl = fotoDePerfilUrl;
+        RequerimentoJudicialUrl = requerimentoJudicialUrl;
     }
 
 
     public void Atualiza(Guid id, string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
                         string cpfUploadUrl, string codigoRepresentante, string codigoRepresentanteSuperior,
-                        string termoDeAdessaoUrl, string fichaAssociacaoUrl, Endereco endereco)
+                        string termoDeAdessaoUrl, string fichaAssociacaoUrl, string fotoDePerfilUrl, string requerimento)
     {
         ValidaDominio(nome, email, dataDeNascimento, genero, funcao, status, cpf, cpfUploadUrl, codigoRepresentante, codigoRepresentanteSuperior,
-            termoDeAdessaoUrl, fichaAssociacaoUrl);
+            termoDeAdessaoUrl, fichaAssociacaoUrl, requerimento);
 
         Id = id;
         Nome = nome;
@@ -62,50 +68,51 @@ public sealed class Associado
         Cpf = cpf;
         CodigoRepresentante = codigoRepresentante;
         CodigoRepresentanteSuperior = codigoRepresentanteSuperior;
-        Endereco = endereco;
         CpfUploadUrl = cpfUploadUrl;
         TermoDeAdessaoUploadUrl = termoDeAdessaoUrl;
         FichaAssociacaoUploadUrl = fichaAssociacaoUrl;
+        FotoDePerfilUrl = fotoDePerfilUrl;
+        RequerimentoJudicialUrl = requerimento;
     }
 
     private void ValidaDominio(string nome, string email, DateOnly dataDeNascimento, string genero, int funcao, int status, string cpf,
-                                string cpfUploadUrl, string codigoRepresentante, string codigoRepresentanteSuperior,
-                                string termoDeAdessaoUrl, string fichaAssociacaoUrl)
+                                string? cpfUploadUrl, string codigoRepresentante, string codigoRepresentanteSuperior,
+                                string? termoDeAdessaoUrl, string? fichaAssociacaoUrl, string? requerimento)
     {
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(nome),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(nome),
             "O nome é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(email),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(email),
             "O e-mail é obrigatório");
 
-        ValidacaoDeDominioExecption.When(dataDeNascimento.Equals(DateOnly.MinValue),
+        ValidacaoDeDominioException.When(dataDeNascimento.Equals(DateOnly.MinValue),
             "A data de nascimento é obrigatória");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(genero),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(genero),
             "O genêro é obrigatório");
 
-        ValidacaoDeDominioExecption.When(funcao < 0,
+        ValidacaoDeDominioException.When(funcao < 0,
             "A função é obrigatória");
 
-        ValidacaoDeDominioExecption.When(status < 0,
+        ValidacaoDeDominioException.When(status < 0,
             "O status é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(cpf),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(cpf),
             "O cpf é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(codigoRepresentante),
-            "O codigo do representante é obrigatório");
-
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(codigoRepresentanteSuperior),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(codigoRepresentanteSuperior),
             "O codigo do representante superior é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(termoDeAdessaoUrl),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(termoDeAdessaoUrl),
             "O termo de adesão é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(fichaAssociacaoUrl),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(fichaAssociacaoUrl),
             "A ficha de associação é obrigatório");
 
-        ValidacaoDeDominioExecption.When(string.IsNullOrEmpty(cpfUploadUrl),
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(cpfUploadUrl),
             "A foto do cpf é obrigatório");
+
+        ValidacaoDeDominioException.When(string.IsNullOrEmpty(requerimento),
+            "A requerimento judicial é obrigatório");
     }
 }

@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { map, Observable, of } from "rxjs";
 
 export function validateCpf(control: AbstractControl) : Observable<ValidationErrors | null> {
-    return of(control.value?.replace(/\D/g, '')).pipe( // Opcional: adiciona um pequeno delay para evitar validações excessivas
+    return of(control.value?.replace(/\D/g, '')).pipe( 
         map((cpf: string | undefined) => {
           if (!cpf || cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
             return { invalidCpf: true };
@@ -29,13 +29,28 @@ export function validateCpf(control: AbstractControl) : Observable<ValidationErr
 
 export function getStatusClass(status: number): string {
   switch (status) {
-    case 0:
-      return 'user-pending';
     case 1:
       return 'user-active';
     case 2:
       return 'user-inactive';
+    case 3:
+      return 'user-pending';
     default:
       return 'status-desconhecido';
   }
 }
+
+export function togglePassword(inputHtml:string, iconHtml:string):void {
+  const passwordInput = document.getElementById(inputHtml) as HTMLInputElement;
+   
+  if(passwordInput){
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      const icon = document.getElementById(iconHtml) as HTMLElement;
+
+      if (icon) {
+          icon.classList.toggle("fa-eye");
+          icon.classList.toggle("fa-eye-slash");
+      }
+  }
+};

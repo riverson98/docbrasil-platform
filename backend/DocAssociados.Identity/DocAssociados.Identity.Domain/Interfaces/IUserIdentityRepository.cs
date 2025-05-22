@@ -8,4 +8,6 @@ public interface IUserIdentityRepository
     Task<Authentication> GenerateAccessTokenAsync(TokenRequest request);
     Task<string> AddRoleAsync(UserToRole userToRole);
     Task<Authentication> RefreshTokenAsync(string token);
+    Task<bool> UpdatePasswordAsync(UpdatePassword updatePassword);
+    Task DeleteUserByIdAsync(Guid id);
 }

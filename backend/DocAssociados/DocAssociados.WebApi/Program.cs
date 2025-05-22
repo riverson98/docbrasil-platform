@@ -1,6 +1,7 @@
 ﻿using DocAssociados.Infra.IoC;
 using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using DocAssociados.Service.Infra.CrossCutting.Config;
+using DocAssociados.Service.Infra.CrossCutting.HttpClients.Policys;
 using DocAssociados.Service.Infra.CrossCutting.Middles;
 using DocAssociados.Service.Infra.IoC;
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
@@ -29,12 +31,22 @@ builder.Services.AddCors(options =>
 //CrossCuttingConfig
 builder.Services.Configure<AzureBlobStorageOpcoes>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<AzureVaultConfig>(builder.Configuration.GetSection("AzureKeyVault"));
+builder.Services.Configure<ApiGatewayConfig>(builder.Configuration.GetSection("ApiGatewayConfig"));
+
+//Config HttpClient
+builder.Services.AddHttpClient("DefaultHttpClient", client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+
+}).AddPolicyHandler(HttpClientPolicys.GetRetryPolicy())
+   .AddPolicyHandler(HttpClientPolicys.GetCircuitBreakerPolicy())
+   .AddPolicyHandler(HttpClientPolicys.GetTimeoutPolicy());
 
 if (builder.Environment.IsProduction())
 {
-    var url = new AzureVaultConfig() { KeyVaultUrl = "chavesapisecretas" };
+    var url = new AzureVaultConfig() { KeyVaultUrl = "DocBrasilKeyVault" };
     KeyVaultStatic.Init(url);
-    var apiKey = await KeyVaultStatic.GetSecretAsync("ChaveApiAssociados");
+    var apiKey = await KeyVaultStatic.GetSecretAsync("AssociateKey");
 
     builder.Configuration["ApiSecurity:Key"] = apiKey;
 }

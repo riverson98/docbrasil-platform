@@ -35,17 +35,19 @@
             </td>
 
             <td>
-                <p>{{ item.funcao | function }}</p>
+                <p>{{ item.funcao | functionPipe }}</p>
             </td>
 
             <td>
-                <i class="fa-solid fa-trash table__body--container__trash"></i>
+                <div class="table__body--container__trash" (click)="openConfirmationModal(item.id); $event.stopPropagation()">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
             </td>
         </tr>
     </tbody>
 </table>
 
-<div class="table__pagination">
+<div class="table__pagination" *ngIf="data.length > 10">
     <button (click)="goToPrevious()" [disabled]="currentPage === 1"><i class="fa-solid fa-caret-left"></i></button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
     <button (click)="goToNext()" [disabled]="currentPage === totalPages"><i

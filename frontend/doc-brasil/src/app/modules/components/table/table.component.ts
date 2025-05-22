@@ -5,6 +5,7 @@ import { getStatusClass } from '../../../script/_global-scripts';
 import { CommonModule } from '@angular/common';
 import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '../modals/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-table',
@@ -24,13 +25,13 @@ export class TableComponent {
   @Input({alias: 'addtitle', required: true}) addtitle!: string;
   @Output() requestDataUpdate = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<number>();
-  @Output() onUserUpdated = new EventEmitter<number>();
+  @Output() onUserUpdated = new EventEmitter<void>();
+  @Output() onUserDeleted = new EventEmitter<void>();
 
   constructor (private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
-      console.log('Dados atualizados recebidos do pai:', this.data);
     }
   }
 
@@ -56,12 +57,27 @@ export class TableComponent {
 
   showUserDetails(id:string){
     const associate = this.data.find(a => a.id === id);
+    console.log("valor do associado", associate)
     this.dialog.open(RegisterModalComponent, {
       data: associate,
-      width: '50%',
+      width: '80%',
       height: 'auto'
     }).afterClosed().subscribe(() => {
       this.onUserUpdated.emit();
+    });
+  }
+
+  openConfirmationModal(id:string){
+    const associate = this.data.find(a => a.id === id);
+    this.dialog.open(ConfirmationModalComponent, {
+      data: associate,
+      width: '50%',
+      height: 'auto'
+    }).afterClosed().subscribe((result) => {
+      console.log("Valor do result:", result)
+      if(result === 'user-deleted'){
+        this.onUserDeleted.emit();
+      }
     });
   }
 }

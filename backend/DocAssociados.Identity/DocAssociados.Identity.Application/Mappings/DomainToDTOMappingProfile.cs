@@ -12,5 +12,6 @@ public class DomainToDTOMappingProfile : Profile
         CreateMap<Authentication, AuthenticationDTO>().ReverseMap();
         CreateMap<TokenRequest, TokenRequestDTO>().ReverseMap();
         CreateMap<UserToRole, UserToRoleDTO>().ReverseMap();
+        CreateMap<UpdatePassword, UpdatePasswordDto>().ReverseMap();
     }
 }

@@ -5,16 +5,15 @@ body {
     background-color: var(--color-stroke);
 
     h1 {
-        padding: 2rem 20rem;
+        padding: 2rem 3rem;
         font-size: var(--font-size-st-m);
     }
 }
 
 .home {
     width: 100vw;
-    min-height: 92vh;
     display: flex;
-    padding: 2rem 20rem;
+    padding: 2rem 3rem;
     gap: 5rem;
 
     &__content-profile {
@@ -68,7 +67,7 @@ body {
 
                     &:hover {
                         cursor: pointer;
-                        background-color: var(--color-secondary-m);
+                        background-color: var(--color-secondary-m-3);
                     }
                 }
             }

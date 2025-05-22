@@ -1,5 +1,5 @@
 <body class="container">
-    <app-navbar></app-navbar>
+    <app-navbar userName="Lais"></app-navbar>
     <h1>DOC do Brasil</h1>
 
     <section class="home">
@@ -27,12 +27,12 @@
                 </div>
 
                 <ul class="home__content-profile--content-personal__items">
-                    <li class="home__content-profile--content-personal__items--item" routerLink="membros" (click)="loading.show()">
+                    <li class="home__content-profile--content-personal__items--item" routerLink="membros">
                         <i class="fa-solid fa-users-gear"></i>
                         <p>Membros do time</p>
                     </li>
 
-                    <li class="home__content-profile--content-personal__items--item" routerLink="associados" (click)="loading.show()">
+                    <li class="home__content-profile--content-personal__items--item" routerLink="associados">
                         <i class="fa-solid fa-users"></i>
                         <p>Associados</p>
                     </li>

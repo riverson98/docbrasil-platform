@@ -7,7 +7,8 @@ import { LoadingService } from '../../../core/services/loading/loading.service';
 import { AssociatesComponent } from './associates/associates.component';
 import { MembersComponent } from './members/members.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, Observable, of, switchMap } from 'rxjs';
+import { UrlService } from '../../../core/services/urlService/url.service';
 
 @Component({
   selector: 'app-home',
@@ -27,20 +28,25 @@ export class HomeComponent implements AfterViewInit{
   page:number = 1;
   pageSize:number = 10;
   filterControl = new FormControl('');
+  currentRoute: string = '';
+  previousRoute: string | null = null;
 
   @ViewChild(AssociatesComponent) associates!: AssociatesComponent;
   @ViewChild(MembersComponent) members!: MembersComponent;
 
-  constructor(public state: DashboardStateService, public loading: LoadingService, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(public state: DashboardStateService, public loadingService: LoadingService, private router: Router, private urlService: UrlService) {}
   
   ngAfterViewInit(): void {
-    const currentRoute = this.router.url;
+    this.previousRoute = this.urlService.getPreviousUrl();
+    this.currentRoute = this.router.url;
 
-    if (currentRoute.includes('/associados') && this.associates) {
+    if (this.currentRoute.includes('/associados') && this.associates) {
       this.onControlChange(this.associates, this.filterControl)
+      .pipe(finalize(() => this.loadingService.hide()))
       .subscribe();
-    } else if (currentRoute.includes('/membros') && this.members) {
+    } else if (this.currentRoute.includes('/membros') && this.members) {
       this.onControlChange(this.members, this.filterControl)
+      .pipe(finalize(() => this.loadingService.hide()))
       .subscribe();
     }
   }
@@ -49,7 +55,15 @@ export class HomeComponent implements AfterViewInit{
     return control.valueChanges.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
-      switchMap(query => component.reloadData(this.page, this.pageSize, query))
+      switchMap(query => component.reloadData(this.page, this.pageSize, query)),
     )
+  }
+
+  loading (){
+    console.log("valor da rota anterior", this.previousRoute)
+    console.log("valor do current route ", this.currentRoute)
+    if(this.router.url != this.currentRoute){
+      this.loadingService.show();
+    }
   }
 }

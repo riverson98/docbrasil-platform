@@ -9,13 +9,14 @@ public class Response
     public List<string>? Errors { get; private set; }
     public bool Success { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string Name { get; private set; }
 
     public Response()
     {
 
     }
 
-    public Response(bool success, string? id, string? email)
+    public Response(bool success, string? id, string? email, string name)
     {
         if (success)
         {
@@ -28,6 +29,7 @@ public class Response
         Id = id;
         Success = success;
         Email = email;
+        Name = name;
     }
 
     public Response(List<string> errors, bool success)

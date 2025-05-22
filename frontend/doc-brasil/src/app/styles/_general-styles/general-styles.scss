@@ -6,12 +6,13 @@
     --color-primary: hsl(0, 0%, 100%);
 
     --color-secondary: hsl(42, 85%, 53%);
-    --color-secondary-m: hsl(42, 85%, 53%, 0.4);
+    --color-secondary-m: hsl(42, 99%, 39%);
     --color-secondary-m-2: hsl(42, 85%, 53%, 0.9);
+    --color-secondary-m-3: hsl(42, 85%, 53%, 0.3);
 
-    --color-tertiary: hsl(120, 20%, 37%);
-    --color-tertiary-m: hsl(120, 20%, 37%, 0.4);
-    --color-tertiary: hsl(120, 20%, 37%, 0.9);
+    --color-tertiary: hsl(124, 92%, 24%);
+    --color-tertiary-m: hsl(123, 100%, 18%);
+    --color-tertiary-m2: hsl(120, 20%, 37%, 0.9);
 
     --color-quartenary: hsl(0, 0%, 11%);
     --color-quartenary-m: hsl(0, 0%, 11%, 0.4);
@@ -99,7 +100,7 @@
 }
 
 body {
-    background-color: var(--color-primary);
+    background-color: var(--color-stroke);
     font-family: var(--font-family-content);
     line-height: 1.6;
 }

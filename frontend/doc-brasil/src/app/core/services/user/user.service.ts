@@ -1,15 +1,18 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { UserModel } from "../../models/user/userModel";
 import { Observable } from "rxjs";
 import { PaginationParamsRequest } from "../../models/paginationParams/paginationParamsRequest";
 import { PaginationParamsResponse } from "../../models/paginationParams/paginationParamsResponse";
+import { AssociateSummary } from "../../models/user/associateSummary";
+import { AssociadoResumidoDto } from "../../models/user/AssociadoResumidoDto";
+import { ProfilePhotoRequest } from "../../models/user/ProfilePhotoRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'https://appdocdobrasil.com.br/associado';
+    apiUrl:string = 'http://localhost:5142/associado';
 
     constructor(private http:HttpClient) {
         
@@ -27,6 +30,29 @@ export class UserService {
             );
     }
 
+    updateSummary(data: AssociadoResumidoDto): Observable<AssociadoResumidoDto> {
+        const patchDoc = [
+            {
+                "op": "replace",
+                "path": "/nome",
+                "value": data.nome
+            },
+            {
+                "op": "replace",
+                "path": "/dataDeNascimento",
+                "value": data.dataDeNascimento
+            },
+            {
+                "op": "replace",
+                "path": "/genero",
+                "value": data.genero
+            },
+        ];
+        return this.http.patch<AssociadoResumidoDto>(
+            `${this.apiUrl}/${data.id}`, patchDoc
+        )
+    }
+
     getUserById(id: string): Observable<UserModel>{
         return this.http.get<UserModel>(
             `${this.apiUrl}/${id}`
@@ -42,6 +68,12 @@ export class UserService {
     getUserWithAddressById(id: string): Observable<UserModel>{
         return this.http.get<UserModel>(
             `${this.apiUrl}/com-detalhes/${id}`
+        );
+    }
+
+    getUserSummary(id:string): Observable<AssociateSummary>{
+        return this.http.get<AssociateSummary>(
+            `${this.apiUrl}/associado-resumido/${id}`
         );
     }
 
@@ -69,5 +101,26 @@ export class UserService {
             `${this.apiUrl}/busca-membros`,
             {params: httpParams}
         )
+    } 
+
+    deleteUser(id:string): Observable<any>{
+        return this.http.delete(
+            `${this.apiUrl}/deleta-associado/${id}`
+        )
+    }
+
+    saveProfilePhoto(userId: string, file: File): Observable<ProfilePhotoRequest>{
+        const userDataPhoto = new FormData();
+        userDataPhoto.append("ArquivoDaFotoDePerfil", file);
+
+        return this.http.post<ProfilePhotoRequest>(
+            `${this.apiUrl}/adiciona-foto-de-perfil/${userId}`, userDataPhoto
+        );
+    }
+
+    getUserName(): string{
+        const username = localStorage.getItem('username')!;
+        const firstName = username.split(' ')[0];
+        return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
     }
 }

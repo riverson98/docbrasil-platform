@@ -8,12 +8,12 @@ export class StatusPipe implements PipeTransform {
 
   transform(value: number): string {
     switch(value){
-      case 0:
-        return 'Pendente';
       case 1:
         return 'Ativo';
       case 2:
         return 'Inativo';
+      case 3:
+        return 'Pendente';
       default:
         return 'Desconhecido'
     }

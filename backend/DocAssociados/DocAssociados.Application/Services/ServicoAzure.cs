@@ -16,12 +16,16 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
     private readonly AzureBlobStorageOpcoes _opcoes;
     private readonly IKeyVaultService _keyService;
     private readonly IMemoryCache _cache;
+    private readonly BlobContainerClient _containerClient;
 
     public ServicoAzure(AzureBlobStorageOpcoes opcoes, IKeyVaultService keyService, IMemoryCache cache)
     {
         _opcoes = opcoes;
         _keyService = keyService;
         _cache = cache;
+
+        var blobServiceClient = new BlobServiceClient(new Uri(_opcoes.ServicoBlobUrl));
+        _containerClient = blobServiceClient.GetBlobContainerClient(_opcoes.NomeDoContainer);
     }
 
     public async Task UploadImagem(IEnumerable<IUploadable> dtos, string? email)
@@ -73,6 +77,40 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
         }
     }
 
+    public async Task<string> UploadImagem(T dto, string? email)
+    {
+        if (!dto.TemArquivoParaUpload)
+            throw new ArgumentException("O arquivo é obrigatório");
+
+        var nomeDoArquivo = $"user-{email}/{dto.SufixoBlob}";
+
+
+        using (var stream = dto.FotoDoArquivo.OpenReadStream())
+        {
+            BlobClient blobClient;
+            string baseUrl;
+
+            if (_opcoes.UsaSasToken)
+            {
+                var sasToken = await CriaSasToken(nomeDoArquivo);
+                baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
+            }
+            else
+                baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
+
+            blobClient = new BlobClient(new Uri(baseUrl));
+
+            await blobClient.UploadAsync(stream, true);
+
+            var uri = blobClient.Uri.ToString();
+
+            if (!string.IsNullOrEmpty(uri))
+                dto.UrlDaFoto = uri;
+
+            return blobClient.Uri.ToString();
+        }
+    }
+
     public async Task<string> RecriaImagemUrl(string url)
     {
         if (string.IsNullOrEmpty(url))
@@ -104,6 +142,39 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
         return true;
     }
 
+    public async Task<string> AtualizaTokenSas(string urlTokenSas)
+    {
+        if (string.IsNullOrEmpty(urlTokenSas))
+            return string.Empty;
+
+        if (!TokenEstaExpirado(urlTokenSas))
+            return string.Empty;
+
+        var nomeDoArquivo = ExtraiNomeDoArquivoDaUrl(urlTokenSas);
+        var tokenAtualizado = await CriaSasToken(nomeDoArquivo);
+
+        return $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{tokenAtualizado}";
+    }
+
+    public async Task DeleteBlobAsync(string url)
+    {
+        BlobClient blobClient;
+        string baseUrl;
+
+        var nomeDoArquivo = ExtraiNomeDoArquivoDaUrl(url);
+
+        if (_opcoes.UsaSasToken)
+        {
+            var sasToken = await CriaSasToken(nomeDoArquivo);
+            baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
+        }
+        else
+            baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
+
+        blobClient = new BlobClient(new Uri(baseUrl));
+        var response = await blobClient.DeleteIfExistsAsync();
+    }
+
     private async Task<string> CriaSasToken(string nomeDoArquivo)
     {
 
@@ -128,7 +199,7 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
             ExpiresOn = DateTime.UtcNow.AddMinutes(5)
         };
 
-        sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
+        sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write | BlobSasPermissions.Delete);
         var blobSecretKey = await _keyService.GetSecretAsync("AzureBlobContainerSecretKey");
         var storageSharedKeyCredential = new StorageSharedKeyCredential(_opcoes.NomeDaConta, blobSecretKey);
 
@@ -148,5 +219,21 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
                 return sasToken;
 
         return string.Empty;
+    }
+
+    private string ExtraiNomeDoArquivoDaUrl(string sasUrl)
+    {
+        var uri = new Uri(sasUrl);
+        var containerName = _opcoes.NomeDoContainer;
+
+        var absolutePath = uri.AbsolutePath;
+        var prefixo = $"/{containerName}/";
+
+        if (absolutePath.StartsWith(prefixo))
+        {
+            return absolutePath.Substring(prefixo.Length);
+        }
+
+        throw new InvalidOperationException("URL SAS inválida ou container não corresponde.");
     }
 }

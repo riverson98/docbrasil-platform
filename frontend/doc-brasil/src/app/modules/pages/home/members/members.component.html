@@ -6,14 +6,27 @@
             (filterChanged)="onFilterChanged($event)">
         </app-painel-title>
         
-        <app-table 
-            (requestDataUpdate)="handleRegisterModal()"
-            (onUserUpdated)="reloadPage()"
-            [data]="membersData"
-            [totalPages]="totalPages"
-            [currentPage]="currentPage"
-            (pageChange)="handlePageChange($event)"
-            addtitle="membros">
-        </app-table>
+        <ng-container *ngIf="!hasNotFoundError; else noUsers">
+            <app-table 
+                (requestDataUpdate)="handleRegisterModal()"
+                (onUserDeleted)="handleDeleteUser()"
+                (onUserUpdated)="reloadPage()"
+                [data]="membersData"
+                [totalPages]="totalPages"
+                [currentPage]="currentPage"
+                (pageChange)="handlePageChange($event)"
+                addtitle="membros">
+            </app-table>
+        </ng-container>
+
+        <ng-template #noUsers>
+            <div class="associates__no-users">
+                <app-user-not-found 
+                    entity="membro"
+                    (requestDataUpdate)="handleRegisterModal()">
+                </app-user-not-found>
+            </div>
+        </ng-template>
+
     </div>
 </section>

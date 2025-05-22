@@ -10,8 +10,8 @@ public class EnderecoDto : IUploadable
     IFormFile? IUploadable.FotoDoArquivo { get => FotoDoComprovante; set => FotoDoComprovante = value; }
     string? IUploadable.SufixoBlob { get => _blobSufixo; }
     string? IUploadable.UrlDaFoto { get => ComprovanteDeResidenciaUpload; set => ComprovanteDeResidenciaUpload = value; }
-    public bool temArquivoParaUpload { get => FotoDoComprovante != null; }
-    private readonly string _blobSufixo = "Endereco";
+    public bool TemArquivoParaUpload { get => FotoDoComprovante != null; }
+    private readonly string _blobSufixo = "Endereco.png";
     #endregion
 
     public int? Id { get; set; }

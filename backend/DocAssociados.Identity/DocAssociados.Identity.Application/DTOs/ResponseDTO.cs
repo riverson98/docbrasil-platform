@@ -9,4 +9,5 @@ public class ResponseDTO
     public bool Success { get; set; }
     public DateTime CreatedAt { get; set; }
     public List<string>? Errors { get; set; } = new List<string>();
+    public string Name { get; set; }
 }

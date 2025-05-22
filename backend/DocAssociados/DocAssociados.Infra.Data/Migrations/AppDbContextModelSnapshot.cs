@@ -28,8 +28,11 @@ namespace DocAssociados.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("CodigoRepresentante")
+                    b.Property<int?>("CodigoAssociado")
                         .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoRepresentante")
                         .HasMaxLength(4)
                         .HasColumnType("varchar(4)");
 
@@ -40,7 +43,7 @@ namespace DocAssociados.Infra.Data.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CpfUploadUrl")
                         .IsRequired()
@@ -61,6 +64,9 @@ namespace DocAssociados.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("FotoDePerfilUrl")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Funcao")
                         .HasMaxLength(1)
                         .HasColumnType("int");
@@ -75,6 +81,10 @@ namespace DocAssociados.Infra.Data.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
+                    b.Property<string>("RequerimentoJudicialUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Status")
                         .HasMaxLength(1)
                         .HasColumnType("int");
@@ -85,7 +95,13 @@ namespace DocAssociados.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodigoAssociado")
+                        .IsUnique();
+
                     b.HasIndex("CodigoRepresentante")
+                        .IsUnique();
+
+                    b.HasIndex("Cpf")
                         .IsUnique();
 
                     b.HasIndex("Email")
@@ -121,7 +137,6 @@ namespace DocAssociados.Infra.Data.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("ComprovanteDeResidenciaUpload")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataDoUpload")

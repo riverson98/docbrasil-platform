@@ -1,1 +1,106 @@
-<p>profile works!</p>
+<section class="profile">
+    <div class="profile__content">
+        <div class="profile__content--title-container">
+            <h2 class="profile__content--title-container__title">
+                Perfil
+            </h2>
+
+            <p class="profile__content--title-container__subtitle">
+                Veja seus dados pessoais aqui.
+            </p>
+        </div>
+
+        <div class="profile__content--itens">
+            <div class="popup" *ngIf="showErrorPopup">
+                <span>{{ errorMessage }}</span>
+            </div>
+
+            <div class="popup-sucess" *ngIf="showSucessfulyPopup">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>{{ successfulyMessage }}</p>
+            </div>
+
+            <div class="profile__content--itens__img-container">
+                <div class="profile__content--itens__img-container--title-container">
+                    <h2 class="profile__content--itens__img-container--title-container__title">
+                        {{ formatUserName() }}
+                    </h2>
+
+                    <p class="profile__content--itens__img-container--title-container__subtitle">
+                        {{ userFunction | functionPipe }}
+                    </p>
+                </div>
+
+                <figure class="profile__content--itens__img-container--img" (click)="openEditor()">
+                    <img [src]="temporatyPhoto || userPhoto || getDefaultImageByGender()" alt="profile">
+                </figure>
+
+                <input type="file" hidden (change)="fileChangeEvent($event)" #fileInput />
+            </div>
+
+            <div class="profile__content--itens__profile-details">
+                <form [formGroup]="personalData" class="profile__content--itens__profile-details--form">
+                    <mat-form-field>
+                        <mat-label>Nome</mat-label>
+                        <input matInput placeholder="Nome" formControlName="name">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Data de nascimento</mat-label>
+                        <input matInput formControlName="birthdate" (input)="onDataInput($event)"
+                            [matDatepicker]="picker" maxlength="10">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Gênero</mat-label>
+                        <mat-select formControlName="gender">
+                            <mat-option value="M">Masculino</mat-option>
+                            <mat-option value="F">Feminino</mat-option>
+                            <mat-option value="O">Outro</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field
+                        class="register-form__content--register__content--stepper__step--form__representation--content__input">
+                        <mat-label>Código associado</mat-label>
+                        <input matInput placeholder="Ex. 0000" formControlName="codeAssociate" />
+                    </mat-form-field>
+
+                    <div>
+                        <button class="profile__content--itens__profile-details--form__btn" (click)="UpdateUser()">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="img-cropper" *ngIf="showImageEditor">
+    <h3 class="img-cropper__titulo">
+        Alterar foto de perfil
+    </h3>
+
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToHeight]="800" [resizeToWidth]="600"
+        [roundCropper]="true" [maintainAspectRatio]="true" [alignImage]="'center'" [(transform)]="transform"
+        (imageCropped)="onImageCropped($event)" (imageLoaded)="onImageLoaded()" (loadImageFailed)="onLoadImageFailed()">
+    </image-cropper>
+
+    <div class="img-cropper__btns">
+        <a class="img-cropper__btns--close"
+            (click)="cancelProfilePhoto()">Cancelar
+        </a>
+
+        <a class="img-cropper__btns--save"
+            (click)="saveCroppedImage()">Salvar
+        </a>
+    </div>
+</section>

@@ -61,6 +61,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.ApplyMigrations();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await DependencyInjection.SeedRolesAsync(services);
+}
+
 //middles
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
