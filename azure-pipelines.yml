@@ -31,8 +31,8 @@ stages:
 
     - script: |
         cd frontend/doc-brasil
-        npm install
-        npm run build -- --prod
+        /usr/bin/npm install
+        /usr/bin/npm run build -- --prod
       displayName: 'Build frontend Angular'
 
     - script: |
