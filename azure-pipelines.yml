@@ -40,8 +40,8 @@ stages:
 
     - script: |
         echo "ASPNETCORE_ENVIRONMENT=Production" > .env.prod
-        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${MYSQL_ASSOCIADOS_PASSWORD}" >> .env.prod
-        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=${MYSQL_ASSOCIADOS_AUTH_PASSWORD}" >> .env.prod
+        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=$MYSQL_ASSOCIADOS_PASSWORD" >> .env.prod
+        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=$MYSQL_ASSOCIADOS_AUTH_PASSWORD" >> .env.prod
       displayName: 'Gerar .env.prod'
       env:
         MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
