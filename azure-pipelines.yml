@@ -43,5 +43,6 @@ stages:
         echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD = $MYSQL_ASSOCIADOS_AUTH_PASSWORD"
         export PATH=$PATH:/usr/bin
         /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
+        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up
       workingDirectory: $(Build.SourcesDirectory)
       displayName: Build containers with docker-compose
