@@ -48,6 +48,6 @@ stages:
         /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
       displayName: Build containers with docker-compose
       env:
-        MYSQL_ASSOCIADOS_PASSWORD: $(AuthDbPassword)
-        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AssociateDbPassword)
+        MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
+        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AuthDbPassword)
       workingDirectory: $(Build.SourcesDirectory)
