@@ -24,6 +24,6 @@ stages:
     - checkout: self
 
     - script: |
-        docker-compose -f docker-compose-prod.yml build --no-cache
+        /usr/bin/docker-compose -f docker-compose-prod.yml build --no-cache
       workingDirectory: $(Build.SourcesDirectory)
       displayName: Build containers with docker-compose
