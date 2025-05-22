@@ -28,6 +28,8 @@ stages:
         KeyVaultName: 'DocBrasilKeyVault'
         SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
         RunAsPreJob: true
+      env:
+        AZURE_HTTP_USER_AGENT: 'azure-pipelines'
 
     - script: |
         cd frontend/doc-brasil
