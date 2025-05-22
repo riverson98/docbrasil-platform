@@ -36,14 +36,16 @@ stages:
       displayName: 'Build frontend Angular'
 
     - script: |
-        echo "Remapeando variáveis..."
-        export MYSQL_ASSOCIADOS_PASSWORD=$(AuthDbPassword)
-        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AssociateDbPassword)
-         # Verificação opcional (não exiba senhas em produção!)
-        echo "MYSQL_ASSOCIADOS_PASSWORD está setada? ${MYSQL_ASSOCIADOS_PASSWORD:+SIM}"
-        echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD está setada? ${MYSQL_ASSOCIADOS_AUTH_PASSWORD:+SIM}"
-        export PATH=$PATH:/usr/bin
-        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
-        /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up
-      workingDirectory: $(Build.SourcesDirectory)
-      displayName: Build containers with docker-compose
+    echo "Remapeando variáveis..."
+    echo "MYSQL_ASSOCIADOS_PASSWORD está setada? ${MYSQL_ASSOCIADOS_PASSWORD:+SIM}"
+    echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD está setada? ${MYSQL_ASSOCIADOS_AUTH_PASSWORD:+SIM}"
+    
+    export PATH=$PATH:/usr/bin
+    
+    /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
+    /usr/bin/sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up
+    env:
+      MYSQL_ASSOCIADOS_PASSWORD: $(AuthDbPassword)
+      MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AssociateDbPassword)
+    workingDirectory: $(Build.SourcesDirectory)
+    displayName: Build containers with docker-compose
