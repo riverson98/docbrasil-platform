@@ -32,7 +32,7 @@ stages:
     - script: |
         cd frontend/doc-brasil
         /usr/bin/npm install
-        /usr/bin/npm run build -- --prod
+        /usr/bin/npm run build --prod
       displayName: 'Build frontend Angular'
 
     - script: |
