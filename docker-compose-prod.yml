@@ -6,7 +6,7 @@ services:
     container_name: associados-db
     environment:
       MYSQL_DATABASE: associadosdb
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_PASSWORD}
+      MYSQL_ROOT_PASSWORD: rSvwgBjcZ9NhQkS9W7xCDA==
     ports:
       - "3311:3306"
     env_file:
@@ -22,7 +22,7 @@ services:
     container_name: associadosAuth-db
     environment:
       MYSQL_DATABASE: associadosAuthdb
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ASSOCIADOS_AUTH_PASSWORD}
+      MYSQL_ROOT_PASSWORD: W4uwjPD/xYec0fioZkfxAQ==
     ports:
       - "3312:3306"
     env_file:
