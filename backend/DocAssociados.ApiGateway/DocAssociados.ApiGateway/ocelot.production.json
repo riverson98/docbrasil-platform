@@ -35,6 +35,24 @@
         "Period": "10s",
         "Limit": 5
       }
+    },
+    {
+      "UpstreamPathTemplate": "/endereco/{everything}",
+      "DownstreamPathTemplate": "/api/Endereco/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+      {
+        "Host": "associados_service",
+        "Port": 8080
+      }
+      ],
+      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "ClientWhitelist": [ "admin" ],
+        "Period": "10s",
+        "Limit": 5
+      }
     }
   ],
   "GlobalConfiguration": {
