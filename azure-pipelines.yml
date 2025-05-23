@@ -32,15 +32,7 @@ stages:
       displayName: 'Build frontend Angular'
 
     - script: |
-        echo "Configurando .env.prod..."
-        export MYSQL_ASSOCIADOS_PASSWORD=$(AssociateDbPassword)
-        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AuthDbPassword)
-      displayName: 'Configurando .env.prod'
-      workingDirectory: $(Build.SourcesDirectory)
-
-    - script: |
         echo "Iniciando containers com docker-compose..."
-        export BUILD_SOURCESDIRECTORY=$(Build.SourcesDirectory)=
         export PATH=$PATH:/usr/bin
         pwd
         ls -la nginx/conf.d
@@ -50,3 +42,7 @@ stages:
         /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
       displayName: 'Subir containers com docker-compose'
       workingDirectory: $(Build.SourcesDirectory)
+      env:
+        MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
+        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AuthDbPassword)
+        BUILD_SOURCESDIRECTORY: $(Build.SourcesDirectory)
