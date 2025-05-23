@@ -18,11 +18,6 @@ stages:
     steps:
     - checkout: self
 
-    - script: |
-        sudo chmod -R u+rwX /home/azureuser/linuxagent/_work/1/s/nginx/ssl
-      displayName: Dá permissão para o usuário root
-      runAsPreJob: true
-
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'DevOps Service Connection'
