@@ -20,7 +20,7 @@ export class UserService {
 
     createNewUser(userData: FormData): Observable<UserModel> {
         return this.http.post<UserModel>(
-                `${this.apiUrl}`, userData
+                `${this.apiUrl}/cria-associado`, userData
             );
     }
 
