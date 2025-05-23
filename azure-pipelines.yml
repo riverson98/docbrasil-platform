@@ -24,7 +24,6 @@ stages:
         KeyVaultName: 'DocBrasilKeyVault'
         SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
       name: FetchSecrets
-      runAsPreJob: true
 
     - script: |
         cd frontend/doc-brasil
