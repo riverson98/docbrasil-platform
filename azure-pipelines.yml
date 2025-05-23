@@ -14,7 +14,7 @@ stages:
   - job: Build
     displayName: Build using docker-compose
     pool:
-      name: vm-linux
+      name: vm-linux  # Seu agente self-hosted na VM
     steps:
     - checkout: self
 
@@ -23,24 +23,28 @@ stages:
         azureSubscription: 'DevOps Service Connection'
         KeyVaultName: 'DocBrasilKeyVault'
         SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
+      name: FetchSecrets
       runAsPreJob: true
 
     - script: |
         cd frontend/doc-brasil
-        /usr/bin/npm install
-        /usr/bin/npm run build --prod
+        /usr/bin/npm ci
+        /usr/bin/ng build --configuration=production
       displayName: 'Build frontend Angular'
 
     - script: |
-        echo "Remapeando variáveis..."
-        echo "MYSQL_ASSOCIADOS_PASSWORD = $MYSQL_ASSOCIADOS_PASSWORD"
-        echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD = $MYSQL_ASSOCIADOS_AUTH_PASSWORD"
-
-        export PATH=$PATH:/usr/bin
-        /usr/bin/sudo docker compose -f docker-compose.yml -f docker-compose-prod.yml build --no-cache
-        /usr/bin/sudo docker compose -f docker-compose.yml -f docker-compose-prod.yml up -d
-      displayName: Build containers with docker-compose
+        echo "Gerando .env.prod..."
+        echo "MYSQL_ASSOCIADOS_PASSWORD=$(AuthDbPassword)" > .env.prod
+        echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AssociateDbPassword)" >> .env.prod
+        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=$(AuthDbPassword)" >> .env.prod
+        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=docBrasilProdAuth;Password=$(AssociateDbPassword)" >> .env.prod
+      displayName: 'Gerar arquivo .env.prod'
       workingDirectory: $(Build.SourcesDirectory)
-      env:
-        MYSQL_ASSOCIADOS_PASSWORD: $(AuthDbPassword)
-        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AssociateDbPassword)
+
+    - script: |
+        echo "Iniciando containers com docker-compose..."
+        export PATH=$PATH:/usr/bin
+        /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml down --remove-orphans
+        /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
+      displayName: 'Subir containers com docker-compose'
+      workingDirectory: $(Build.SourcesDirectory)
