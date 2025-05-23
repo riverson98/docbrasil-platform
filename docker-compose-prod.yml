@@ -100,9 +100,9 @@ services:
     container_name: nginx_proxy
     restart: always
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/letsencrypt:ro
-      - ./nginx/www:/var/www/certbot
+      - ${Build.SourcesDirectory}/nginx/conf.d:/etc/nginx/conf.d
+      - ${Build.SourcesDirectory}/nginx/ssl:/etc/letsencrypt:ro
+      - ${Build.SourcesDirectory}/nginx/www:/var/www/certbot
     ports:
       - "80:80"
       - "443:443"
