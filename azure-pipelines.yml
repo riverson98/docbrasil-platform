@@ -43,6 +43,10 @@ stages:
     - script: |
         echo "Iniciando containers com docker-compose..."
         export PATH=$PATH:/usr/bin
+        pwd
+        ls -la nginx/conf.d
+        ls -la $(Build.SourcesDirectory)/nginx/conf.d
+
         /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml down --remove-orphans
         /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
       displayName: 'Subir containers com docker-compose'
