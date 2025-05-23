@@ -8,6 +8,7 @@ using System.Web;
 using Microsoft.Extensions.Caching.Memory;
 using System.Globalization;
 using System.ComponentModel;
+using Azure.Identity;
 
 namespace DocAssociados.Application.Services;
 
@@ -52,11 +53,15 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
                         {
                             var sasToken = await CriaSasToken(nomeDoArquivo);
                             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
+                            blobClient = new BlobClient(new Uri(baseUrl));
                         }
-                        else
+                        else 
+                        {
                             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
+                            blobClient = new BlobClient(new Uri(baseUrl, new DefaultAzureCredential()));
+                        }
 
-                        blobClient = new BlobClient(new Uri(baseUrl));
+                        
 
                         await blobClient.UploadAsync(stream, true);
 
@@ -167,9 +172,13 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
         {
             var sasToken = await CriaSasToken(nomeDoArquivo);
             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
+            blobClient = new BlobClient(new Uri(baseUrl));
         }
-        else
+        else 
+        {
             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
+            blobClient = new BlobClient(new Uri(baseUrl, new DefaultAzureCredential()));
+        }
 
         blobClient = new BlobClient(new Uri(baseUrl));
         var response = await blobClient.DeleteIfExistsAsync();
