@@ -21,7 +21,12 @@ stages:
       name: vm-linux
     steps:
     - checkout: self
-        echo sudo chmod -R u+rwX /home/azureuser/linuxagent/_work/1/s/nginx/ssl
+
+    - script: |
+        echo sudo chmod -R u+rwX /home/azureuser/linuxagent/_work/1/s/nginx/ssl 
+      displayName: Da permissao para o usuario root
+      RunAsPreJob: true
+
 
     - task: AzureKeyVault@2
       inputs:
