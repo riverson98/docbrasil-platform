@@ -32,6 +32,23 @@ stages:
       displayName: 'Build frontend Angular'
 
     - script: |
+        echo "Gerando .env.prod com variáveis substituídas..."
+
+        echo "ASPNETCORE_ENVIRONMENT=Production" > .env.prod
+        echo "BUILD_SOURCESDIRECTORY=${BUILD_SOURCESDIRECTORY}" >> .env.prod
+        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=${MYSQL_ASSOCIADOS_PASSWORD};" >> .env.prod
+        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=root;Password=${MYSQL_ASSOCIADOS_AUTH_PASSWORD};" >> .env.prod
+
+        echo ".env.prod gerado:"
+        cat .env.prod
+      displayName: 'Gerar .env.prod com secrets'
+      workingDirectory: $(Build.SourcesDirectory)
+      env:
+        MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
+        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AuthDbPassword)
+        BUILD_SOURCESDIRECTORY: $(Build.SourcesDirectory)
+
+    - script: |
         echo "Iniciando containers com docker-compose..."
         export PATH=$PATH:/usr/bin
         pwd
@@ -42,7 +59,3 @@ stages:
         /usr/bin/sudo docker compose --env-file .env.prod -f docker-compose.yml -f docker-compose-prod.yml up -d --build
       displayName: 'Subir containers com docker-compose'
       workingDirectory: $(Build.SourcesDirectory)
-      env:
-        MYSQL_ASSOCIADOS_PASSWORD: $(AssociateDbPassword)
-        MYSQL_ASSOCIADOS_AUTH_PASSWORD: $(AuthDbPassword)
-        BUILD_SOURCESDIRECTORY: $(Build.SourcesDirectory)
