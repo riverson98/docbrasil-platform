@@ -12,7 +12,7 @@ import { ProfilePhotoRequest } from "../../models/user/ProfilePhotoRequest";
   providedIn: 'root'
 })
 export class UserService {
-    apiUrl:string = 'http://localhost:5142/associado';
+    apiUrl:string = 'https://appdocdobrasil.com.br/auth';
 
     constructor(private http:HttpClient) {
         
