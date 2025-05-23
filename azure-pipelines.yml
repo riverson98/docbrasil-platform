@@ -32,16 +32,15 @@ stages:
       displayName: 'Build frontend Angular'
 
     - script: |
-        echo "Gerando .env.prod..."
-        echo "MYSQL_ASSOCIADOS_PASSWORD=$(AuthDbPassword)" > .env.prod
-        echo "MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AssociateDbPassword)" >> .env.prod
-        echo "ConnectionStrings__MySqlConnection=Server=associados-db;Database=associadosdb;User=root;Password=$(AssociateDbPassword)" >> .env.prod
-        echo "ConnectionStrings__MySqlAuthConnection=Server=associadosAuth-db;Database=associadosAuthdb;User=root;Password=$(AuthDbPassword)" >> .env.prod
-      displayName: 'Gerar arquivo .env.prod'
+        echo "Configurando .env.prod..."
+        export MYSQL_ASSOCIADOS_PASSWORD=$(AssociateDbPassword)
+        export MYSQL_ASSOCIADOS_AUTH_PASSWORD=$(AuthDbPassword)
+      displayName: 'Configurando .env.prod'
       workingDirectory: $(Build.SourcesDirectory)
 
     - script: |
         echo "Iniciando containers com docker-compose..."
+        export BUILD_SOURCESDIRECTORY=$(Build.SourcesDirectory)=
         export PATH=$PATH:/usr/bin
         pwd
         ls -la nginx/conf.d
