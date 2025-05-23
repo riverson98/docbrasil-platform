@@ -7,7 +7,7 @@ import { AddressModel } from "../../models/address/addressModel";
   providedIn: 'root'
 })
 export class AddressService {
-    apiUrl:string = 'https://appdocdobrasil.com.br/auth';
+    apiUrl:string = 'https://appdocdobrasil.com.br/endereco';
     
     constructor(private http:HttpClient) {}
 
