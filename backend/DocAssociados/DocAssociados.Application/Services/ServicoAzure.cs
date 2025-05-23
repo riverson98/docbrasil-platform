@@ -7,7 +7,6 @@ using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using System.Web;
 using Microsoft.Extensions.Caching.Memory;
 using System.Globalization;
-using System.ComponentModel;
 using Azure.Identity;
 
 namespace DocAssociados.Application.Services;
@@ -58,7 +57,7 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
                         else 
                         {
                             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
-                            blobClient = new BlobClient(new Uri(baseUrl, new DefaultAzureCredential()));
+                            blobClient = new BlobClient(new Uri(baseUrl), new DefaultAzureCredential());
                         }
 
                         
@@ -177,7 +176,7 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
         else 
         {
             baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}";
-            blobClient = new BlobClient(new Uri(baseUrl, new DefaultAzureCredential()));
+            blobClient = new BlobClient(new Uri(baseUrl), new DefaultAzureCredential());
         }
 
         blobClient = new BlobClient(new Uri(baseUrl));
