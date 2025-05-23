@@ -153,7 +153,7 @@ namespace DocAssociados.WebApi.Controllers
             return Ok(membrosDto);
         }
 
-        [HttpPost]
+        [HttpPost("cria-associado")]
         public async Task<ActionResult<AssociadoDto>> Post([FromForm] AssociadoDto associadoDto)
         {
             _logger.Info($"Iniciando criação de associado com e-mail: {associadoDto.Email}");
