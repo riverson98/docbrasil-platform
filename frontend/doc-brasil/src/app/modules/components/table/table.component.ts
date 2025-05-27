@@ -61,7 +61,8 @@ export class TableComponent {
   }
 
   showUserDetails(id:string){
-    const associate: UserModel = this.data.find(a => a.id === id);
+    const associate = this.data.find(a => a.id === id);
+    this.loading.show();
     if (associate) {
       this.userService.updateDocsUrl(associate.id).pipe().subscribe({
         next: (response) => {
@@ -69,6 +70,7 @@ export class TableComponent {
           associate.fichaAssociadoDto.fichaAssociacaoUploadUrl = response.fichaAssociacaoUploadUrl;
           associate.cpfUploadUrl = response.cpfUploadUrl;
           associate.requerimentoJudicialDto.urlDoRequerimento = response.urlDoRequerimento;
+          this.loading.hide();
 
           this.dialog.open(RegisterModalComponent, {
             data: associate,

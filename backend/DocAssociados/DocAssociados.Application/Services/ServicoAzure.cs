@@ -152,7 +152,7 @@ public class ServicoAzure<T> : IServicoAzure<T> where T : IUploadable
         var nomeDoArquivo = ExtraiNomeDoArquivoDaUrl(url);
         var sasToken = await CriaSasToken(nomeDoArquivo);
         var baseUrl = $"{_opcoes.ServicoBlobUrl}/{_opcoes.NomeDoContainer}/{nomeDoArquivo}?{sasToken}";
-        var blobClient = new BlobClient(new Uri(baseUrl), new DefaultAzureCredential());
+        var blobClient = new BlobClient(new Uri(baseUrl));
         await blobClient.DeleteIfExistsAsync();
     }
 
