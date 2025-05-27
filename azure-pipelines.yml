@@ -16,6 +16,11 @@ stages:
     pool:
       name: vm-linux  # Seu agente self-hosted na VM
     steps:
+    - script: |
+        echo "Garantindo permissões corretas na pasta SSL antes do checkout..."
+        sudo chown -R azureuser:azureuser /home/azureuser/linuxagent/_work/1/s/nginx/ssl || true
+      displayName: 'Ajustar permissões SSL'
+      
     - checkout: self
 
     - task: AzureKeyVault@2
