@@ -18,7 +18,6 @@ stages:
     steps:
     - script: |
         echo "Garantindo permissões corretas na pasta SSL antes do checkout..."
-        sudo chown -R azureuser:azureuser nginx/ssl/live/appdocdobrasil.com.br
         sudo chown -R azureuser:azureuser /home/azureuser/linuxagent/_work/1/s/nginx/ssl || true
       displayName: 'Ajustar permissões SSL'
       
@@ -35,8 +34,8 @@ stages:
         echo "Escrevendo certificados do Key Vault para arquivos PEM..."
 
         sudo mkdir -p nginx/ssl/live/appdocdobrasil.com.br
-        echo "$NGINX_SSL_CERT" > nginx/ssl/live/appdocdobrasil.com.br/fullchain.pem
-        echo "$NGINX_SSL_KEY"  > nginx/ssl/live/appdocdobrasil.com.br/privkey.pem
+        sudo echo "$NGINX_SSL_CERT" > nginx/ssl/live/appdocdobrasil.com.br/fullchain.pem
+        sudo echo "$NGINX_SSL_KEY"  > nginx/ssl/live/appdocdobrasil.com.br/privkey.pem
 
         echo "Certificados salvos:"
         ls -l nginx/ssl/
