@@ -89,6 +89,7 @@ export class RegisterModalComponent implements AfterViewInit{
             gender: this.associate?.genero,
             tax: this.associate?.cpf,
             seniorCodeRepresentation: this.associate?.codigoRepresentanteSuperior,
+            codeRepresentation: this.associate?.codigoRepresentante,
             documentLink: this.associate?.cpfUploadUrl,
             codeAssociate: this.associate?.codigoAssociado,
             function: this.associate?.funcao,

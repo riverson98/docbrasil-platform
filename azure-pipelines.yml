@@ -27,8 +27,22 @@ stages:
       inputs:
         azureSubscription: 'DevOps Service Connection'
         KeyVaultName: 'DocBrasilKeyVault'
-        SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey'
+        SecretsFilter: 'AssociateDbPassword,AuthDbPassword,AssociateAuthKey,AssociateKey,AzureBlobContainerSecretKey,AzureSecretKey,nginx-ssl-cert,nginx-priv-key'
       name: FetchSecrets
+
+    - script: |
+        echo "Escrevendo certificados do Key Vault para arquivos PEM..."
+
+        sudo mkdir -p nginx/ssl/live/appdocdobrasil.com.br
+        echo "$NGINX_SSL_CERT" > nginx/ssl/live/appdocdobrasil.com.br/fullchain.pem
+        echo "$NGINX_SSL_KEY"  > nginx/ssl/live/appdocdobrasil.com.br/privkey.pem
+
+        echo "Certificados salvos:"
+        ls -l nginx/ssl/
+      displayName: 'Salvar certificados do Key Vault'
+      env:
+        NGINX_SSL_CERT: $(nginx-ssl-cert)
+        NGINX_SSL_KEY:  $(nginx-ssl-key)
 
     - script: |
         cd frontend/doc-brasil
