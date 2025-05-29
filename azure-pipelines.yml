@@ -34,8 +34,8 @@ stages:
         echo "Escrevendo certificados do Key Vault para arquivos PEM..."
 
         sudo mkdir -p nginx/ssl/live/appdocdobrasil.com.br
-        echo "$NGINX_SSL_CERT" | sudo tee nginx/ssl/live/appdocdobrasil.com.br/fullchain.pem > /dev/null
-        echo "$NGINX_SSL_KEY"  | sudo tee nginx/ssl/live/appdocdobrasil.com.br/privkey.pem > /dev/null
+        echo -e "$NGINX_SSL_CERT" | sudo tee nginx/ssl/live/appdocdobrasil.com.br/fullchain.pem > /dev/null
+        echo -e "$NGINX_SSL_KEY"  | sudo tee nginx/ssl/live/appdocdobrasil.com.br/privkey.pem > /dev/null
 
         echo "Certificados salvos:"
         ls -l nginx/ssl/
