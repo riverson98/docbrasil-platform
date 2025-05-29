@@ -42,7 +42,7 @@ stages:
       displayName: 'Salvar certificados do Key Vault'
       env:
         NGINX_SSL_CERT: $(nginx-ssl-cert)
-        NGINX_SSL_KEY:  $(nginx-ssl-key)
+        NGINX_SSL_KEY:  $(nginx-priv-key)
 
     - script: |
         cd frontend/doc-brasil
