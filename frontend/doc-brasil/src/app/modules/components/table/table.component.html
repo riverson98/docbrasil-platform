@@ -47,7 +47,7 @@
     </tbody>
 </table>
 
-<div class="table__pagination" *ngIf="data.length > 10">
+<div class="table__pagination" *ngIf="totalPages > 1">
     <button (click)="goToPrevious()" [disabled]="currentPage === 1"><i class="fa-solid fa-caret-left"></i></button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
     <button (click)="goToNext()" [disabled]="currentPage === totalPages"><i
