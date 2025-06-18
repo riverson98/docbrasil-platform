@@ -1,12 +1,12 @@
 ﻿using DocAssociados.Identity.Application.DTOs;
 using DocAssociados.Identity.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-
 namespace DocAssociados.Identity.WebApi;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer", Policy = "AdminsOnly")]
 public class AuthController : Controller
 {
     private readonly IUserIdentityService _service;
@@ -18,18 +18,36 @@ public class AuthController : Controller
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetTokenAsync(TokenRequestDTO requestDto)
     {
         _log.LogInformation("Receiving request to login, e-mail:{0}", requestDto.Email);
         var result = await _service.GetTokenAsync(requestDto);
 
         if (result.IsAuthenticated)
+        {
             _log.LogInformation("User authentication sucessufuly to e-mail: {RequestEmail}", requestDto.Email);
-        else
-            _log.LogWarning("User authentication failed to e-mail: {RequestEmail}, error message: {ErrorMessage}",
-                requestDto.Email, result.Message);
 
-        return Ok(result);
+            HttpContext.Response.Cookies.Append(
+            "refreshToken",
+            result.RefreshToken!,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(1)
+            });
+
+            return Ok(result);
+        }
+        else
+        {
+            _log.LogWarning("User authentication failed to e-mail: {RequestEmail}, error message: {ErrorMessage}",
+                                                                                requestDto.Email, result.Message);
+
+            return Unauthorized();
+        }
     }
 
     [HttpPost("register")]
@@ -48,20 +66,30 @@ public class AuthController : Controller
         return BadRequest(result);
     }
 
-    [HttpPost("refreshtoken")]
-    public async Task<ActionResult> RefreshToken(string refreshToken)
+    [HttpGet("refresh-token")]
+    public async Task<ActionResult> RefreshToken()
     {
+        var refreshToken = HttpContext.Request.Cookies["refreshToken"];
+
+        if (string.IsNullOrEmpty(refreshToken))
+            return Unauthorized();
+
         _log.LogInformation("Receiving request to refresh token");
         var response = await _service.RefreshTokenAsync(refreshToken!);
 
         if (response.IsAuthenticated)
+        {
             _log.LogInformation("Refresh token updated sucessufuly to e-mail: {RequestEmail}", response.Email);
+
+            return Ok(response);
+        }
         else
+        {
             _log.LogWarning("Something went wrong with refresh token to e-mail: {RequestEmail} with error message: {ErrorMessage}",
                 response.Email, response.Message);
 
-
-        return Ok(response);
+            return Unauthorized();
+        }
     }
 
     [HttpPost("update-password")]
@@ -74,5 +102,15 @@ public class AuthController : Controller
     public async Task DeleteUserIdentity(Guid id)
     {
         await _service.DeleteUserIdentityAsync(id);
+    }
+
+    [HttpGet("logout/{email}")]
+    public async Task<IActionResult> Logout(string email)
+    {
+        HttpContext.Response.Cookies.Delete("refreshToken");
+
+        await _service.RevokRefreshToken(email);
+
+        return Ok(new { message = "Logout efetuado com sucesso." });
     }
 }

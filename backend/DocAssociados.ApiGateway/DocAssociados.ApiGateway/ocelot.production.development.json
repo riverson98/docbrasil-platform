@@ -10,7 +10,10 @@
           "Port": 8080
         }
       ],
-      "DelegatingHandlers": [ "AuthApiKeyHandler" ]
+      "DelegatingHandlers": [ "AuthApiKeyHandler" ],
+      "HttpHandlerOptions": {
+        "UseCookieContainer": true
+      }
     },
     {
       "UpstreamPathTemplate": "/associado/{everything}",
@@ -22,7 +25,11 @@
           "Port": 8080
         }
       ],
-      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ]
+      "DelegatingHandlers": [ "AssociadoApiKeyHandler" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     },
     {
       "UpstreamPathTemplate": "/endereco/{everything}",

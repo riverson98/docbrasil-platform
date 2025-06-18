@@ -26,7 +26,9 @@ export class NavbarComponent implements OnInit{
   const photo = this.photoService.getImageUrlFromLocalStorage();
   this.photoService.imageUrl$.subscribe(img => this.photoPath = img);
 
-  this.tokenExpiration = this.getTokenExpirationFromUrl(photo ?? "");
+  if(photo) {
+      this.tokenExpiration = this.getTokenExpirationFromUrl(photo);
+  }
 
   if (this.tokenExpiration && new Date(this.tokenExpiration).getTime() > Date.now()){
       this.photoPath = photo ?? this.setDefaultImageByGender(null);

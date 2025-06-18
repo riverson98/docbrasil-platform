@@ -122,8 +122,6 @@ public class UserIdentityRepository : IUserIdentityRepository
 
         if (userWithSameEmail is null)
         {
-            // TODO se a senha for curta esta retornando o erro de cliente ja registrado. 
-            // se a senha nao atender os requisitos de caracteres especiais também está retornando erro de cliente já registrado.
             var result = await _userManager.CreateAsync(identityUser, user.Password!);
 
             if (result.Succeeded)
@@ -194,7 +192,7 @@ public class UserIdentityRepository : IUserIdentityRepository
             return new RefreshToken
                 (
                     token: Convert.ToBase64String(randomNumber),
-                    expires: DateTime.UtcNow.AddDays(10),
+                    expires: DateTime.UtcNow.AddMinutes(_jwt.RefreshTokenDurationInMinutes),
                     created: DateTime.UtcNow,
                     revoked: null
                 );
@@ -216,19 +214,12 @@ public class UserIdentityRepository : IUserIdentityRepository
             return GenerateAuthenticationResponse("Token Not Active", false,
                "empty value", new List<string>(), "empty value", "empty value", DateTime.Now.AddSeconds(5), "empty value");
 
-        refreshToken.Update(refreshToken.Token, refreshToken.Expires, refreshToken.Created, DateTime.Now);
-
-        var newRefreshToken = CreateRefreshToken();
-        user.RefreshTokens.Add(newRefreshToken);
-        _context.Update(user);
-        _context.SaveChanges();
-
         var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
         var jwtToken = await CreateJwtToken(user);
 
         return GenerateAuthenticationResponse("Token generated successfully", true,
                user.Email!, roles, new JwtSecurityTokenHandler().WriteToken(jwtToken),
-               newRefreshToken.Token!, refreshToken.Expires, user.Name);
+               refreshToken.Token!, refreshToken.Expires, user.Name);
 
     }
 
@@ -269,5 +260,16 @@ public class UserIdentityRepository : IUserIdentityRepository
             throw new ArgumentNullException("Sorry we can't found this user in our database");
 
         await _userManager.DeleteAsync(userIdentityFound);
+    }
+
+    public async Task RevokeRefreshToken(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+            return;
+
+        user.RefreshTokens.RemoveAll(token => token.IsActive);
+        await _userManager.UpdateAsync(user);
     }
 }

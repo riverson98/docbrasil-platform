@@ -9,4 +9,5 @@ public interface IUserIdentityService
     Task<AuthenticationDTO> RefreshTokenAsync(string token);
     Task<bool> UpdatePasswordAsync(UpdatePasswordDto updatePassword);
     Task DeleteUserIdentityAsync(Guid id);
+    Task RevokRefreshToken(string email);
 }

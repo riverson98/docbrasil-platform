@@ -1,9 +1,12 @@
 ﻿using DocAssociados.Infra.IoC;
 using DocAssociados.Service.Infra.CrossCutting.AzureIdentity;
 using DocAssociados.Service.Infra.CrossCutting.Config;
+using DocAssociados.Service.Infra.CrossCutting.Handlers;
 using DocAssociados.Service.Infra.CrossCutting.HttpClients.Policys;
 using DocAssociados.Service.Infra.CrossCutting.Middles;
 using DocAssociados.Service.Infra.IoC;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +37,16 @@ builder.Services.Configure<AzureVaultConfig>(builder.Configuration.GetSection("A
 builder.Services.Configure<ApiGatewayConfig>(builder.Configuration.GetSection("ApiGatewayConfig"));
 
 //Config HttpClient
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddTransient<AuthenticatedHttpClientHandler>();
+
 builder.Services.AddHttpClient("DefaultHttpClient")
-    .AddPolicyHandler(HttpClientPolicys.GetPolicyWrap());
+    .AddPolicyHandler(HttpClientPolicys.GetPolicyWrap())
+    .AddHttpMessageHandler<AuthenticatedHttpClientHandler>();
+
+
+
 
 if (builder.Environment.IsProduction())
 {
@@ -47,6 +58,34 @@ if (builder.Environment.IsProduction())
 }
 
 builder.Services.AddInfrastructure(builder.Configuration);
+
+var secretKey = builder.Configuration["JWT:Key"]
+                    ?? throw new ArgumentException("Invalid secret key");
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(secretKey))
+        };
+    });
+
+//Config Authorization
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("AdminsOnly", policy =>
+    {
+        policy.RequireRole("Administrador", "Diretor");
+    });
+});
 
 builder.Logging.AddFilter<Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider>(
     "", LogLevel.Information);

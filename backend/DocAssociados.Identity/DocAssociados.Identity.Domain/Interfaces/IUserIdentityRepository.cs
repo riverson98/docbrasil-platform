@@ -10,4 +10,5 @@ public interface IUserIdentityRepository
     Task<Authentication> RefreshTokenAsync(string token);
     Task<bool> UpdatePasswordAsync(UpdatePassword updatePassword);
     Task DeleteUserByIdAsync(Guid id);
+    Task RevokeRefreshToken(string email);
 }

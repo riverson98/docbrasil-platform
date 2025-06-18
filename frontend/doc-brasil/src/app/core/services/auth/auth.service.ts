@@ -1,14 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { RegisterResponseModel } from '../../models/auth/RegisterResponseModel';
 import { Router } from '@angular/router';
-import { RegisterModel } from '../../models/auth/registerModel';
 import { LoginResponseModel } from '../../models/auth/loginResponseModel';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { LoginModel } from '../../models/auth/loginModel';
 import { updatePassword } from '../../models/auth/updatePassword';
+import { finalize } from 'rxjs';
+import { LoadingService } from '../loading/loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ import { updatePassword } from '../../models/auth/updatePassword';
 export class AuthService {
   apiUrl:string = 'https://appdocdobrasil.com.br/auth';;
 
-  constructor(private http:HttpClient, private router: Router) {}
+  constructor(private http:HttpClient, private router: Router, 
+    private loading: LoadingService) {}
   
   register(userData: RegisterResponseModel): Observable<RegisterResponseModel> {
      return this.http.post<RegisterResponseModel>(
@@ -26,14 +28,13 @@ export class AuthService {
 
   login(userData:LoginModel): Observable<LoginResponseModel> {
     return this.http.post<LoginResponseModel>(
-        `${this.apiUrl}/login`, userData,
+        `${this.apiUrl}/login`, userData
     );
   }
 
   refreshToken(): Observable<any> {
-    const refreshToken = localStorage.getItem('refreshToken');
-    return this.http.post(
-        `${this.apiUrl}/refreshtoken`, { refreshToken },
+    return this.http.get(
+        `${this.apiUrl}/refresh-token`, {withCredentials: true}
     );
   }
 
@@ -44,11 +45,20 @@ export class AuthService {
   }
 
   logout(): void {
+    this.loading.show();
+    const userEmail = this.getUserEmail();
+    
+    this.http.get(
+      `${this.apiUrl}/logout/${userEmail}`
+    ).pipe(
+      finalize(() => this.loading.hide())
+    )
+    .subscribe(() => {
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
     localStorage.removeItem('userPhoto');
     this.router.navigate(['/']); 
+    })
   }
 
   getUserId(): string | undefined {

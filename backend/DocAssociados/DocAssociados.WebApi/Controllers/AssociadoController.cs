@@ -5,6 +5,7 @@ using DocAssociados.Domain.Entities;
 using DocAssociados.Service.Application.DTOs;
 using DocAssociados.Service.Application.Enums;
 using DocAssociados.Service.Infra.CrossCutting.Logs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -15,6 +16,7 @@ namespace DocAssociados.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "AdminsOnly")]
     public class AssociadoController : ControllerBase
     {
         private readonly IServicoAssociado _servicoAssociado;

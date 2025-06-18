@@ -16,6 +16,9 @@
         "ClientWhitelist": [ "admin" ],
         "Period": "10s",
         "Limit": 5
+      },
+      "HttpHandlerOptions": {
+        "UseCookieContainer": true
       }
     },
     {
@@ -34,6 +37,10 @@
         "ClientWhitelist": [ "admin" ],
         "Period": "10s",
         "Limit": 5
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     },
     {
