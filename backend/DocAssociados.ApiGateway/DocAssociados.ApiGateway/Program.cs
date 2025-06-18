@@ -1,8 +1,11 @@
 ﻿using Azure.Identity;
 using DocAssociados.ApiGateway.Config;
 using DocAssociados.ApiGateway.Handlers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,7 +80,8 @@ builder.Services.AddCors(options =>
         {
            policy.WithOrigins("http://localhost:8080")
                  .AllowAnyMethod()
-                 .AllowAnyHeader();
+                 .AllowAnyHeader()
+                 .AllowCredentials();
         });
     }
     else
@@ -90,6 +94,33 @@ builder.Services.AddCors(options =>
             });
     }
 });
+
+//Configure auth
+
+var secretKey = builder.Configuration["JWT:Key"]
+                    ?? throw new ArgumentException("Invalid secret key");
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                                                    .GetBytes(secretKey))
+        };
+    });
 
 var app = builder.Build();
 

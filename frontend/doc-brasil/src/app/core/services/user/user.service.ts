@@ -127,7 +127,7 @@ export class UserService {
 
     getUserName(): string{
         const username = localStorage.getItem('username')!;
-        const firstName = username.split(' ')[0];
+        const firstName = username?.split(' ')[0];
         return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
     }
 }

@@ -65,6 +65,11 @@ public class UserIdentityService : IUserIdentityService
         return response;
     }
 
+    public async Task RevokRefreshToken(string email)
+    {
+        await _identityRepository.RevokeRefreshToken(email);
+    }
+
     public async Task<bool> UpdatePasswordAsync(UpdatePasswordDto updatePassword)
     {
         var updateEntity = _mapper.Map<UpdatePassword>(updatePassword);

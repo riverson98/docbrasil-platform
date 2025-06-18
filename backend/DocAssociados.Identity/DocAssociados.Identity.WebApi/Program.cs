@@ -41,6 +41,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+//Config Authorization
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("AdminsOnly", policy =>
+    {
+        policy.RequireRole("Administrador", "Diretor");
+    });
+});
+
 if (builder.Environment.IsProduction())
 {
     var url = new AzureVaultConfig() { KeyVaultUrl = "DocBrasilKeyVault" };
