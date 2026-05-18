@@ -38,12 +38,12 @@ docker compose up -d
 Acesse `http://localhost:8080`.
 
 ## Estrutura do projeto
-backend/
-DocAssociados/              # serviço principal
-DocAssociados.ApiGateway/   # gateway
-DocAssociados.Identity/     # autenticação
-frontend/doc-brasil/          # Angular 17 app
-nginx/                        # configs do reverse proxy
+backend/ 
+DocAssociados/              # serviço principal 
+DocAssociados.ApiGateway/   # gateway 
+DocAssociados.Identity/     # autenticação 
+frontend/doc-brasil/          # Angular 17 app 
+nginx/                        # configs do reverse proxy 
 
 ## Autor
 
